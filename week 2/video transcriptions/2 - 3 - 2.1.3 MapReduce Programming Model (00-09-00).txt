@@ -1,0 +1,194 @@
+[MUSIC]
+All right, so we've talked about the ideas
+behind why we need something like
+MapReduce, but
+let's see what MapReduce is.
+In this video I'll talk about MapReduce,
+the abstract model of computation
+introduced by MapReduce, and in the next
+couple of videos we will go through
+this example by example figuring out
+really how to think in terms of MapReduce.
+So MapReduce is a programming model.
+The idea actually originally comes from
+functional languages, such as LISP.
+The important thing here,
+is that many problems can be phrased
+using the abstraction
+provided by MapReduce.
+Once the programmer does this,
+once the programmer takes the problem of
+thinking in terms of MapReduce, which is
+not, at least doesn't come easy at first.
+So the benefits of MapReduce that
+it can provide you in return of you
+thinking in terms of MapReduce is that
+it becomes easy to distribute code.
+It hides the difficulty of writing
+parallel code, which as I talked before,
+you have deadlocks that
+you have to think about.
+All sort of communication
+mismanagement that you have to care.
+It hides all of those difficulty.
+It takes care of load balancing.
+It takes care of dead machines,
+provides reliability.
+It has actually a very nice retry and
+failure semantics.
+So when there's a failure,
+it automatically figures it out.
+It can do automatic retry without
+corrupting the computation
+that has happened so far.
+But what is MapReduce?
+Let's actually delve in and talk about it.
+In a MapReduce programming framework,
+the programmer, that's you.
+You would write mainly two functions.
+One function of course is map.
+Another is reduce.
+What does the map function do?
+Map function performs a certain
+computation, whatever you want.
+On individual values,
+this is the key point here.
+Map works on individual values in a
+dataset and creates a new list of values.
+But this is the most important part.
+Your map function gets one data piece.
+You might have ten
+petabytes of information.
+I don't care about that.
+Each data item, however large or small
+that is, that's what a map can work on.
+What does reduce function do?
+Reduce function combines
+the values created by maps.
+But to make it more broad,
+you provide a set of values to reduce,
+and it works on a set of values,
+and can create new values, right?
+So what's the difference again?
+Map works on a single item,
+reduce works on a set of items.
+Map always happens first,
+reduce happens after that.
+Let's look at this example here.
+Let's say your computation
+here is Square x.
+So what you really want to do if you have
+x you want to multiply it by itself,
+and give it as output, right?
+And let's say you have a input data set.
+Input data set 1, 2, 3, 4, 5.
+You want to apply this
+function on all of these,
+the items of the input data set.
+All you need to say is map this
+function square and my inputs.
+What it does, the framework, it starts
+going through the items in the input list.
+So it takes one applies it to
+this function one by one becomes one,
+produces the output one.
+Then takes two,
+provides it to this function.
+Two multiplied by two is four,
+produces four in the output list.
+So on and so forth,
+creates an output list.
+Now let's look at an example of reduce.
+Let's say the computation you want
+to do in a reduce function is sum.
+You want to take all
+the values in an input set.
+Say your input set is an array,
+and what you want to calculate
+is the sum of all these values.
+So in this case you would say,
+reduce this set of 1, 2, 3,
+4, 5, apply function sum.
+What it does it goes and say hey,
+one, plus two, plus three, plus four,
+plus five, Returns number 15.
+Let's make it a little bit
+more detailed now as well.
+When you're looking at the map function,
+what is really the input?
+As I said, map works on a single item.
+In the MapReduce world, pretty much
+in the whole big data world, really.
+Now and the rest of the course, most of
+the times when we say one data item,
+we are really talking about a pair.
+You will always have key value pairs,
+and this is one input item.
+So your map function gets one key value
+pair which are really individual items but
+they always come in pairs And
+then the sum computation on it, it
+creates a set of key value pairs as well.
+So the output is a list of keys and
+values.
+They can be different.
+So for example your input could be,
+I don't know, k1 and v1.
+This could be your input.
+And your output can be k2,
+v2, k1, v3, k8, v15.
+Whatever.
+So your map function can do all of this.
+But remember, the input is only one item.
+Now, more importantly, notice that
+you only write the map function.
+You don't write
+the functionality that goes and
+reads the input data and
+gives you key values.
+That's done by the framework.
+So the framework does that,
+reads it, processes the input data,
+grabs a little bit of it and just tells
+you hey, map, this is one key value pair.
+Do your processing, give me a list.
+We tend to call the output of map as
+intermediate values, intermediate pairs.
+Now let's look at reduce.
+What does reduce do?
+Reduce gets a list.
+Remember, I said reduce works on a list.
+Here You
+have one key and a set of values.
+So let's give an example.
+You can call your your reduced function
+by saying hey, my reduced input
+has k1 and
+in a set of values v1, v2,
+v3, so on and so forth.
+All of these values have key one,
+k1, as their key.
+Now your reduce function
+can do whatever it wants.
+It can, again,
+create a list of output keys.
+And interpret the values,
+just like the map.
+Right?
+Chances are your function,
+basically what it does is it combines
+all of these intermediate values for
+a particular key.
+But remember it's for a particular key.
+So when you call reduce,
+the key here is one single
+item value here is a list of
+values that all have the same key.
+Typically you would see in
+MapReduce programs that's
+reducing typically
+creates one output item.
+But it doesn't need to,
+it can do more than that.
+[MUSIC]
+

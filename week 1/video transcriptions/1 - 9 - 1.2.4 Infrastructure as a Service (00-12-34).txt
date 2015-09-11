@@ -1,0 +1,282 @@
+[SOUND] Now we've got virtualization,
+we're going to look at how you
+build infrastructures as a service.
+And I'm going to take you
+through a number of steps.
+I'm going to look at some early days in
+building infrastructure as service and
+then we'll look at Open Stack.
+The first approach was a very
+interesting university
+research project from Cambridge,
+development of an operating system Xen,
+that provide full
+virtualization on the X86.
+And what it did was to provide
+a layer of interpretation
+to allow you to have a Hypervisor like
+module that interpreted different
+Linux kernels on top of it,
+in a VM manner.
+And it didn't really sort of
+create enormous changes in
+the operating systems that were being run.
+Typically they're called
+guest operating systems.
+It was called paravirtualization.
+One of the things that needed to
+be done in order to make each of
+those virtual machines independent
+from one another was to make sure
+that as they wrote to devices
+they didn't step on each other.
+And so there was work done to try and
+separate the devices,
+make the devices work with
+the VM's in a collaborative,
+cooperative way without
+pausing the servers.
+And that was all done in what's
+described as domain zero of Xen,
+which was an instance of
+Xen that was doing the IO.
+So there was lots of distributions, great
+maintenance on this, and it took off.
+Since then, companies like Intel and
+AMD have produced virtualization hardware.
+We've moved along with
+the virtualization so
+it's now in most of the operating systems.
+And what we'll find is when
+we move to OpenStack, it's
+kind of assumed that you do have all of
+the virtual machine support that you need.
+Now this ability to run a hypervisor and
+then to run an operating system,
+a guest operating system on top of it,
+allows you to bring up operating
+systems when you need.
+And so there's an actual movement,
+if you like, to say well,
+okay, can I also just bring up
+different hypervisors on bare hardware?
+And since the bare hardware has evolved,
+and hardware can be organized for
+data centers, what has occurred is,
+that we've moved towards bringing
+up very different versions
+of an operating system,
+of a hypervisor, or
+whatever software you like,
+on an intellects 86 under
+control from somewhere else.
+Remember we talked about control and
+the processes that we control.
+That has occurred to a great extent in
+this, in that you have a controller to
+actually bring up various machines
+in different guises whether they're,
+whatever operating system, whatever
+hypervisor they want to run on bare metal.
+So if you like,
+Xen was a sort of trigger, and
+from that we developed further ideas.
+The notion of how do you bring
+up a machine from idle state to
+running an operating system had been
+solved sometime earlier with PXE boot.
+Meaning that when you
+boot an operating system,
+you actually booted it across a network
+from an image stored on a fileserver,
+so it brings that software across.
+It has enough of a BIOS in one of its,
+well actually it's in the ethernet card,
+to bring that across, load it in,
+and then start operating and
+it brings the rest of it across in
+the bootstrap and runs that process.
+So that brings us to the present day and
+looking at OpenStack.
+And I want to give you a sort of example,
+a commercial example of how
+people actually do the sort
+of things I was describing.
+Mirantis provides
+a complete packaged solution you could
+download on your laptop if you like,
+but it will work on bare hardware too,
+of bringing up
+infrastructure as a service
+on whatever you choose.
+If you put it on your laptop what it will
+do is, to run a virtual machine and bring
+up on top of your virtual machine, various
+images that represents virtual machines
+in accordance with what you'd actually
+do if you're on bare hardware.
+If you put it on bare hardware,
+what it will do is the same thing and
+it will actually allow you
+to choose which hardware and
+which software to bring up
+on which piece of hardware.
+So let's just look at
+what Mirantis is doing.
+First of all it has a Dashboard for
+controlling for
+which image you want to actually run.
+And the Dashboard is connected
+into what they call a controller.
+The algorithm,
+the component that runs all this,
+is call Fuel and Fuel actually exists for
+beyond Mirantis in other sorts
+of OpenStack implementations.
+What Fuel does is,
+to connect your hardware,
+if you like, to your virtual machines.
+So, Fuel runs as a controller in that
+control space across your system.
+And what it will allow you to do is,
+through the Dashboard, load and
+run images that are stored from a disk.
+And they can be computer images.
+They can be things like controllers.
+They can be boot servers.
+They can be network operating
+systems to control the network.
+They can be storage operating
+systems to control the storage.
+And so you have a mechanism
+now to actually deploy
+your different services on your nodes, and
+the assumption is you've got a fair
+number of nodes, so you can choose.
+You can then create these environments for
+computation,
+say you want to build a cloud
+with a particular Ubuntu
+lease, you could build
+that step-wise saying,
+okay, first I need some sort of controller
+for that cloud and then perhaps you would
+choose OpenStack to do that and then you
+choose all the various releases of Ubuntu.
+So here in this diagram what I'm showing
+is, the Dashboard is connected to Fuel,
+Fuel can talk to the nodes and
+talk to the boot server.
+What it can do is, to organize what
+gets PXE booted to the various nodes,
+and it can start those PXE
+boots on those various nodes.
+And its just started OpenStack on one of
+the elements, one of the nodes there.
+That will be a compute server
+because it's actually a controller,
+it's all about processors.
+It would be known as a controller
+to Fuel as it's running, but
+initially it would just be another
+image that you download onto a node.
+It comes up with the OpenStack
+framework and boom, then that becomes
+your controller for your Ubuntu images
+that are going to run on other nodes.
+So that slide leads into this slide where
+the Dashboard now becomes OpenStack, and
+OpenStack is talking to
+the OpenStack Controller, which is now
+fully operating as control,
+as opposed to data for everything.
+And now the OpenStack Controller allows
+you to bring up other nodes like Network,
+Computer, and Storage,
+all off the same boot server, but
+now different types of images.
+If you want the Network operating
+system to control the switches and
+routers to give you a network
+virtualization, that would be one.
+The Network operating system, if you
+want a compute server to provide Ubuntu,
+then you would bring down
+the Ubuntu operating system.
+Put that onto a Compute server and
+create that.
+If you wanted your Storage
+you would do the same thing.
+And so you construct piece wise,
+all the different pieces of your virtual
+data center now on the hardware.
+Eventually what you're going to do is,
+to talk to the Network operating system
+and, you're going to tell the Network
+operating system that you actually want to
+allow user applications into this system.
+You're going to publish some IP addresses
+that the users can actually use
+to access the compute and
+storage of your virtual data center.
+And so the story goes.
+So you've taken, if you like,
+a virtual description of a data center,
+this OpenStack description,
+and what you've done is,
+to map that onto hardware and
+instantiated it.
+And all of that mechanism has
+been allowed because of this
+infrastructure as a service from Marantis,
+which has it's own front-end.
+It allowed you to allocate machines.
+Now because you want to automate this,
+you are allowed to store scripts for
+all these different operations.
+So if you want to repeat this,
+you can do so very readily.
+If you want to scale it,
+you will say you want to add processes or
+storage to it, you can do so very
+easily because it's all scriptable and
+you can just add to those scripts,
+whether doing it through a visual element,
+through a data dashboard, or
+whether programmatically.
+So let's just sort of
+reflect on that Mirantis.
+What Mirantis was doing was to
+bring up a Fuel controller.
+The controller allows you to
+bring up OpenStack controller.
+The Networks, the Compute Servers,
+and the Storage.
+You can look at how
+Mirantis works in practice
+of a training manual that
+Mirantis is provided.
+It's just an example,
+there are lots of other ways to do this.
+There's lots of other versions of Mirantis
+to do this, not necessarily commercial.
+There's ones in Genie and various other
+large corporations have their own version
+of it but the principle is all the same.
+What you're doing is, recursively
+building up your virtual cloud,
+or instantiating your virtual cloud.
+You're gradually sort of building
+it up from the baseline and
+then allowing the public, your users,
+to actually access this.
+And you're still retaining
+control over it.
+You can still modify.
+You can still scale it out later.
+And so it's all becoming very programmer,
+it's making your data center,
+effectively, a programmable element
+that can run on bare hardware.
+[MUSIC]
+

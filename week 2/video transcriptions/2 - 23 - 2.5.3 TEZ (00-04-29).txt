@@ -1,0 +1,101 @@
+[NOISE]
+So
+I'm going to finish up talking about
+Pig and Hive by referring to Tez,
+which is really the underlying
+magic that makes it all work.
+And Tex is a sort of graph
+algorithm type of system,
+a data flow based on graphs for
+doing computations and
+it's the magic that allows Pig and
+Hive to get mapped
+down to map reduce and
+efficient operations on yarn.
+What we're doing is to empower end users,
+we're giving them a really sort of
+expressive data flow definition and
+then we're providing an interface on top,
+a language on top to use it.
+And, at the level Tez, this expressive
+data flow has also different
+implementations that can take advantage
+of the underlying distributed system.
+It has a flexible input
+processor output runtime mode.
+It has a data type diagnostic that
+allows you to be able to treat all
+the data types in a similar way.
+It has an easy to deploy
+simplifications so
+that actually, allocating
+resources to this is made easier.
+The execution performance is
+rather fast and what we see is
+where you've got Map Reduce, sometimes you
+have to say, oh I've done this map and
+now I've got this trivial reduce I've
+gotta do this reduce and do it and
+then you've got another map afterwards.
+You can perhaps eliminate that reduce,
+perhaps alternatively eliminate a map.
+Well, that will be difficult
+with the Map Reduce primitives.
+But with Tez, and with using Pig and Hive,
+it will do that optimization for
+you and make everything fast.
+It has optimal resource management.
+It allocates resources when needed.
+It will plan reconfiguration at run
+time to get the back maximum number of
+nodes doing your computation, does dynamic
+physical data flow decisions to try and
+sort of get the resources,
+the data to the resources and
+the algorithm to the resources
+to do all the magic
+required to do Pig and Hive efficiently.
+So, integrates Hive from Pig.
+As I said, you get extra map/reduced
+jobs when implemented with Hadoop
+compared with using Tez just
+playing by itself on Yam.
+When you think about it, that's natural.
+Map Reduce is very formal,
+it's very sort of stylized.
+It's very stretched and
+it doesn't give you a lot of flexibility.
+Well, as with Tez,
+describing the data flows it can
+describe pretty much anything and
+then all you need to do is translate
+that into an implementation on Yam.
+Here's some examples of what Tez
+would do in the way of data flow.
+You can see various different map pieces
+here, and no corresponding reduces.
+The map creates HDFS files,
+and then the data flows down through here.
+You have some reduce at the end
+producing your result on HDFS.
+And again, you can describe
+that very easily with Tez.
+Pig and Hive will create such graphs and
+when you optimize those
+reduces will pop out of the system
+leaving you with that nice clean graph.
+And here's a similar structure.
+It's a little bit more complicated.
+You're doing a distribution from two
+different nodes and aggregation of that.
+And then you've got two reduces down here
+taking samples from all these systems.
+And again, producing a result.
+But what's key here is that the two-map
+phases can be fit into other map phases so
+you can get more subtle interactions.
+And, there is no sort of
+overhead of intermediary reducers
+needed to actually construct that graph.
+[MUSIC]
+

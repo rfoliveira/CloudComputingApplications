@@ -1,0 +1,317 @@
+[SOUND]
+In this video,
+we'll start talking about some
+of the concepts in Storm, and
+how you would want to program
+a simple word count problem in Storm.
+In upcoming videos,
+we will talk about details of
+Storm as well as more involved
+examples more advanced examples.
+So let's start by talking about,
+what is Storm?
+So Storm was developed as a real time
+streaming system with a set of goals.
+Some of the goals that the designers
+of Storm had originally
+are as I've put here on the slide.
+The first thing was if there is a need,
+they wanted the system to
+guarantee data processing.
+What I mean here is that,
+they want to make sure the system
+does not drop an event,
+in case of a failure.
+Right.
+So an event is an important thing,
+if there is a need for
+it, and it's configured by the user,
+they want to make sure
+every single event is eventually
+processed by the system.
+They want to have horizontal scalability.
+What we mean here is that if the system.
+Isn't enough for
+the streaming loads coming in.
+We can just add machines of
+similar type to the cluster.
+Scale the cluster horizontally by adding
+similar machines to the whole set and
+the system can then scale and
+answer the load.
+They want to provide fault-tolerance so
+that if one of the machines or
+some of the machines fail, or if there's
+a network failure, the system can,
+regardless, tolerate that issue.
+For example, kill those notes launch
+news then sent somewhere else and
+continue processing.
+They want to make sure they system
+doesn't have a single point of failure or
+hotspot to make the scaling issue.
+Therefore, they want to make sure
+there's no intermediate message brokers.
+All the notes can talk to
+each other if need be.
+And, really what they wanted to achieve
+was a higher level of abstraction
+than message passing.
+Yes, you can write a streaming
+big data event processing system
+by just using NPI on a cluster,
+but they wanted to give the users a higher
+level of abstraction than just saying,
+hey this machine sends a message
+to that other machine.
+It becomes very tedious to
+write programs that way.
+And they wanted to really have Have
+a system that basically just works,
+kind of like a Hadoop of
+real time streaming jobs.
+What I mean is that they wanted to allow
+the users to just start thinking about
+the logic that they wanted to program and
+let the system, the framework,
+handle all the nitty-gritty details
+of how to send the messages from one
+machine to another, how to queue
+the messages, how to handle failures,
+scalability issues, so on and so forth.
+Storm was originally built by
+a startup called Backtype.
+Twitter bought Backtype at some point and
+eventually the whole project became
+an Apache open source project,
+and this is where it is at thriving
+in the open source community.
+The Storm cluster has multiple players,
+multiple components.
+There is a single master note.
+It's called nimbus.
+That oversees the flow of
+information in the system,
+and basically manages the other
+components in the system.
+Each individual node in
+the cluster has what is called
+a supervisor daemon that talks to Nimbus,
+figures out what processing
+tasks to run and
+where to get its input data for
+its tasks, from what network port,
+from which machine to, and
+send its results to which other machines.
+And the communication typically happens
+through a small zookeeper cluster.
+Now, we haven't talked
+about zookeeper much.
+It's out of the scope of this
+our short Coursera course.
+Having said that, Zookeeper provides
+really a service to allow coordination.
+Therefore, if any component in
+the network, any supervisor or nimbus.
+Writes something to the zookeeper cluster,
+it is guaranteed that any
+other actor would see exactly
+the same thing in the correct order.
+Storm cluster has multiple
+players playing in the system.
+The master note here,
+which is called nimbus,
+oversees the general flow of program
+execution across the cluster,
+and makes sure the resources
+are handled correctly,
+its schedules different user jobs
+under different notes of the cluster.
+Each of the cluster notes has
+a supervisor daemon running on it,
+which basically gets its
+assignments from Nimbus,
+and starts running a user task and
+can send a result,
+and by result I mean the job progress or
+the status of the job, back to Nimbus.
+Supervisors talk to Nimbus
+through a Zookeeper cluster,
+which we will talk about
+later in our course,
+it's just a simple mechanism to
+make sure cluster coordination
+can happen correctly,
+with certain guarantees.
+Now, each supervisor when
+the nimbus tells it, will go and
+launch certain users' tasks.
+So let's talk about how
+a Storm program is written, so
+that then we can figure
+out what tasks are.
+To write a program in Storm, we need to
+know about a couple of concepts in Storm.
+To be honest, these are also common
+among other streaming systems as well.
+Now the terminology here is
+really only limited to Storm, but
+the concepts are common
+across streaming systems.
+First concept we want to
+talk about is streams.
+Streams are a sequence of tuples.
+Now, what do I mean by tuple?
+Two bolt is a bit of information
+going around the network
+from one player to another,
+from one node to another.
+A two bolt typically can have a key and
+a value like many of the other big data or
+cloud systems that we talked about.
+Throughout the course we always
+talk about key values first right?
+So tuple also usually has a key and
+a value.
+Now stream is a sequence of these
+tuple going from somewhere to another.
+Second concept here is a spout.
+Spout is a source.
+So you can get a stream
+coming out of the spout
+and going to other
+components of your program.
+An example of a spout could be
+a component that reads data
+off of Twitter over internet
+read to them and then passes it onto
+the other components of your program.
+Or you can think of another spout
+that can read data off of HDFS
+stored files and feed them into
+your program other spouts as well.
+There's a for
+example comments system using big data
+as Kafka you can have spouts
+that read data off of Kafka and
+again pass it into your topology.
+Which I haven't talked about,
+I'll talk about in a second.
+The third thing,
+the third component, are the bolts.
+Now bolts are arguably
+the most important part of.
+Your Storm program.
+A Bolt is a component that gets a certain
+amount of input and produces output.
+As input, it gets an input stream or
+more than one input stream.
+It could get multiple input streams.
+And it, as a result,
+it produces output stream of tuples.
+Here, in bolts,
+you can program your functions, filters,
+joins, aggregations,
+database lookups, basically anything
+that you want to do with your program,
+you write them as bolts.
+And finally, now that we have
+introduced these three concepts,
+we put them next to each other and
+we call the result a topology.
+A topology is a network of spouts and
+bolts, as we can see in this diagram.
+That they're connected to each other
+with a certain idea that, for example,
+my spout one could be a database,
+spout two could be coming from Twitter.
+I can do some sorting here, and
+then I can write them somewhere in this.
+Meanwhile, I can also do a grouping.
+The database inputs can come and
+become like a table, and
+I can do a join on these and
+do something with them.
+So topology is really your program that
+is built out of bolts, spouts, and
+processes streams.
+So remember that when I say sort tuple
+sorry a sort bolt or for
+example a four count bold or whatever
+I'm not saying that we need one bolt for
+each machine, right?
+That's not what happens.
+The programmer wants to write
+the program in a logical sense,
+so we want to say my program first gets
+its data from tutor and then sorts it.
+The programmer shouldn't need to know how
+many machines are required to sort it to
+think about the program.
+That comes next,
+that comes in the context of tasks.
+So, each spout or each bolt can execute
+as many tasks across the cluster.
+So it can have one bolt.
+That is really running on
+1,000 different machines.
+When a tuple is emitted, now the question
+becomes, what task does it go to, right?
+So for example, look at this diagram.
+You have your spout that
+is connected to this bolt.
+A tuple is coming out of here.
+This bolt could be running
+on a thousand machines.
+The question is,
+when a tuple is coming out of this spout,
+which of these thousand
+machines does it go to?
+The answer to this question
+is it's up to the programmer.
+There are multiple predefined strategies
+in Storm that a user can decide to use.
+I have put a bunch of important
+ones in here, common ones.
+First one is shuffle grouping.
+Shuffle grouping says that,
+I really don't care which of these
+tasks my tuple goes through,
+which ever it goes through, it's fine.
+It just needs to be processed.
+So shuffle grouping picks a random task.
+And just sends it to that machine.
+And it's typically used for
+load balancing across machines.
+So if you have a certain amount
+of load that you just need to
+divide between a certain number of
+machines, you just pick shuffle grouping,
+and the system does the load balancing
+using a random algorithm for you.
+The next method is field grouping.
+What field grouping does is that it
+takes a consistent hashing function that
+could be provided by the user as well.
+And there are default ones.
+So it takes a consistent hashing
+function and runs the tuple.
+Through that function,
+the output of that hashing function
+decides which task machine
+that tuple goes to.
+It's consistent so
+if a tuple with the same
+contents comes again, it's guaranteed
+that it goes to the very same task.
+Next strategy is all grouping,
+which means ran a tuple here and
+I specify all grouping.
+It goes to all of the machines
+that are running that bolt.
+And there are some other ones as well,
+like for example,
+global grouping where you can pick
+a task with the very lowest ID.
+[MUSIC]
+

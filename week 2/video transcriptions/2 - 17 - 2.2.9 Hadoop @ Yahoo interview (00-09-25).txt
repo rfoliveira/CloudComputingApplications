@@ -1,0 +1,333 @@
+We're sitting here with
+Matt Ahrens from Yahoo.
+Matt, what do you do at Yahoo?
+>> So I'm an engineering manager
+in our data systems group, and so
+I help work on some of the large scale
+data pipelines that help solve some of our
+systems issues for advertisers and
+our audience use cases.
+>> What is the data pipeline inside Yahoo?
+How many gigabytes per minute?
+How many terabytes per day?
+>> Yeah, so right now,
+if you're right across all of our
+data systems that's trying
+to handle all this data,
+we're probably in the order of
+hundreds of terabytes a day.
+So definitely many gigabytes per
+minute that we're trying to process.
+>> And is the data all uniform or
+what does it look like?
+>> It depends on the specific platform and
+system that the data is
+trying to process for.
+But some of our data, you know advertising
+data, will have events that range from
+a kilobyte or two to a few hundred bytes
+from even ad click or ad conversion.
+Then some of our audience data,
+we have more weblog data that
+could be many kilobytes of data.
+Now we do try to structure our data and
+have schemas for it, and
+we've been moving to avro as our standard
+schema format for our data systems.
+>> So tell us about the data in more
+detail, I mean there's what, four,
+no five V's, six Vs.
+Velocity, veracity, volume, and
+I can't remember the other two.
+>> Yeah, [LAUGH] I don't remember
+them either, so that's fine.
+Yeah, I mean, I think in terms when you
+talk about our data, it's definitely not
+homogenous, right, it's very heterogeneous
+even inside a given platform, right.
+That a given advertising platform for
+example, the way that we process ad
+impressions could be very different
+than the way we process ad pixels.
+And so we also set up our systems to
+handle streams in a different manner.
+So that's both on a Hadoop and
+on our other real time systems.
+And that we're willing to process things
+independently that make sense for
+that type of event that
+makes up the transaction.
+>> They're all mixed together
+in the incoming stream, and
+then you have to sort
+them out into different.
+>> Yes, so actually, at the front end of
+the pipeline, yeah they're all gobbled
+together essentially in sets of files that
+could have different types of events.
+And so each event though will have some,
+in the header or
+some other part of the front end of the
+schema, it'll have what event type it is.
+And so that's our marker to use to say
+okay, we know this is an impression or
+we know this is a pixel, and because of
+that we'll process it in a different way.
+>> And so what's the range of times
+you've got to be able to do this,
+as a sort of arriving of the data to
+the actually processing of the data, and
+someone using it?
+>> Yeah, so most of our data is coming
+in from our kind of collection system,
+it's coming in, in a couple minutes.
+So after, in Hadoop we process
+five minute batches, so
+after that five minute batch closes,
+after a few minutes, then,
+we start doing our transformation
+aggregation validation jobs.
+And so the time format varies on system,
+wow much system complexity
+we have built in, but usually in
+the order 30 minutes to 90 minutes.
+We'll finish all those stages to
+process that five minutes of data and
+make it available for downstream.
+>> So, time is money.
+>> How much is ten minutes or
+that time scale?
+What's that worth to a company?
+>> You know, I don't think I
+can give exact dollars, but
+that certainly is the case where
+the faster we can deliver data,
+especially the feedback
+systems internally.
+An example use case is our ad servers
+keep track of campaign budgets.
+And we don't want to overspend or
+underspend.
+So the sooner we can give feedback to our
+ad servers to tell them like hey, just to
+let you know, this campaign has reached
+its budget, then they won't accidentally
+overspend for them, and they could give it
+to another campaign that could make money.
+So there definitely is value in us
+providing data as quickly as possible, but
+I'm not sure the exact
+dollar amounts per minute.
+>> Very exciting stuff though.
+Okay.
+So let's move on to Yahoo.
+We're teaching open source Hadoop and
+so on.
+But you know what does Yahoo
+get out of open source?
+because you use these software.
+So?
+>> Yeah I mean obviously Yahoo was
+the creator of Hadoop and it chose to open
+source Hadoop, so it obviously believes
+in open source and that community.
+And obviously Yahoo, really since
+I've been at Yahoo for eight years,
+we've continually invested in open source,
+both contributing and
+also building some of our platforms
+on open source solutions.
+So I think the strategy
+there is acknowledging that
+there's a great momentum in
+the community of these technologies.
+There's so many people in the
+industry,both private and public sectors,
+that want to solve these same problems,
+and we could get
+other people working on them, and
+we don't have all the solutions, right.
+We don't have all the talent in the world.
+So we can get input from other people,
+get feedback from them on what can work,
+and we're going to add value
+to that platform as a whole.
+And so that's why we believe in
+open source and investing in it.
+>> Well it's a great attribute for
+education,
+because we can actually use
+the tools the industry's using.
+So, very cool.
+Careers.
+I'd like to sort of pick your brain on
+how do people get started in big data,
+in cloud computing?
+[SOUND] how did you get started?
+>> Yeah, no, that's a good question.
+I came over from working on embedded
+software at Motorola to move to Yahoo and
+working on large scale database systems.
+So it just happened with that job move
+to get thrown into this world and
+I can tell you, I absolutely love it.
+I think this is really the center
+of the software industry right now,
+is solving these large
+scale data problems.
+I would recommend, I think there's
+a couple things I can think of for
+younger people who are looking
+to get into this area.
+One is, I would say start playing
+with these technologies, right.
+I mean with open source and
+all the other resources online,
+is you can start building
+in these systems yourself.
+Even if you only have a single server, or
+if you want to use some cloud resource
+to set up a cluster for cheap.
+That you should build your own solution in
+terms of managing a cluster of Hadoop or
+some other system, and
+try it out yourselves.
+In terms of how to actually
+build the data application,
+I always tell people to find
+a passion area when it comes to data.
+You know some people might be interested
+in doing sports analytics, or
+healthcare research or some other industry
+that they're already passionate about.
+And try to connect that to big data.
+To try to find some open
+source data sets that they can
+put into their system they're building and
+actually try to solve a problem.
+You know,
+ask a question with these large data sets.
+What could I mine in terms of
+some patterns of health care.
+Put into a Hadoop or some other data set,
+run some queries, build a solution and
+you'll find in solving that problem you're
+going to start learning what it means to
+be a data engineer.
+What it means to use these
+big data technologies.
+>> When you sort of, in Yahoo when you're
+hiring people, what are you looking for?
+>> You know, it obviously depends on
+where they're at in their career.
+Obviously, people who coming out of
+school, we're looking for their pedigree
+in terms of what they've done in school,
+in terms of their classwork and projects.
+But we're also looking for
+people who built stuff, right?
+So that can be anything from internships
+to on the side or involved in campus
+groups, people who actually built
+something that they're passionate about.
+That's what we want to see is people
+who actually are passionate about
+building these systems, and it's not just
+about having a job and getting paid, but
+they're actually interested in
+this type of stuff day to day.
+because thats what we found to be
+the most successful engineers.
+Those who just have a built in
+passion to working with data and
+solving these large scale
+problems that we face everyday.
+>> Okay, where do you see
+careers in this area going?
+I mean you're in there.
+10 years time, Wwat do you expect?
+>> I think that with the rise of open
+source, and all these proliferation of
+options, in these large-scale
+data platforms, I think there's
+going to be probably two main areas
+that are really going to be invested in.
+One of these is actually
+building these platforms and
+making them enterprise ready.
+So you've already seen some
+companies rise up, who actually,
+are participanting in the open source
+community then also offer solutions for
+big companies adopting those technologies.
+So I think that's going to
+become more prominent, right.
+These companies that can not only
+contribute to open source but
+also be a bridge to companies that
+want to use those technologies
+to offer consultation services and
+training.
+>> So a big swath of different interests.
+>> Yeah, because so many industries are
+going to start adopting these technologies
+and all of them are going to want
+help in how to make use of that.
+So that's one area.
+The second area I see is really
+people who can look at big data and
+not just make it available, but
+actually ask the right questions,
+figure out how to query in the right way,
+and build models,
+data mining solutions on top of that to
+actually provide value for the business.
+Because if you just have big data,
+that sounds great, but
+it doesn't actually add
+any value to the company.
+You need people who go in and actually
+ask the right questions of the data,
+pull the right information on the data
+to inject value back into the business.
+So the people who can do that are going to
+be very valuable going forward.
+>> So, mid-career individuals and
+they want get into the big data.
+So, they should start playing with
+sort of developing interests.
+Any other sort of suggestions?
+>> Another great thing too,
+just to get your name out there,
+is just start contributing to
+an open source technology, right.
+You can go to a lot of
+the Apache projects,
+you can look at the issue boards,
+start with some small bugs.
+Just, try to do a simple bug ticket and
+start contributing, and
+then see where that takes you.
+Maybe you'll find yourself really
+interested in participating.
+You can start networking,
+connecting to other people in the industry
+that work on that technology.
+>> I guess on the can't side, you might
+also say, and get interested perhaps you
+should have a blog on sports and
+publish some of your analysis.
+>> Yeah, that's another great way.
+Yeah, if you're actually providing that,
+answering those questions and
+finding insights, yeah.
+Make those publicly available and
+try to network with people
+who are doing the same thing.
+>> So sort of build up a portfolio?
+>> Yeah, yep.
+>> Okay, terrific.
+Thank you very much.
+>> Thanks.
+[MUSIC]
+

@@ -1,0 +1,289 @@
+[MUSIC]
+Well, we're going to talk about using
+the web to do remote procedure calls, and
+I wanted to remind you about
+the hypertext transfer protocol HTTP,
+because that's going to be
+the vehicle with which we do this.
+It allows you to interlink text documents.
+Very popular in the world wide web.
+I want to focus on two operations,
+get and post, they're going to
+be kind of critical to the way that
+the whole invocation mechanism works.
+And then we'll be talking
+about PUT later on.
+So if you have a browser,
+it's going to get information from the web
+server and, what it will be doing
+is to get that information.
+It will package up the request as HTML,
+forward it across to the web
+server in a message TCP/IP,
+It will get a reply back, which will be
+the document that has been requested.
+SOAP is a Simple Object Access Protocol.
+It's essentially like a remote procedure
+call, but it's encoded as HTTP.
+It's transmitted by HTTP, It's coded
+in XML and can be decoded by any
+machine that really understands XML,
+which is pretty much
+every piece of software.
+The return value is again,
+another XML document.
+And this, very,
+very simple protocol underlines all the
+web server's description language, WSDL.
+It's very simple,
+the middleware is based on web services.
+If you're going to provide any semantics
+to SOAP, it has to be done in terms
+of using other languages,
+java or whatever.
+In order to provide the semantics
+you intend, otherwise what
+you're going to get is just the bare
+minimum HTML request and the response
+Because coding things in SOAP is okay.
+It works, but it sometimes leads
+into complicated solutions.
+What people have done instead is to
+come up with an invention called REST,
+which is a representational
+state transfer type of scheme.
+It's a style of software
+architecture that distributed
+hypermedia systems such
+as the World Wide Web.
+And it was introduced to
+the world by Roy Fielding,
+he wrote HTTP specifications and out
+of that he designed this REST protocol.
+And there's a collection now of network
+architecture principles which outline
+how you would use this type of approach
+to actually do communications.
+And they're defined and addressed and
+can be looked up on the web
+fairly straightforwardly.
+But let's look at REST and
+see what it's doing for us.
+So it wants to capture all
+of the characteristics of
+the way one encodes HTTP for the web,
+which made the web successful.
+And what it's trying to do is,
+to go beyond the get, and it's trying to
+provide state update and communication,
+as you will get in a procedure call.
+in a simple manner and
+one which is easily programmable.
+So first of all all,of
+the all of the items that
+will be addressed with the addresses,
+what is an object methods or
+whatever we can use URLs for
+in the form of a URI.
+Which is a basically, it can be a string
+with whatever you like at the end,
+that represents the object or
+the method that you're invoking.
+going to use the HTTP protocol
+to carry all that data across.
+We're going to make a request,
+we're going to receive a response.
+Typically what will then go on,
+is to actually display
+the response on a browser, but
+that sort of sequence is
+the typical operations of REST.
+It uses HTTP protocol beyond POST and GET.
+It will actually use delete and some
+other types of operations occasionally.
+So REST isn't a standard as such,
+it's a way of doing things.
+Best practices you might say.
+It uses several standards,
+obviously HTTP, obviously URL's.
+It codes the transmission of data and
+so one in XML and
+HTML and GIF and
+JPEG using sort of typical way of methods.
+And it has typical sort of web data types.
+It's main concepts are that there
+are resources in the system,
+which will be nouns.
+So if you want to make
+a request about an employee,
+you would give the employee some
+sort of ID, in this case 1 2 3 4 5.
+And then you would make a request
+about 12345 to the server.
+The request will be in the form of a verb,
+fetch his current salary or
+increase his salary or whatever.
+So there will be verbs
+that apply to the nouns.
+There's going to be some representations
+that are used to transmit the data, and
+typically it's XML, it will be
+restrained to the web languages.
+The resources,
+well they could be anything you like,
+it's just a mapping of
+concept to a set of entities.
+You can name anything you like, so
+you could say well today's weather event
+in Los Angeles,
+you could refer to with weather.
+There's Los Angeles, and
+if you want it to be today,
+you might even have a reference
+to today as an object.
+It's represented with a global identifier,
+and that global identifier is
+described as a string in HTTP.
+The only difference really
+between URIs and URLs,
+is that URIs tend to be a single entity,
+a unique entity.
+So if you want to talk about an aircraft
+it might by that 747 over there.
+REST uses these to identify
+all sorts of resources and
+there are some examples here.
+You could use it for books,
+you could use it for classes.
+It really doesn't matter what
+the noun is that you're identifying.
+As you can see, you can make up your own
+conventions about how to name it, but
+it should conform to
+looking like a URL and
+I have that unique property that there is
+only one of those on the remote system.
+The verbs.
+They're the actions to be
+performed on the resources.
+And typically, they can be simplified
+to just the straightforward HTTP
+requests GET, POST, PUT and DELETE.
+And so
+we'll be working with those with REST.
+The GET is the method for
+asking for information.
+What happens is you would get a book.
+So get, and then you provide the URI,
+which in this
+description is an HTTP localhost/books.
+So it would identify, in this case,
+all of the books, or it ought to,
+all of the books, whatever that URL means.
+As what you are trying to retrieve.
+You could also say a specific
+book with an ISBN number.
+You could also say, well,
+I'll get all the authors.
+The post creates a resource,
+the PUT updates a resource.
+So, POST would be to put
+a book in localhost/books.
+You could have a list of books and
+you're going to transmit them over
+to post them in a remote machine.
+Putting a single book
+Contents I-S-B-N updates the book
+identified by I-S-B-N 111.
+So you can use either of those
+to actually update a remote.
+Delete removes the resource
+identified by the U-R-I.
+So if you want to delete a book,
+well, you would issue a delete.
+And then this string.
+The data that is represented are returned
+to the client for presentation.
+There's two main formats for that.
+You can return JavaScript, as in JSON.
+That's a specific way of representing
+JavaScript across the messages.
+An alternatively that you could use XML,
+because that's a kind of universal
+way of providing a reply.
+The JSON is very easy to
+accommodate with JavaScript XML,
+while if you want to have Java or
+other sort of resource processing
+to provide the representation on your
+screen, then you might choose XML.
+So in XML,
+let's say you're asking for a course,
+then it would look like a bracketed pair.
+(course /COURSE.
+And within that course,
+there might be details about the course,
+like the course number and
+the name of the course.
+And those would have tags.
+Now what you see is actually
+everything in pairs, and
+the last element of the pair is the slash.
+The first element are the pair names.
+The, the abstraction, if you like,
+they're all put between angle brackets
+to distinguish them from other
+things in the communication.
+JSON, on the other hand,
+looks like a record.
+It uses parenthesis and
+again it would be nested,
+because we've got a course and
+then the details of the course.
+And you can see, it looks something like
+a C record, except it's a strange syntax.
+It uses curly braces, and
+then it has sub curly braces for
+individual elements within that.
+So they're both in general
+hierarchical formats.
+They both clearly label
+things in ASCII text.
+They can be understood by machines.
+And they're easily processible.
+So the general notion then of the REST
+architecture is you do, get some posts,
+deletes and puts you would do that
+to the web proxy server to the server
+back end, which will process it.
+The server will, in turn,
+recognizing that it's arrest request,
+it will process it with a rest engine, and
+do all of the updates according
+to your style of REST processing.
+Now, this can be very simple,
+it can be very complicated but,
+typically REST emphasizes making
+this as simple as possible.
+And making the transactions backwards and
+forwards between the client and
+the server as simple as possible, so
+that it can be easily understood,
+easily debugged and easily maintained.
+So some real life examples.
+If you look at Google Maps,
+if you look at Google AJAX Search API,
+if you look at Yahoo Search API,
+if you look at Amazon WebServices.
+They're all using a rest architecture.
+They're all following that same
+sort of the simple discipline
+about how to communicate.
+As we go forward, when you're talking to,
+for example Amazon,
+if you choose to use Amazon in your
+experiments, you will actually be
+using all of this protocol to accomplish
+communicating with the Cloud.
+[MUSIC]
+

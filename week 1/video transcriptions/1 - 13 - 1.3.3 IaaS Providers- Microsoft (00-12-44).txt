@@ -1,0 +1,298 @@
+[MUSIC]
+So Microsoft is a challenger
+in this race for
+who's the biggest cloud vendor and
+they certainly provide a huge cloud.
+Their view is to put cloud and
+mobile first before everything else.
+They've always aimed at businesses,
+and providing support for businesses.
+And of course one of their benefits
+they can do is to bring Office and
+all of the Office software
+to a very large audience.
+To Office 365 on their cloud.
+So let's look at their system,
+what they provide.
+They have emphasized trying to
+build a competitive service.
+They have even provided a competitive
+way of doing virtualization as
+provided by Hyper-V.
+And the intention of course is not
+to get locked into Vmware software.
+And it distinguishes them
+from what Amazon's doing.
+Microsoft Azure has both infrastructure
+as a service and platform as a service.
+Their big selling,
+marketing point is really the provision of
+Office 365 and Office for
+iPad on those services.
+So that everybody who's accustomed to
+actually using Microsoft for a business
+can actually just move to a cloud solution
+using whatever devices are available.
+It also provides a shared file
+system called SharePoint.
+And that's another sort
+of sales point because
+they have a lot of
+customs using SharePoint.
+One of the claims that Microsoft makes
+is that if you have a local business and
+you've setup a computing environment
+without networking, and your Office, and
+all of the other different applications
+in your Microsoft environment.
+They will move that to the cloud for you
+as a way if you expanding your business or
+making your business cheaper.
+They would do that and
+you will retain all of the features and
+connectivity and some customized
+organization of that cloud.
+And so you don't have to
+really deal with very much.
+It's all taken care of you moving to
+that different sort of support system.
+So they also provide some facilities
+as platforms as a service.
+Software as a service or rather.
+They provide the Yammer which is
+a social and collaboration network.
+They provide Exchange which
+is like Google's Gmail.
+But it's a mail service and
+their Exchange service is very large.
+Now they're also providing
+a voice over IP in the way of
+a Skype version that Microsoft calls Lync,
+but it's essentially Skype.
+And they've amalgamated these things.
+They also provide customer
+relationship management and
+theirs is a very dynamic system and
+again that's been quite successful.
+So it was launched by Microsoft in 2010.
+And say it provides both
+sets of types of services.
+What it also accommodates Is
+hybrid cloud computing, and that's
+a really sort of interesting feature that
+Microsoft has got itself into there.
+What it allows you to do is to take your
+local cloud and connect it to the bigger
+Microsoft cloud, and
+by doing that it allows you to scale up.
+With Microsoft products of course,
+it allows you to scale up to
+a much bigger office system.
+And you can keep a core, which is perhaps
+more efficient, on your local machines.
+But then if you need the extra capacity,
+you can scale out with
+hybrid cloud computing.
+So that's a really interesting feature.
+What can you use Azure for?
+Well, pretty much you can use it for
+anything.
+All of the topics we discussed before
+about bringing up virtual machines and
+different virtual machines
+you can use with the cloud.
+In fact,
+Azure will allow you to run Linux.
+It will allow you to run any
+other sort of Unix system or
+one that you build yourself.
+They're completely neutral
+with respect to that.
+Their cost provides you very,
+very good Windows virtual machines.
+The PaaS service has been known to host
+websites that receive a lot of traffic.
+They have a reputation for
+being able to do that very well.
+They have a lot of web building tools.
+And so
+that is a natural business area for them.
+They also provide very
+good .NET facilities.
+And if you want to extend your .NET or
+your .NET application to the cloud
+then Azure is the way to go.
+Azure developed their own operating system
+called Windows Azure that is used for
+their data center clusters.
+And that does the glue to actually make
+all of the Azure do what it's using.
+Underneath our Windows Azure is a Hyper-V.
+It's a Windows server Hypervisor
+that can run virtual machines
+of any different sort.
+And your interface to that
+Hyper-V would be Windows Azure.
+The Windows server is supported.
+So you can take your customized
+environment that you've built in house.
+And you can move it out
+to the cloud very easily.
+You can provision and
+manage the virtual machines on it.
+And you can attach and manage disks
+on it just as if it was locally.
+So this is a great way
+of building a hybrid
+cloud solution that is flexible.
+And you can pay a base rate to keep it
+going because you're going to use that
+100% of the time.
+And then when you get peak loads,
+like at Christmas,
+you can just get more of
+your system from Azure.
+So Azure as I was saying, was
+the operating system in the data center.
+It treats the whole data
+center as the machine.
+Handles the resource management.
+Provisioning, monitoring,
+manages application life cycle.
+Allows developers to concentrate
+on business logic in their own
+operating systems,
+their own systems that they're building.
+So for example it provides a shared
+pool of compute disk and network.
+It provides that virtualized storage,
+that compute and
+networking the illusion
+of boundless resources.
+That's all sort of mapped into
+the Windows Azure operating system,
+which is really sort of
+a distributed operating system that
+manages all the components through those
+Hypervisors that we've been talking about.
+It provides common building blocks for
+distributed application.
+Reliable queuing,
+simple structured storage, SQL storage,
+and then access control and connectivity.
+And the Windows access control
+systems are quite sophisticated.
+They're like the ones that you get for
+your local clusters.
+So they provide a very, very sort of tight
+security system that you can use and
+deploy as long as you are familiar
+with how Windows does its security.
+So here's some of the components
+that we see in the Azure
+you have your service model,
+then you have .NET.
+You have ASP which is used for the web.
+You have PHP.
+Then there's underneath that,
+Windows 2008 services.
+You have your Hypervisor,
+your Blades, your SQL and storage.
+Blob, Queue, Table.
+Blobs like objects in Amazon,
+there is configuration for networking.
+And so what you see in this, although
+the names are different, exact sort of.
+Duplication of many of
+the things that Amazon is doing
+because all these big cloud systems
+need the same management tools.
+So a cloud application's typically made
+up of lots of different components.
+It will have a front end,
+load balancing stateless web servers.
+It'll have a middle worker tier, which is
+sort of order processing and encoding.
+And you would get to that middle
+worker tier through the front end.
+You would have a back end
+storage with SQL tables and
+files to actually drive this thing.
+Multiple instances of each for
+scalability and availability.
+And what Azure does is to provide you
+a model of these cloud applications,
+so you can pick one and
+then you can instantiate different
+pieces of it in ways that you want.
+So this modeling sort of allows
+you to get simple workflows.
+Allows you to build simple
+systems by using very,
+very sophisticated pieces of components.
+And some quite sophisticated
+algorithms in terms of load balancing.
+So their terminology
+is slightly different.
+Their application is called a service.
+They provide a definition for
+that service,
+so a way to describe your service using,
+I think it's XML defined information.
+They allow you to describe
+the configuration information
+in a scripting way so
+that it can be stored and retrieved.
+And roles for
+what things are doing inside the system.
+Roles like DLLs in the service process.
+They're collections of code with an entry
+point that runs its own virtual machine.
+And so you see different terminology but
+very similar purposes backed with
+some between Amazon and Microsoft.
+There's three role types that they offer.
+One's a sort of ASP.NET II57,
+sort of Windows Azure
+supplied operating system.
+They provide a worker role.
+Arbitrary code in a Windows
+supplied operating system.
+They provide a VM role uploaded
+with VHD provided by the customer.
+So this will be your heavyweight.
+Heavy duty, very customized,
+very special purpose type of systems.
+So they provide different service
+models for what they're providing.
+Slightly different from the Amazon stuff,
+but still satisfying
+the need of providing
+those CPU classifications.
+This is what the role contents look like.
+There's a way for naming it.
+There's a description of the size,
+the VM, small, medium, large.
+So you can see different ways to
+organize things, from Amazon to here.
+They have code, Web/Worker Role,
+Hosted DLL, and so on.
+Different types of code
+that you can embed.
+And different configurations, number of
+instances, number of threads, and so on,
+number of updates, and fault domains, so
+that you can keep track of your systems.
+Again, it's very similar in sort
+of function to what Amazon is.
+Very different organization according to
+a Microsoft way of viewing everything.
+Both accomplishing the same task.
+And of course both vying to get customers
+to actually use their system, and
+trying to make their systems as simple
+as possible to use, for the purpose of
+providing the services that customers
+want to provide to their clients.
+[MUSIC]
+

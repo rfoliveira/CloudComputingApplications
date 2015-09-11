@@ -1,0 +1,197 @@
+[SOUND] In this
+video we will talk about workers.
+As I mentioned in the previous video,
+the supervisor gets instructions,
+from Nimbus, to launch workers.
+In this video we will see that how
+the worker demon can get instructions,
+be launched from the supervisor,
+and what it does
+is it can then launch
+executors that run user tasks.
+You can have multiple
+executors per workers.
+A worker is a JVM process,
+is a Java process that can
+have multiple threads inside.
+Okay.
+So
+let's take a look at the source code for
+worker and
+while talking about that, see some
+of the features of the worker code.
+Again, like the rest of
+the videos that we showed before,
+to find the source code for
+worker you need to go to storm-core.
+Under storm-core you need to go to source,
+closure, backtype, storm, daemon.
+Now the next thing after supervisor
+that we looked at in the previous video
+would be worker.
+So let's look at the worker function.
+Couple of things that I want to
+show in the worker sourcecode.
+First of all, as usual, just want
+to start with the main entry point.
+You see that when a worker is launched.
+It's launched for a certain apology.
+That's why we have a storm-id pass to it.
+Worker is to listen on a certain
+port to connect to the other workers
+throughout the network so
+you have a port number.
+You a give it a worker id when starts and
+basically it gets the configuration
+out of the con files and
+sets up some default
+uncaught exception handlers.
+Then what it does is it
+creates the process,
+the resident process that becomes worker.
+So, by calling the mk-worker function.
+So, we can go quickly and
+see what mk-worker function does.
+Just here.
+So there are a couple of things
+that I want to say is of course,
+you have the storm ID, and assignment,
+and port number for the worker.
+And, we set up a bunch of security related
+issues we need to get ACLS authorizations.
+Credentials, auto credentials or
+carberos that
+requires to give tickets for
+the continuing running of the system.
+And you can see that what worker does it
+schedules heartbeat functions like usual.
+And starts creating executors.
+Now of course the worker itself
+doesn't execute user code.
+What it does is a worker process, right?
+It launches executor threads.
+The executor threads that we will cover
+in our next video, run user code.
+So what worker basically is trying to
+do is just managing the executors.
+Of course, doing the heartbeat functions,
+but aside from that,
+it manages a lot of
+communication between executors.
+Right?
+So as we've discussed in
+our previous lessons,
+what the worker does when there
+are two executors running tasks,
+user task running inside that worker and
+they want to talk to each other.
+So one task, let's say bolt 1 sends
+it output to another task bolt 2,
+and they're both running
+on the same worker,
+you have an internal cue in Storm,
+we use a library called disruptor cues.
+And I will show you how
+we use that in a second.
+But if the worker,
+the task needs to send tuples to
+another task that is running on
+a different machine, then it
+has to go through the network,
+and this worker-to-worker
+communication happens through another
+library, a network library this time.
+We use Neti mostly in storm, as of now.
+So you will see a lot of
+code in supervisor for
+managing the connections and
+transfers of tuples and queues.
+So, you will see that we have code for
+refreshing connections here.
+Code for refreshing connections,
+activating workers when
+the connections are ready,
+transferring tuples from
+your queue to NETE.
+You sometimes need to transfer threads.
+Well when we say transfer thread, that's
+when we want to use the disruptor queue to
+send information from one executor
+thread to another executor thread so
+you see when we use transfer-thread.
+We are calling into the disruptor queues
+and we are asking it to consume the loop.
+So, do transfer tuples from one
+thread to another executor thread.
+A little bit down here we have that
+reify structure that we saw before.
+That's where you want to use
+the thrift API to provide a network
+based service to the other points,
+so, in this case, the service that
+we want to provide is the Shutdownable
+service, so if Nimbus wants to tell
+the supervisors to shut down instead of
+asking them through zoo keeper it can
+directly tell them through thrift to hey,
+go ahead and shut down.
+Okay, let me go up here and
+show the function make transfer function.
+This, in this function what you
+do is you want to transfer tuples
+from one executor thread to
+another executor thread and
+therefore you're using disruptor queues,
+right.
+So, you see that I'm saying that hey,
+I want to create a disruptor queue, and
+let's call it transfer-queue, and
+then now that I have that we can
+use use it to transfer two poles
+from one executor to another executor and
+if you cannot
+you can log in with just saying that hey,
+there was something wrong with that.
+Otherwise once you tell the disruptor
+queue to put some of the tuples from,
+you know, the input side to
+the output side then you just say
+disruptor publish and things happen.
+Aside from that, you see that
+there's a lot of other codes to do.
+There are regular communication,
+refresh connections happens to
+work throughout, through NETE
+just to make sure that the connections
+are refreshed in the right time.
+And there are of course other functions to
+make sure that the whole thing happens.
+But, so the wrap up, the worker function,
+what it does is basically
+launches the executor threads and
+then manages the communication
+between different executor threads.
+If they are in the same worker
+process it uses disruptor queues
+to handle communication of tuples between
+these threads, if they are outside,
+it gathers them and then makes a network
+connection from one executing,
+one machine to another
+executor on another machine.
+And one final thing I want to mention
+is that if two different worker
+processes in the same machine want
+to communicate with each other as
+in one task in one executor in one
+worker want to talk to another task in
+another executor in another
+worker in the same machine.
+The connection happens,
+goes through Local network,
+so local loop back network
+device handles that.
+All right, so in the next video we
+will talk about the executor threads.
+[MUSIC]
+

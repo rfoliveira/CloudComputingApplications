@@ -1,0 +1,587 @@
+[SOUND]
+Welcome to the very first lesson of
+the cloud application class,
+we're going to start off talking
+about cloud computing,
+the motivation for it.
+And then describe a little bit of
+what you're going to see later
+on in the rest of the course.
+We're very excited to be giving
+this to you to be frank.
+This has taken us a while to put together,
+it's gathered from lots
+of different sources.
+And what we've tried to do is
+to condense it for you and
+to make it much more personalized
+to your own career goals.
+So we're excited,
+because this has real impact in the world.
+This is going to change the world and
+we're excited for you.
+We would like you to join in
+this revolution, this change.
+We would like you to be in control
+to have mastery of this new area.
+And I think by the end of the lecture,
+by the end of the series,
+you are going to have some skills that
+will really set you apart and allow
+you to participate in what is happening
+in the computer industry right now.
+So tremendous buzz.
+Let's look at what people are saying
+about cloud computing or had said.
+So the first is Nicholas Carr,
+he's written a book.
+A very important book
+about cloud computing and
+sort of epitomizes what's going
+on by saying, revolution.
+It's the biggest upheaval since
+the invention of the PC back in the 1970s.
+IT departments will have
+little to do once the bulk
+of business, computing,
+shifts to the cloud.
+This is a real dramatic statement and
+we'll try and
+give you some ideas about why
+Nicholas Carr actually said that.
+If you go over to the money
+side of the world,
+cloud computing also has lots of impact.
+And money control has
+written domestic cloud
+computing is estimated to grow at 53%.
+Now what we’ll see is that
+growth has mainly happened.
+That what we’re reaching now is
+a different level of performance
+in terms of growth, but it is enormous and
+it has affected industry.
+So let’s move on to the first slide and
+what I want to talk to
+you about really is.
+If you have computing, why would you
+go and consider cloud computing?
+There's a number of
+arguments you can make.
+Those arguments really evolve around
+economics and costs ease of use.
+If you own your own information systems,
+well, you've got control of everything.
+You can set your own agendas.
+You can do whatever you want on those
+machines, but you have to pay for them.
+There's a capital investment.
+As soon as you pay that capital,
+you are paying out interest payments.
+So if you're doing a startup,
+that capital investment is big and
+looks bad for you.
+There are heavy fixed costs.
+You have to have a building,
+you have to have air conditioning,
+you have to have power,
+you have to have staff to run it.
+So those heavy fixed costs you've
+got to consider in your equation for
+your business.
+There's redundant expenditures,
+you are going to have to pay for
+people to work on this.
+You're going to have to pay for
+programmers,
+you're going to have lots of overlapping
+duties, because you'll have to
+have more than one person doing
+each of things for redundancy.
+You're going to have to have backups, all
+of those costs will affect your business.
+Next, energy costs.
+Everybody talks nowadays about
+the high price of energy and
+carbon neutral and
+trying to be sustainable.
+Well, energy cost for cloud is high.
+You don't get that much
+CPU utilization for
+the amount of energy you're putting in.
+Reason you want computing to be,
+you picked this, you want it to be
+easy to use there when you need it, but
+you're not going to be using it 100%.
+And so it is more expensive,
+then dealing with unreliable hardware.
+We're going to be talking about
+scaling things up, making things big.
+Taking lots and lots of computing,
+putting it on machines.
+Lots of data and
+spreading it across lots of machines.
+We're going to be using cuts, custom.
+Well, consumer off the shelf type
+of hardware, because it's cheaper.
+But if you have 10,000 PCs, well,
+one PC might work very
+well in your house Us.
+But 10,000 PCs, they have a failure rate
+one out of every, well once or
+twice every year.
+When you put 10,000 together in one room,
+you're going to see lots of
+those machines die every hour.
+So unreliable hardware
+means you're going to have
+to retrace your route
+doing lots of maintenance.
+Last, you have lots of capacity.
+What are you going to use it for?
+When you're not using it,
+it's just not going to sit there idle,
+warming up your site.
+Is technology labor going into this?
+All of that is a constant, but
+your use of the computing is variable.
+So bottom line on this,
+if you are a corporate and
+you're using your own
+computing facilities.
+It really isn't sustainable
+in the modern age.
+So let's go back a bit.
+We'll go back to 1961.
+Cloud computing has been predicted.
+It's been predicted by many people.
+One of the most famous people is
+John McCarthy inventor of LISP,
+which was an early programming language.
+What he said was computing is someday
+going to be organized as a public utility,
+just as the telephone system is
+organized as a public utility,
+obviously, back in 61.
+Nowadays, it's sort of
+morphed into cellular.
+So we would like
+to build our future and
+incorporate this notion of
+utility computing and
+the cloud is the first step to that.
+So what is a cloud?
+This diagram is produced from
+a description by NIST or
+what cloud computing is.
+And what I'm going to do is to describe
+all the various parts of it and
+give you some examples.
+So first of all, the cloud is out there.
+Anybody can use it from anywhere.
+So availability is good and
+accessibility is good.
+It really becomes a ubiquitous
+computing environment.
+It's convenient,
+24/7 you don't have to turn it off,
+turn it back on, whatever,
+it's always running for you.
+And because of all of the input from
+all the industries into Cloud Computing,
+it's becoming very convenient to use.
+You want to use it?
+Well, you've got on-demand access.
+Now supposing you got clients,
+you got, let's say, 100 clients.
+You're a start-up.
+Instant access, they can use it.
+What about 10,000 clients?
+What about a million clients?
+It's the same story.
+You have on-demand,
+across the network, to that cloud,
+to deliver the services
+that your company produces.
+It could be rapidly provisioned.
+You want to start up a website,
+you want to start a database,
+you can sit down at a console
+mapped into that Cloud Computing,
+and create one of these applications
+in ten minutes, half an hour.
+Have it up and running,
+decide what size it should be.
+Scale it up if you've got it wrong.
+That's what's meant by rapid provisioning.
+So, your IT business,
+the business you are selling
+to the public, can be rapidly
+released with minimal management.
+Lots of convenient software
+to configure it and so on.
+And it can give you early, or it can
+give you service provider interaction,
+with sort of communicating
+with those services,
+getting those services linked in to all
+the different other subsystems you have.
+All that is facilitated in this cloud.
+So let's look inside the cloud.
+You have various pieces.
+You have a network.
+Typically you're going to have a data
+center switch and then switches and
+then ethernet to all the different
+computers in the cloud.
+You're going to have servers and
+they're going to be connected by ethernet.
+They're going to be where
+you do all your work.
+They're probably going to
+be multi-processors and
+they probably have lots of memory.
+You have storage.
+That storage is shared between
+all of those machines.
+It's optimized to give you best
+bandwidth from a server to the storage,
+we won't discuss that now.
+We will come back to that and revisit it.
+But that sort of network itself has to
+be managed and maintained better for
+the customer just to delegate
+that to the cloud producer.
+Then you have the set of
+services you wanted to provide.
+And we're going to talk
+about stacked services.
+There's not just one service,
+there's a whole set of layers of
+service that are really crucial
+to building the type of enterprise
+you'd want to have your public view.
+Then on the side of that,
+we have all of the applications, and
+the applications can
+radically be different.
+So we can talk about web services.
+So if you want a website, they deliver
+10,000 pay dues a second or whatever,
+you can build your app so it's on multiple
+machines, but it's on one web engine.
+And web requests come into that cloud,
+they're going to get load balanced
+across all the servers and
+those servers are all going to be
+coordinated to give you that web presence.
+So that's one part.
+You could have search, and
+of course pretty much everybody's
+familiar with search.
+You issue a request,
+the search engine goes away,
+looks at all of its stored data and
+comes back with the top 10,000,
+20,000 recommendations.
+Search is really powerful.
+It's really very, very fast.
+What's happening is, you get
+the request coming in from outside,
+it's fed to an appropriate server,
+that server looks at the request,
+decides how its going to execute.
+Maybe it decides it should
+be a distributive query and
+gets multiple servers to work with it.
+They will look at the databases,
+all the files, produce all the results and
+then the particular server you
+contacted will return your results.
+All that under the cover,
+very easy to use for
+the customer, very easy to use for
+the search provider.
+Other applications are email,
+email nowadays is done in the same way.
+Google mail, for example, is typical,
+where you can serve huge numbers,
+millions of people, email off of cloud and
+you can have very good.
+Facilities like spam removal and so
+on because it's all centralized,
+it can all be managed.
+Facebook, we can build social networks.
+We can have interaction between people.
+We can have picture,
+videos, all sorts of things
+because we've centralized all those
+facilities and we share them.
+So Office has always
+been Microsoft's power
+in the way it produces computers and
+the software for computers.
+Well, they've produced Office 365, so
+you can your office on the cloud
+now instead of at home.
+So any device, mobile or otherwise,
+can access your own Office,
+use your Office.
+So if you have a small company,
+and you're sharing documents,
+Office365 makes it a real necessity.
+Google Docs.
+Similar sort of offering.
+Other applications allow
+you to do all sorts of
+similar things to Office, but
+now it's a separate entity.
+But it's organized the same way.
+So backing off a second.
+Let's just step back.
+What we're doing is
+something really novel,
+we're discussing a really novel issue.
+Cloud Computing is providing
+all of those facilities.
+It's providing it, very,
+very conveniently, very economically, and
+it's simple for the enterprise to use.
+It's simple for the customers to use.
+And that is the attraction
+of Cloud Computing.
+So let's talk about the excitement
+that cloud computing has created.
+Gartner has a Hype Cycle,
+which is a good way of representing
+excitement from the community.
+And what you see in this
+diagram is steady growth from
+the invention of cloud
+computing to a maximum.
+And then it's going to drop as people
+realize what it's good for and
+what it isn't good for.
+And then it climbs back up as people
+build on all the successes of cloud and
+actually make it a viable enterprise
+type of enhancing product.
+We start off and we move forward to
+a peak of inflated, expectations.
+This occurred about 2011 when
+Carl was writing his book.
+From there there's only down,
+you might say.
+What people discovered was there's
+privacy, there's security problems,
+there's just the problems of being able
+to interact with lots of software.
+What you see happen is
+a drop in discussions,
+in excitement about cloud computing.
+And about 2014 we sort of reached
+the bottom of that trough.
+It was still pretty high discussion rate.
+But people realized there are limitations.
+We need to fix those, and
+we also need to move the cloud,
+the things that are working well,
+into massive production.
+And that's what you see on this
+diagram beginning to happen.
+You notice the slope is up.
+If we move to this year, what you see
+is we move from the bottom and
+we start rising.
+And now, pretty much everybody's
+accepted that if they are going to
+have an Enterprise ID they're
+going to put it on the cloud.
+Now, it doesn't stop there.
+If we look forward into the future and
+start looking at our tea leaves,
+making predictions, we see
+that actually companies are making plans
+to move heavily into the cloud industry.
+This is really where
+people have understood
+what cloud computing means to the world.
+What I want to talk to you
+now about is how the services
+of the cloud get delivered
+to the customer.
+And there's basically three different
+ways, three different models for delivery.
+Let's look at infrastructure as a service.
+There what we're doing is to provide
+computer hardware in terms of
+processors, disks, network.
+We are allowing people to use
+those services, to rent them.
+We're providing a infrastructure as
+a service that you can go to, you
+can declare how many computers you want,
+what are the hardware facilities you want.
+Then it is up to you to put your
+own software on top of that system,
+even your own operating
+system on top of that system.
+And you just provide your
+customers with all that
+software, but you've rented the hardware.
+The next level is Platform as a Service,
+PaaS.
+Here what you're doing is deploying
+customer-created applications.
+So the applications are running on what
+you're providing in terms of operating
+system and hardware, as a cloud provider.
+So, App Engine is an example.
+Google provides App Engine, you write
+your application with App Engine.
+And all of a sudden,
+you can run from 1 to however many,
+200,000, 600,000 machines on Google.
+Then we have Software as a Service.
+Here what we're using is
+the user's applications,
+we're providing the user
+applications over a network and
+they would just interact
+with those applications.
+So for example, if you're doing email,
+if you're doing Office 365,
+there are companies out
+there that are making huge
+amounts of money out of
+providing services to customers.
+And one of them is SalesForce.
+What SalesForce does,
+it provides customer relationship
+management software, amongst others.
+It tailors that, it has a whole suite of
+software that allow customers to pick and
+choose particular forms of CRM,
+or whatever,
+and allows them to use that for
+their businesses.
+We talked about synergy.
+One of the bigger issues that
+I want to get across is that we're just
+not on the entry level of clouds or
+even just on this rise of enlightenment.
+There is a lot of things happening that
+really make cloud computing very exciting.
+This synergy is best looked at
+just what sort of interests
+over time ever happen, what are the news
+events, what are the discussion points?
+Now, we talked about Big Data and
+virtualization.
+If I plot those, in time you'll
+see how they're interacting.
+The first is,
+we have a virtualization effort.
+Just here, rising up and creating all
+sorts of potential possibilities.
+Then what we see is cloud
+computing overtaking that,
+using it, to build an infrastructure,
+we've talked about the different
+ways that can be delivered.
+And that has been huge impact.
+Now what we're seeing is
+a rise in Big Data, and
+Big Data is exploiting the cloud computing
+to provide information for everyone.
+Anyone can do analytics, essentially,
+on massive amounts of data.
+That is provoking a huge amount of change.
+So Big Data, where will it take us?
+Well, it's another revolution,
+it's built on clouds.
+The data collection's too large to
+transmit economic clear of the Internet.
+You're talking about
+petabytes of collections.
+The computation is data intensive,
+lots of disks, networks, and CPUs.
+The overhead of maintaining
+cyber infrastructure for
+that is very expensive, but
+why not share it amongst the community?
+So for example, Google Maps is a huge
+infrastructure investment, but
+it allows all sorts of businesses.
+You're going to see smart cities building
+on some of those infrastructures,
+on some of the data collected for
+smart cities.
+Users buy Big Data services from
+Clouds and they share the overhead.
+So they're sharing out the cost of
+putting all that Big Data together.
+The essential part to all of this is here.
+This Big data is going to be easy to use.
+It's going to be easy
+to write programs for.
+It's going to provide
+you fast turn around, so
+you know what the economy's doing.
+What the stock market is doing.
+How do you do that?
+You make programming very easy so
+that programmers can easily deliver
+those values to the community.
+How do they do that?
+We will be talking about some developments
+on cloud computing that
+allow this to occur.
+They are MapReduce,
+there are several other topics that we'll
+come across but MapReduce is the main one.
+We'll talk about time,
+processing in real time.
+But let's first just deal with MapReduce.
+What's caused that to happen?
+Why has MapReduce suddenly
+become the focus of lots and
+lots of Big Data computations?
+Well, part of it's because
+the applications are there.
+The applications that implement
+MapReduce like Hadoop.
+The applications that allow you to
+take one MapReduce operation and
+combine it with multiple other like PIG.
+The MapReduce operations
+operate on the Big Data, but
+the Big Data has to come from somewhere,
+it has to come from storage.
+So you're talking about storage systems.
+HDFS is a distributed file store
+which is reliable, redundant,
+fault tolerant, and distributed,
+and we'll be talking about HDFS.
+You can use it with databases, and
+HBase is an example of that,
+distributed over multiple machines.
+So you can make queries over
+huge numbers of machines.
+So today we've sort of introduced you to
+the world of Big Data in our lecture.
+What drives Cloud adoption?
+Why Clouds make economic sense?
+How Clouds support
+the Big Data revolution?
+Who benefits from Clouds?
+Our course is now going to go off and look
+at some of these questions in more detail.
+We're going to start by
+looking at the economics,
+just why do Clouds rise as so
+imperative for enterprises to
+use in this sort of current day?
+So on to the Economics of Clouds.
+[MUSIC]
+

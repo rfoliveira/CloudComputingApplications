@@ -1,0 +1,230 @@
+[MUSIC]
+So it's worth mentioning how
+does JSON differ from XML.
+What is JSON?
+Why is it so popular these days?
+JSON works with JavaScript.
+It's very efficient to
+use with JavaScript,
+and is very familiar if you
+already know JavaScript.
+Then JSON is very,
+very simple to actually use.
+So, we're looking at lightweight data
+interchange format across the web.
+We are looking for
+one that's easy for humans to read,
+because then it's easy to program and
+it's easy to debug.
+It turns out if it's easy for
+humans to read, it's also easy for
+machines to pass and generate.
+And there's a JSON.org that's
+dedicated to that cause.
+It really is just a subset of JavaScript.
+If you know JavaScript,
+then JSON is just one of the structures
+that you program with within JavaScript.
+But now it's actually used to record what
+the documents are that you're
+passing in a message across the way.
+So what does it look like?
+Well, we mentioned that it had braces and
+this expands what we described.
+It shows you that, in fact,
+those braces can designate various fields.
+Those fields can Include
+different types of stretches.
+Here we've got a firstName,
+a lastName, and address.
+And associated with firstName,
+we have instances of that name, ie John.
+Associated with lastName, we have Smith.
+Associated with address,
+well we can go into a hierarchy,
+we can have another record.
+And repeat the same structure so
+you see street address,
+you see city, state, postal code.
+And then we can have instances of street
+address, 21 2nd Street City, New York.
+So this is a generalizable format
+in a hierarchical manner
+to pretty much any data.
+And it tells you not only what the data
+is, the value of the data like John Smith.
+But it tells you, what is John?
+Well it's his first name.
+It gives you use some semantics
+to deal with the data structure.
+So, these are basically name value pairs.
+You have a name for well, for John.
+And the value for John is obviously John,
+the letters, the person.
+And so, in each of these different
+instances that occurs again.
+If you're talking about address,
+that you have a complicated data
+structure associated with a dress.
+It's a hierarchical one.
+Those are called child properties.
+And basically they consist of
+a number of name value pairs again.
+If you have a number you can insert it.
+So postal code and the number in there.
+That number is Is a valid way.
+You don't need to put in quotes
+because it will be actually encoded as
+a straight forward number from zero
+to ten, up to however many digits.
+If you need more sophisticated data types
+you can put them in between quotes and
+have strings.
+And there's some examples of phone numbers
+to string arrays associated
+with phone numbers.
+And you can have any arbitrary
+number of those telephone numbers.
+And they're just a list associated
+with the name phone number.
+So, why is this good?
+Well, JSON Uses a sort of railway
+diagram type of scenario for
+coding and decoding its data structures.
+And pretty much can use that directly for
+doing this messaging.
+So if you are thinking
+about how to analyze,
+to take the request you want,
+put it into a message.
+Or to take a message and
+transcribe it back.
+And these railway diagrams allow you to
+follow a very simple algorithm to turn
+the data into a message,
+or message into the data.
+It starts off when you can see
+here a very simple one for
+the strings the name, and a value.
+What will happen is this will get
+decoded into a bigger railroad diagram
+describing, well, what's a string?
+Well, it's starts with a quotation mark,
+and
+then you can put all sorts
+of things in the string.
+And then at the end,
+there'll be another quotation mark.
+And that takes you off.
+The railway diagram.
+So this is sort of like a shunting yard,
+if you like, for characters.
+But it's very simple.
+It's just a straight forward type of
+state machine, type of description.
+The key thing is that JavaScript
+will allow you to do this trivially.
+And so it makes use of JSON very simple.
+Now some of the other
+user data structures,
+the values get encoded into
+different types of railway diagrams.
+Different other data structures
+will get coding similarly.
+This one gets here coded into
+something that will recognize numbers.
+So you can sort of go down this list,
+and you can notice
+actually it's this sort of recursive
+descent algorithm that's being employed to
+actually decode these strings and
+transfer the data.
+And that's really one of
+the nice things about this is
+it's really a state machine based system.
+Where the transitions will take
+you to different diagrams,
+allow you to decode the diagrams,
+and then let you rebuild.
+The values that you've got from it.
+So here we've got an array, and
+the array will consist of multiple values.
+And when you see the closing parenthesis,
+you know you're finished with the array.
+So those data disks,
+data structures are very simple.
+If you sit down and you want to compare
+that with XML It's a great exercise.
+What you'll see is XML is very
+difficult to keep track of.
+It's still organized as a hierarchy.
+It's still machine and user readable.
+They both employ hierarchical
+data structures.
+JSON doesn't have the validation system
+because JavaScript essentially does that.
+XML, on the other hand, does have
+XSD that validates the structures.
+It's okay.
+The namespaces, there are no namespaces.
+It's just what you write.
+The XML does have namespaces
+in case you should need them.
+Passing, well.
+Essentially there's just JavaScript.
+You can evaluate JavaScript
+data structure with an eval.
+Just bringing the thing in and
+it decodes it into JavaScript.
+It's fast.
+There are security issues with that.
+But it's very easy to write.
+Parsing, on the other hand, for
+XML, you need some sort of
+description on how to parse it.
+You need a parser.
+You need to understand
+how to organize things.
+There's a processor called x path to
+do that, which is totally separate.
+So, as you can see there's
+more overhead with XML.
+With JavaScript you can work with objects,
+run time evaluation of types.
+It's all very simple.
+If you use JavaScript for
+XML you can work with string,s but
+you might require additional parsing
+mechanisms to actually parse the XML and
+convert it into things you
+can use in the JavaScript.
+Security, both JSON and
+XML have their problems with security.
+Because in JSON it decodes
+it fairly automatically,
+and you could get any sort
+of thing in it a descriptor.
+And JSON would decode it,
+and if you can break in or
+call some action that's detrimental.
+That is very easy to do.
+There are libraries to
+make that more resilient.
+But the basic mechanism
+is not very secure.
+The XML, the security is text parsing.
+It's not code execution, so
+there's a parser that would operate.
+So, you have a little
+bit of distance between
+text parsing and the actual code that
+you're going to use in the server.
+But, never the less you could
+generally put anything XML and
+the text parsing will break it apart.
+If it's correct XML you would still need
+some sort of security at the processing
+level of the actual information
+you could add to the XML document.
+[MUSIC]
+

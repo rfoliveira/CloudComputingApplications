@@ -1,0 +1,230 @@
+[NOISE]
+All
+right we talked about doing
+remote procedure calls.
+And now let's focus in
+on just how do you get
+semantics out of there
+are procedure calls.
+If you remember what we're doing is
+to send HTTP requests backwards and
+forwards between the application and
+the server, we're going to
+follow a protocol called SOAP.
+And what we're going to try and do is to
+fill in the background information so
+that the SOAP will seem natural to you.
+So all methicals, remote procedurals,
+trust a network because they can't operate
+on a common address space because your
+having to implement like a distributed
+system to do the methicals.
+What they're going to look like
+is something like this diagram.
+You have a request and
+it's going to turn into a message,
+the center of the network and
+you're going to have a reply,
+which is sent in to a message
+that comes back to you.
+We're going to contrive
+to do that through HTTP,
+using something like the SOAP protocol.
+Your client will have
+some sequential code.
+It will say do the operation
+that particular piece of code
+will make a request message.
+It will get sent over to the server,
+the server will get the request,
+it will find out what object
+is in the parameter list and
+it will then execute the method
+associated with that object and
+use whatever remaining other parameters
+to fill in to call that method.
+Then when the object completes
+it's going to send a reply.
+The reply is going to get
+transferred back to a get on
+the HTTP and
+your client will receive that and
+continue with all that information
+doing whatever it next needs to do.
+So in general, a remote object itself will
+have several different method calls on it.
+It will look something like this,
+you'll have M one and two and
+three saying being methods,
+or procedures with parameters
+in there on the particular object,
+which is why we're calling the methods.
+There will be a remote object
+that's designated by the object.
+Handling the parameters, and that remote
+object will add some internal data,
+add some state, the methods we'll call
+implementation methods, and
+then they're going to return values.
+So that interface is what's going to be
+provided by the coupling
+of your web server with
+whatever mechanism it has,
+middle ware it has, for
+executing the remote
+execution of those objects.
+So this is how you can talk to open
+stack and can actually create instances.
+It's going to be through
+these type of remote objects.
+So you can have local method called,
+you can have remote method calls.
+Local method calls would be to take
+all of this remote mechanism and
+simplify it and make one process on
+a machine talked to another process on
+a machine using the same mechanism.
+That will sort of cut out all the layers,
+but of course it wouldn't serve our
+purpose of being allowed to create crowds
+and have very sophisticated operations.
+When you do a local method
+call on a single machine,
+the machines around,
+it's going to continue
+computing Its going to
+follow through everything.
+You get exactly one ounce
+of doing the computation.
+We call that exactly once semantics.
+You call a method,
+it doesn't get the reply.
+When you do it remotely though,
+there's all sorts of possibilities happen.
+You're not actually seeing what's
+happening to the remote site.
+You're not seeing what's happening
+to the network connection.
+The network connection could fail.
+The remote site could fail.
+And what happens to your procedure course.
+So remote invocations.
+Somewhat difficult in the sense
+that you can have failures and
+that can cause different
+types of semantics.
+You might call a remote method, it fails,
+and in frustration you do it again.
+Well, did it really fail?
+Was it just slow in responding?
+Will you get two answers, or
+will you just get one answer?
+So there's some questions about semantics
+that arise because of the distributed
+system's nature of this type of cloud,
+and this type of implementation.
+So what sort of failures can
+cause you interesting results?
+Let's take some simple examples
+if you like, a case study.
+One is the correct function.
+It calls, it executes, it replies.
+Okay, so that's the nice easy one.
+And that one would be,
+that you make a request and the system,
+the remote system,
+crashes before it can reply.
+Another is that it crashed before
+it actually executed anything.
+So, nothing got changed
+on the remote serving,
+you'd have to do it all over again.
+It might be that the network loses the
+request, so the request never got there.
+That's a totally different case.
+It might be that the communication channel
+fails as it's trying to do the reply.
+And maybe we've got one of the routers
+in the network die or something similar.
+So there's a variety of
+different cases here.
+The last one, the client machine fails.
+I've sent out the request, but
+before receiving the reply, it crashes.
+Then what happens?
+Do you have a state change in the server,
+and
+the client is having to be rebooted and it
+won't remember that it sent the request?
+So all these different
+failure modes could occur.
+And you need some semantics to go
+with that in order to make it work.
+And so, we have a sort of
+notion of invocation semantics.
+The middle ware tries to make
+it as transparent as possible.
+Tries to make it look like it's
+all happening on your machine.
+But sometimes it won't be able to do that.
+So, although it tries to do it exactly
+once semantics match is possible,
+you can have other semantics.
+You could have at least once,
+so you get to keep trying.
+It can have a most once.
+So if you try multiple times,
+only one operation's really
+going to occur remotely.
+What you would like to have happen on the
+remote site depends specifically on what
+you are trying to implement and you can
+imagine that in the open stack scenario.
+But if you're trying to
+bring up a machine and
+bring up the server you request
+as new server now if you do
+that and and you say the communication
+gets lost on the reply.
+You do it again,
+you don't want to have two servers.
+You would like to just have
+the one server that was created.
+So you can see that that sort of semantics
+plays a role in what we're describing.
+So this is just a sort of summary.
+Of how invocations semantics works.
+You can re-transmit request messages.
+You can filter out duplicates.
+You can re-execute procedures
+if they don't have any effect,
+if they're just getting
+status information.
+You can retransmit replies.
+What you're trying to do is to keep
+exactly one type of semantics because
+there's a preferable way of
+handling the whole system.
+But there's various ways you can
+do that without really sort of
+affecting that sort of semantics.
+By duplicating messages and so
+on, but you have to be very,
+very careful about doing it.
+We're not going to go into a great
+deal of detail about that.
+But each of these different
+semantics has a definition,
+has a maybe it worked, maybe it didn't.
+Or an at least once.
+If you keep trying,
+at least once is going to work.
+Or at most once.
+Even if you do it lots of times,
+it'll do it at least once.
+He would do it in most once rather and
+have that effect.
+So there's different semantics that
+you can give with the middle layer.
+[MUSIC]
+

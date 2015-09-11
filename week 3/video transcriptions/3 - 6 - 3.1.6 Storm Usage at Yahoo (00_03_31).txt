@@ -1,0 +1,113 @@
+[SOUND]
+I'm sitting here with Matt Ahrens again,
+and I'm going to ask him some questions
+about how Yahoo is using Storm.
+Matt, why did Yahoo choose
+to move to real time?
+>> Well, I think we were keeping up
+with the demands of our customer and
+the industry.
+If you think about large-scale data,
+the first dimension that was
+solved was the dimension of
+scale with Hadoop coming along.
+And then the next thing people ask for
+is now that we gave them lots of data,
+they wanted it as quickly as possible.
+So we needed to provide some sort
+of platform to give them data
+really in the order of seconds,
+or minutes at most.
+>> So this is industry wide?
+>> Yeah, this is something that
+started really a few years ago,
+where there's a trend of once memory costs
+got reduced, people said we can do this.
+We can do billions of transactions a day,
+processing and streamed through memory.
+And so a lot of the big data companies
+are providing these platforms.
+>> Why didn't the batch
+model work anymore?
+>> So the batch model still works for
+the batch use cases.
+But what it couldn't solve in terms of
+real time is providing really that second
+latency.
+And the main reason is because Hadoop,
+in terms of batch use case,
+was built with the overhead of starting
+up jobs and processing large datasets.
+It was built to mine
+terabytes of data at a time.
+It wasn't built to necessarily
+process a kilobyte event at a time.
+So it's just the nature of
+what Hadoop is good at and
+then now what these real-time
+technologies are good at as well.
+>> Good, and how did Yahoo handle
+real-time systems before Storm?
+>> So that's a great question because
+we actually did have some of our own
+solutions for solving real-time systems.
+So we used our own custom
+messaging frameworks to just pass
+messages between systems and
+do very lightweight aggregations.
+But it wasn't at a large scale
+that we're seeing today.
+It maybe handled millions of
+transactions a day at most.
+>> And so what has Storm brought to
+Yahoo sort of now in the current day?
+>> Yeah, so
+a few things that Storm's brought.
+One is it's has brought us
+just a large scale of data.
+We have clusters of hundreds of nodes that
+are in multi-tenant cluster that we can
+have many projects using the same Storm
+cluster to process their own millions or
+billions of transactions a day.
+And it's also given us a common
+API that we can use, right?
+So anyone that wants to do real-time
+data can use the Storm API,
+both on the front-end and the spout
+side to input data, or on the back-end
+to process data downstream to various
+data marts or other data streams.
+>> So we talked last time about
+students wanting to get into this,
+to actually go and try, look at some
+datasets, play with it, sort of training.
+What would they do for Storm?
+What sort of datasets could
+they look at with Storm?
+>> Yeah, so one of the best things,
+and I play with this myself,
+is just connect to the Twitter firehose.
+So Twitter makes some of their public
+data available through a firehose that
+you can connect to it and
+get a bunch of tweets just sent to you.
+And you can try to process
+them through Storm and
+solve different types of problems, like
+what are some trending things happening?
+You could try to just search for
+keywords in your topologies.
+You could build your
+own system which says,
+anytime this certain celebrity gets named,
+I'm going to count it up and
+see how many times they're getting
+tweeted about in a given time period.
+So I think the best application, I mean,
+I think there's other options but
+just connect to the Twitter firehose and
+you could build a Storm solution for that.
+>> Okay, thank you.
+[MUSIC]
+

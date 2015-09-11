@@ -1,0 +1,143 @@
+[SOUND]
+So
+the Google App Engine is one of
+the leading platform as a service so it's
+a good idea perhaps to just sort of look
+at some of the features that it offers.
+Why that platform as a service
+operates the way it does, and
+compare it with
+the infrastructure as a service.
+So the Google App Engine,
+developed in 2008, is multi tenancy,
+therefore it's fairly cheap.
+Offers automatic scaling so
+it's flexible and
+you can change your
+costs very dynamically.
+Supports very common
+programming languages.
+They're all high level languages.
+They're all interpretative.
+They're all scriptable as well,
+so that makes it very flexible.
+The framework that Google supports for
+building webs is Django.
+It has a Grails web app framework,
+if you want to write an app for the web.
+This allows it to be used for
+many, many different services, and
+people find that very popular.
+Its infrastructure tools allow you to
+deploy code without worrying about
+infrastructure challenges such as
+deployment failover, scalability,
+they're all taken care of by GAE.
+However the infrastructure limits
+the type of applications that can be run.
+As you can see, there will be lots
+of interconstraints between what
+you can build and
+doing reliability failover and so on.
+And so GAE keeps you in that safe
+territory where you can only build things
+that they can support.
+So applications run in
+a secure environment.
+Typically when you communicate
+the network will be encrypted and
+when you're running on your
+environment on the cloud, it will
+be running in a secure environment,
+provided by whatever is actually
+doing the hosting job, or whatever.
+Essentially the sandbox is built
+around those interpreters, so
+that one client can't
+interfere with another.
+It isolates applications
+from the hardware,
+isolates the applications from
+the operating system, and they all impose
+security limitations on what can actually
+be done in those compute engines.
+The application code only runs
+in response to requests and
+a request handler cannot spawn
+potentially malicious sub-processes after
+a response has been sent because
+of the interpretive nature,
+and the checking that
+goes on in these systems.
+The GAE data, the data coming from this,
+is stored in the App Engine Datastore,
+or the Cloud SQL, or the Cloud Storage to
+be later used in the Google App Engine.
+You can actually use the database
+technology's that Google's developed,
+like Bigtable, but again,
+it is a very safe environment from
+a security side, in providing or
+making all these provisions.
+So you can take advantage
+of Google's single sign on,
+when you sign up for
+a Google ID you can use that
+to do all of your computation
+with the platform.
+You can build Chrome and Android games
+on GAE, using again the sign on.
+You can also do Cloud Endpoints
+to allow mobile services to
+get into your cloud and
+update or download information,
+and again that all uses
+the same authentication.
+Other services provided,
+there are Map Reduce engines
+that you can call from the system,
+you can search APIs,
+you can write SSL support for security,
+you can run Memcache if you want to.
+There are lots of different APIs.
+So you might say,
+this platform is very flexible.
+There's some examples here
+of how flexible it is.
+There's BugSense.
+It's an application error
+reporting service and
+it's used by GAE to maintain logs of
+bugs in software and analyze them.
+But it's actually also provided to
+customers for their applications in Excel.
+Ubisoft is used to build web-based games.
+And so you can build your own
+web based game very easily.
+Claritics is a small social
+analytics company and
+it's used a lots of this
+platform to do that.
+And again,
+some of that facilities around [INAUDIBLE]
+GAE do your own types of billing.
+So in general,
+because of the language that's being used,
+the language is very concise.
+They don't take many bytes
+to say very powerful things.
+Lots of cell phone apps
+have been built to use GAE.
+They have a back like Ruzzle and Tap Zoo
+to actually sort of make that simpler.
+And what it does is,
+allow you to scale very well,
+it fits the GAEs purpose of providing
+this platform that's very scalable and
+modifiable and you can do that very
+easily with small teams of developers, so
+it's a great way of introducing
+new business to the Cloud and
+has been very productive for Google.
+[MUSIC]
+

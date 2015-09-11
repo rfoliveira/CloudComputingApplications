@@ -1,0 +1,194 @@
+[SOUND] [BLANK AUDIO] Now,
+let's talk about
+the NodeManager in this video.
+NodeManager is the component in YARN
+that sits on each physical box.
+It very, obviously, based on its name,
+manages basically the node.
+And communicates to
+the Resource Manager to
+basically be controlled
+by the Resource Manager.
+What it does is it launches containers.
+It can localize files for containers.
+And then, it can also report its
+status to the resource manager for
+tracking purposes.
+If the resource manager asks it to,
+it can kill containers,
+it can clean out the state of those
+containers after it kills them.
+It can monitor the resource
+usage of a certain container.
+Again, remember that neither the Resource
+Manager nor the NodeManager really know,
+or care really,
+about what's going on in the containers.
+All they care about is to give out,
+hand out resources to applications.
+Which are being controlled
+by application master.
+It's the subject of our next video.
+So all it cares about is resources,
+so it can monitor really
+the resource usage, and
+that all it cares about, and
+if a container misbehaves, it can kill it.
+To provide this functionality,
+it runs health check services and
+notifies the resource manager
+if a container looks unhealthy.
+For example, it somehow sees that
+container keeps writing stuff to the disk.
+It asked for a certain amount of
+storage and now it keeps doing that.
+It detects that specific
+container is unhealthy and
+notifies the resource manager,
+the resource manager decides to kill it.
+It also does log aggregation.
+Gathers logs about the containers.
+It provides web applications for
+reporting node status,
+and container status,
+application status back.
+It also provides a web service to avoid
+screen-scraping of stuff on the screen,
+and finally it runs auxiliary services for
+the application frameworks.
+Like or whatever we want to run
+on YARN as sort of plugins.
+So for example,
+you have the MapReduce ShuffleHandler
+sort of plugin,
+that can serve map outputs to reducers.
+Remember, back in our map reduce video,
+we were talking about how the outputs
+of map functions have to be
+transferred by the framework
+to the reducer machines, do a shuffle and
+sorting, grouping on those.
+We can actually have a plugin
+here that does that, and
+we call it MapReduce ShuffleHandler.
+[BLANK AUDIO] The container localization
+is one of the responsibilities
+of NodeManager.
+What you can do here is it
+downloads files, jar files for
+example, or executable files for
+the container.
+And whatever else .jar file,
+jar is a packaged Java application or
+the executable,
+whatever supporting files or libraries
+that application needs, it can download.
+This is similar to what was known
+as Distributed Cache mechanism.
+Back in Hadoop 1.0 time frame.
+So basically, the Distributed Cache
+idea is a simple idea basically it
+tells you that if you have a set of files
+that you want to have access to throughout
+all of your notes, that's a common
+enough use case that you would
+want the framework to handle, and in this
+case, the NodeManager can handle that.
+So this whole mechanism, the Distributed
+Cache like mechanism handled
+by NodeManager,
+is actually based on a set of lists.
+The NodeManager gets a list of entries,
+a list of files, a list of libraries that
+need to be localized on each of the nodes.
+And of course, you can have,
+the user can ask for
+different localization levels or
+privileged modes.
+Here we have three privilege modes here.
+We can ask for a certain file, or library,
+or whatever, to be either public,
+private, or
+only contained to the application.
+So of course, if it's public,
+all users can access that certain file.
+Regardless of the application
+they are running.
+If it's private,
+only the user can access it.
+But say, a user has a Hadoop
+application and a Tez application, and
+the Storm application on YARN,
+all of the application for
+that specific user can access that.
+Or it can be application level.
+So it can say only the Hadoop application
+needs to access this file or library.
+Once the NodeManager
+downloads that file to
+its local file system,
+it then creates proper symlinks into
+the container working directory,
+so that the container can now have
+access to that file through a symlink.
+Finally, NodeManager does log aggregation.
+[BLANK AUDIO] It collects logs
+from all of the containers for
+a certain application
+running on that node.
+And puts them all together.
+So remember that one physical
+node can have more than one core.
+Typically you have 8 or
+16 or 24 cores in 1 box,
+so it actually makes sense
+to run containers for
+more than one application
+on a single node.
+Each of those containers running
+module part of that large application.
+For example, one container could be
+running the map, another container could
+be your reduce for that application or
+different applications.
+What load manager does is
+it aggregates logs from
+all the containers on that one
+physical node that are running for
+one certain application and
+puts them all together.
+It collates them into a file
+per node per applications, so
+you have a file per node per application
+that eventually gets uploading back
+to HDFS for user to see the logs.
+The benefits of this design
+is that it allows long-term
+application log retention, so
+you can keep the log file around,
+it's now managed easily
+by being aggregated.
+Increases the ability of the logs, and
+it becomes easier to post-process logs.
+Say, for example, by other MapReduce jobs.
+Logs are very important
+in enterprise computing.
+Typically, you right an application,
+and it probably could run nicely
+on your laptop when you develop it, and
+then on maybe a small cluster, test it.
+But then you move on to really large
+clusters, 4,000, 10,000 nodes.
+If it starts to behave strangely,
+typically,
+you will really need to look at the logs,
+correlate different entries
+between different logs, so
+it's very important for
+the framework to handle logs, and
+there's been a lot of work
+done on YARN to process and
+handle log spreader, and log aggregation
+is one of the big features here
+[MUSIC]
+

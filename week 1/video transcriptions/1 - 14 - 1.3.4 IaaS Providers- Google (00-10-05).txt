@@ -1,0 +1,220 @@
+[MUSIC]
+So, Google provides the best,
+if you like, or the leading,
+be careful what I say,
+online advertising system in the world.
+And it has far greater outreach
+than most of the other companies.
+Big school, whatever.
+That's because of its search capabilities
+and its obviously known popularity.
+Its competitors are mainly from
+different countries rather
+than within the United States.
+So it provides service to small and
+mid-sized businesses and
+doesn't change to meet customer needs,
+because it's aiming at providing the best
+advertising service that it can.
+It innovates very rapidly,
+which is if you're building your own
+system on top of Google then you need
+to accommodate that rapid innovation.
+The value data for it,
+Google is very good at creating real-time
+data because it sees what people's needs
+are through its advertising services.
+And it sort of really capitalizes
+on providing that in its services.
+And has many different
+service systems that
+try to give you the best
+updated data possible.
+It champions the Cloud.
+It's not into hybrid Clouds.
+It doesn't want you to have
+your own Google and then,
+sort of upload them to a bigger Google.
+It's trying to provide a Cloud that
+everybody will use, which will
+remove the necessity in a sense of
+having your own local compute systems.
+And it really works at the web scale,
+the world wide web.
+It's got an infrastructure that's global.
+And it emphasizes things that will
+work globally over the whole world.
+One way to sum it up and
+this is not my quote but
+I think I got this from Gartner although
+I'm not sure Gartner is responsible.
+We're not like you and
+you should want to be like us is sort of
+almost the way that Google is
+talking to the rest of the world.
+So what it provides, its main emphasis is
+a platform as a service although it does
+offer now infrastructure as a service too.
+So if you like it focused
+on platform as a service,
+because of its search and
+so on, this was easy to do.
+And then it introduced information
+as a service sort of after thought
+because Amazon was coming so
+dominant and they needed to compete.
+So with Google,
+you have Google App Engine, and
+the Google App Engine allows to you
+code for Python, Java, and PHP and
+Go it provides automatic auto-scaling.
+And in some of the demos
+that Google operate shows,
+they show biogenetics,
+genomics example for it.
+So you can search from the web and
+what they do is to scale
+the size of the computation and
+associate it with that from sort of a 1000
+nodes up to 600000 nodes all
+within Google app engine.
+They have shared hardware
+meaning that it's multi tenancy.
+Multiple users use their
+hardware at the same time.
+Your Google App engine is actually sort of
+time shared over multiple
+different people.
+You don't get a single CPU to yourself.
+There is Cloud storage which is also
+shared, that's its object store.
+And then there's NoSQL Cloud data store,
+which is this eventual
+consistency data storage.
+There's a MySQL relational
+Cloud that you can use if
+you want transactional based systems.
+It offers Adobe Hadoop on top
+of its systems, it offers
+Cloud Pub/Sub based systems if
+you want to do event processing.
+So if you want events, then you publish
+your events to the Google Cloud,
+and people can subscribe and
+listen to those events.
+It provides cloud endpoints, allow you
+to kind of connect clouds together.
+And it allows business
+analytics in the form of BAPAS.
+So business analytics, platform as
+a service, allowing you to do things like
+Big Query and predictions on data sets.
+So as you can see it has a broad range.
+It's emphasis is much more
+on platform as a service.
+And its platformer service
+isn't just sort of
+one offering, it has multiple different
+pieces because it's got Google Gmail
+as another platform that it offers.
+And it's really aiming at
+the customer at the end user.
+It does have infrastructures
+as a Service as I said, and
+under that is Google Compute Engine.
+And the Google Compute Engine pretty much
+allows you to do many of the things that
+the Amazon services do,
+but they don't have so
+many ways to monitor and
+to view the system and
+so many options that terrific array
+that we saw with Amazon of different
+possibilities of the way you can
+structure infrastructure as a structure.
+Google has fewer of those.
+One of the more impactful services that
+Google does provide is part of the cloud
+package are the following, it offers Maps.
+Maps are used tremendously for
+navigation, for all sorts of things.
+Google maps is really one of the foremost
+and it's taken to challenge things
+like hezre which used to provide
+mapping services in the past.
+Is augmented maps with photographs and
+really sort of detailed routing and so
+this is provided a real sort of leader for
+provider Google.
+It also provides Translate using some
+of the machine learning tools that
+it's built.
+It offers you to translate
+from one language to another,
+either written or oral.
+It allows you form filling,
+forms development.
+It allows you wiki sites to do
+all sorts of collaborations.
+Allows you shopping,
+which fits in with its marketing views.
+And it also has Keep which is its way
+of providing services to clients,
+which one to remember, details about
+the current state of their mobile.
+So here's a sort of
+splash screen of Google.
+The Google compute engines got a nice,
+nicely highlight here.
+This is very a competitive market and
+everybody is currently after trying to
+get as much as that market as possible.
+Google even with all of
+the the platform as the service
+offerings it is still being very
+very competitive in information
+has a service area and
+covering it straight to make them match or
+if not better than the other competitors
+from Microsoft and of course from Amazon.
+This is a description of what one of their
+projects would look like if you go
+into a information service, and
+you can see here that you can go
+build your particular services.
+You can drill down to those and
+elaborate them,
+define them this is
+the project dashboard for
+the Google Services information
+as a infrastructure service.
+You can build a simple Hello World app.
+You can try starting up virtual machines.
+You can create APIs who are applications.
+So you can build on the Google API
+schemes to build your own APIs.
+You can create cloud storage for
+your systems.
+You can go use their big
+data collections and
+you have a bunch of options just
+like Microsoft and like Amazon.
+You can go choose from a pre-built
+solution with virtual machines and
+various databases associated
+with it to actually try and
+put together your own type of cloud.
+Here's a description.
+Yes, we've got a populated instance here
+where I've created a virtual machine.
+And so
+on the US central of Google environment,
+and I'm talking to it with SSH,
+and it has this IP address.
+So I've skipped a few frames here, but
+this is one of the displays that it
+will offer you, showing you just how
+computer engine can actually build
+Cloud systems for customers.
+[MUSIC]
+

@@ -1,0 +1,316 @@
+[SOUND]
+Okay,
+we've looked at RPCs at the web,
+how we can use
+the web to support RPCs
+with things like SOAP.
+We've looked at formats for data over the
+net and we've looked at load balancing.
+In this last lecture,
+we put it all together with how
+do you very effectively,
+make development of web services and
+how do you ease, if you like,
+all the complexity.
+You've already seen there's
+some complexity creeping in
+with load balancing.
+There's a little bit more
+that we can deal with.
+As we go forward,
+the reason for doing this is so
+that you don't have to,
+later on in the course, worry about this.
+What you will have learned in this
+last section is just how we get
+the data from the client to
+the application in a very reliable way.
+And so, from now on, after this,
+you don't have to worry about
+all the complexities of the Cloud
+services that we're going to describe.
+So, let's deal with
+this straightforwardly.
+Protocol buffers
+are an invention by Google.
+They're based off RPCs,
+they're very similar to RPCs.
+What they're doing is, for web requests,
+they're doing what RPCs requested.
+And RPCs were implemented initially
+sort of carver and .net and so on.
+What's happened is those
+ideas have been used to
+implement the same Keiper support, but
+this time at the web level
+with protocol buffers.
+So, it's a language-neutral,
+platform-neutral scheme.
+It's extensible, and what it does
+is to take the client requests and
+it serializes it,
+transmits it to the server.
+So, all of that mechanism we were
+describing and delivers it to the server.
+The server can use the serialized
+stretch of data to
+extract the data and
+then perform the various tasks.
+And we described some of
+the distributed services that can be
+provided like an RPC or just a web
+request, or anywhere in between.
+All of these are taken into
+account inside this sort of
+protocol buffer organization automation.
+What we're going to see is the protocol
+buffers actually give you the code for
+the client and
+they give you the code for the server,
+so you just need to know what you want
+to do, and then the protocol buffer
+system will actually build for
+the client, the mechanism to do it, and
+for the server, the skeletons
+to actually accomplish the task.
+So, here's an example schema for
+sending a request about a person.
+And, this can be embedded in HTTP.
+It could be an RPC type of
+request that is being made.
+But, whatever it is,
+it needs to pass this data structure.
+And, this data structure
+is going to be a person.
+So, it looks like a record, if you like.
+There's going to be an identifier
+required and it's an integer 32-bit and
+there's a required name for it,
+and there's an optional string.
+And in the Google protocol buffers,
+they're actually labeled, so
+you can easily access them one,
+two, three, four.
+And you can see what those
+various parameters are,
+and that's the way the client and
+the server deal with those strings.
+But the software,
+the actual encoding for the packet and
+the decoding at the other end,
+is all done magically for
+you via a compiler that takes
+the protocol buffers and
+produces those pieces of
+the code that you want to use.
+Now, we know that the web is so
+big, can be Json,
+it can have different
+programming languages,
+C++, or whatever you chose to name.
+This particular approach allows
+you to generate the data
+serialization for any of those languages.
+And so, it's very powerful, very useful,
+keeps everything consistent.
+You can start off in C++,
+and you can end up in Java,
+or some other language, you don't care.
+It's all going to be taken care of for
+you by this particular system.
+This is an example of what
+it'll translate into.
+For Ruby, for example, I'm just
+giving you the data definition here,
+I'm not going to go into what the server
+and the client look like yet, but
+here what you see is the translation if
+you wanted to implement this in Ruby, what
+it would actually translate to according
+to those translators from Google.
+Okay, now, because this was so
+successful, it had imitators.
+Thrift, I won't say it's a straight
+imitation because it also
+introduces some innovation,
+Thrift built on this idea, and
+it created more of a network stack
+that could be used for other things.
+In particular, what it allows you to do to
+is to transmit files between clients and
+servers, so that you can actually access
+directly, distributed file systems.
+That's a big advantage if you think
+of now you've got the web, and
+you've got files perhaps with details,
+FDP or whatever.
+If you can actually use some
+sort of file access mechanisms,
+distributive file access mechanisms,
+then you can simplify everything.
+And if you can put all
+that into a package, so
+that you don't have to actually program
+it, but what you do is to specify
+to the thrift compiler what you want done,
+it does it, then enormous benefits.
+So, that is exactly what Hortonworks,
+and Yahoo, and Apache have put together.
+You can read all about it,
+thrift.apache.org and
+go to that web address at the bottom.
+It will explain, there's a paper which
+explains the concepts underlying thrift
+but I'm going to tell
+you about them anyway.
+So, what Thrift does is
+to deal with servers.
+It would deal with single-threaded,
+event-driven servers,
+that's its specialty.
+It would deal with processes.
+You can say, I want an RPC, or you can
+say, well, I just want a video content.
+Just get it to the screen.
+You can specify events,
+asynchronous events coming in
+like sort of notifications of the news.
+So, you've got various different
+processes you can use.
+You can use various different protocols
+if you want it to be sent in Json, or
+if you want it to be sent in clear text,
+or you want it compressed.
+There are options for all of these.
+And then for the transport, well,
+you can use raw Ethernet if you want.
+You can use TCP,
+you can use HTTP, in fact,
+any future protocols
+will also go there too.
+So, you get flexibility in
+this generating system.
+And what it's going to deliver
+to you is a serialized
+stretch of data specifically,
+for your application and
+for your server,
+given those specifications.
+So, just to recap,
+I mentioned Hortonworks, and
+all these other companies.
+But the idea, this sort of
+knitting together of everything,
+we have to actually acknowledge Facebook.
+So, transport methods, as that's a topic
+that we haven't actually addressed.
+You'll want to open, close,
+read, write, flush a file.
+The server transport has actually
+the ability to listen to see if
+anything's happened to the file,
+accept and close.
+And it will allow you to read,
+write, to and
+from the file on disc, on the remote disc.
+It will also, of course, let you do HTTP
+and all those other types of things.
+But having that richness for
+transportation really sort of makes you
+much more productive development
+wise in building Cloud services.
+Same thing with File Transport.
+You can transport a file.
+You can transport it framed which is for
+non-blocking service.
+Just imagine a video stream.
+And you know with a block,
+you just want to take what you can get
+out of the video stream and present it.
+Then, you would use a TFramedTransport for
+it.
+If you're building a complicated
+distributed memory system,
+you were to use a TMemoryTransport.
+It uses memory for I/O.
+If you're going to do blocking,
+which is what mostly we do.
+You would be using a TSocket.
+If you were going to do
+compressed transport,
+then you would use the TZlib library.
+Server codes, what can we do with servers?
+Well, you can have servers that
+are non-blocking to match that transport.
+You could build muti-threaded servers
+using the non-blocking I/O of systems.
+Well, it has a non-blocking
+server all built in to this.
+You have a simple server, you also have
+a thread pool server, so you create so
+many threads.
+What it's going to do is just select
+one of those threads to operate for
+the moment as a poured device to help you
+communicate, and then when it's finished
+it's going to release it, so that the
+actual creation of a process isn't needed.
+You just use threads.
+So, lots of different
+server codes you can have.
+But they're all encoded as
+type within this system.
+And you can pick and chose, and
+it will generate the code for you.
+So, again,
+the data structures get translated.
+This is an example schema for Thrift.
+Now, you notice that I'm talking
+about what is Thrift's schema?
+This is the way it would look.
+It's a bit simpler than
+the protocol buffers but
+it does exactly the same thing.
+In this case, it's a struct.
+It's very familiar if you know C++ or
+something equivalent.
+Okay, so that's your data structure.
+Now, you're going to build skeleton for
+the server and the code for the client.
+Thrift will do that automatically for
+you once you choose the different
+mechanisms for transport and
+different servers.
+I'm not going to go into great amount
+of detail, you can read about it.
+But essentially,
+what happens is that you would say well,
+I want this type of communication.
+The Thrift compiler would
+produce a stub for the client.
+You take the stub,
+you add your code to that stub.
+The stub does everything,
+in the way of doing the serialization of
+the data structure and transmitting it.
+You also take the skeleton,
+you put that into your server.
+The server code then needs some
+development as to how you're
+going to process that data.
+But all of the threading and
+all of the communication,
+all of the march link getting
+day trained to the packets.
+All of that's going to be taking care
+of you, so it becomes really simple.
+So, that's my quick update on Thrift, but
+it brings together all of these packages.
+What you see from client to server,
+through the Cloud, for
+any level of complexity,
+we have a bunch of tools that
+really helps in organizing and
+building these systems.
+[MUSIC]
+

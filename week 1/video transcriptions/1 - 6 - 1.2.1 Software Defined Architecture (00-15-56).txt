@@ -1,0 +1,383 @@
+[SOUND]
+Welcome
+to this lesson on software
+defined architectures.
+In this lesson,
+what we're going to learn is how to
+actually create services, use services.
+You're going to end up producing
+a web server that can scale.
+But to begin with,
+let's talk about how services are created,
+how services can control other services,
+and
+then how that's all put
+together in the principal
+architectural components of a cloud and
+how they interact.
+There's going to be a framework
+in architecture to do all this.
+That's what we're going to
+be talking about this time.
+And that leads into just how do
+you then use this framework,
+this orchestration of services to build
+things like infrastructures as a service,
+platforms as a service,
+software as a service.
+So, at the end of this lecture,you
+should be able to go in and
+you should be able to construct a service,
+a platform as a service system.
+And the actual machine problem that you're
+going to be working on is to
+build web services which scale.
+So, this all gets around
+to what Gartner and
+a lot of other people are now calling
+software defined architectures.
+Rather than sort of lead you
+historically to where we're at,
+we're going to leap right in.
+So, a software defined architecture
+actually provides a facility for
+providing services complete with
+orchestration and provisioning,
+and this is all layered in a sort of
+structure that can be replicated.
+And later on what we'll find is that you
+can apply software defined architectures
+to pretty much anything.
+We're going to talk about networks.
+We're going to talk about storage.
+We're going to talk about compute.
+But people are talking about software
+defined architectures for cities.
+So, the cloud itself provides services.
+It has to have a way for
+the customers to control those services.
+And so, you're going to have to have
+some mechanism to actually manage those
+services through
+the interface into the cloud.
+And that's called service orchestration.
+It's going to have to have provisioning,
+the signing services to
+individual machines.
+And it's got to have interfaces that
+allow people to manage that connection.
+We said clouds must
+provide these different
+infrastructures IAAS, PAAS, SAAS.
+They've got to have both internal and
+external application
+programming interfaces.
+They need external ones for
+the customer, for
+the person accessing the cloud remotely.
+And they have to have internal ones.
+If you run a software system
+on your cloud that software
+has to talk to the pieces
+of cloud internally.
+So, you need APIs,
+both externally and internally.
+And some of these services will be,
+actually,
+the service you intend to provide,
+and some of them will
+be the management services that you need
+to control those first set of services.
+So, the mechanisms and concepts of
+providing service orchestration and
+provisioning is called
+a software defined architecture.
+And you're going to find that Clouds,
+they will contain other
+software defined entities.
+And we've just referred to them
+earlier that you are going to see
+that the future of the Cloud is sort of
+building on software defined networks,
+software defined storage, and
+software defined compute.
+So, here's a pretty picture,
+which outlines just the sort
+of complexities we've got.
+What you see there is that there's
+an application development and
+there's IT infrastructure operations,
+there's business process operations,
+and they're all going on
+concurrently into the Cloud.
+You see that we have a multiple level
+of different services being provided.
+It's very difficult to build up to say,
+software as a service,
+if you can't manage the hardware.
+So, it's likely you're going to to
+have infrastructure as a service.
+It's likely, you're going to put
+operating systems and other sorts
+of systems on top to make it easier to
+use, which would be platform as a service.
+And it's likely that you're going to
+want to put software on top of that.
+So, it's going to be like
+a cake with layers, right?
+Each layer providing
+a different level of services.
+Sometimes, those layers will
+be providing service like this
+IaaS will be providing service
+to the next level up and
+sometimes that layer will be providing
+service to the next layer up too.
+Sometimes, you'll expose
+IaaS to the customer and
+allow that customer to get
+infrastructure as a service.
+That's the layers of the cake.
+There has to be, first of all,
+mechanisms to actually use that system.
+So, you need APIs for
+your apps and your scenarios,
+your providing mail services, whatever.
+There has to be APIs to do this,
+and that's, well,
+we've loosely called that business
+process operations in this diagram.
+At another level, the customer has
+to be able to produce those services
+refine them, develop them and then sell
+them to whoever its customers are.
+So, you need to be able to develop,
+test, manage, control usage.
+Build scenarios of that use and
+that's the application development.
+You need interfaces to be able
+to help the customer do that.
+Down here the customer is going
+to need to control the resources,
+deploy, manage if he
+wants to scale things.
+Also the Cloud provider
+himself may need to
+develop tests and
+deploy his infrastructures.
+And so,
+you have different APIs corresponding to
+the different places where
+you need to be able to do
+the control plus the actual
+services you're offering.
+All of that is called orchestration.
+The Cloud service orchestration allows
+you to compose the architecture,
+has tools and processes used by
+humans to deliver a defined service.
+Allows you to stitch the software
+together, the hardware components
+together to actually provide
+a defined service, connects and
+automates all the workflows going through
+that complicated Cloud structure.
+So that when you request a cloud, let's
+suppose you request a webpage to a cloud,
+you are going to get routed through
+the cloud to the right web server,
+and it's going to respond back to you.
+Connecting that workflow together
+is part of orchestration,
+and it has to be set up by someone.
+When I want to scale up my web service,
+then orchestration will allow me to
+do that, bringing on new hardware and
+providing new routes through the system,
+providing duplicate web pages, so that I
+can serve a larger number of web requests.
+And you'll see that when you do up down
+scaling, it can have different effects.
+if you're doing billing,
+you're doing assurance on QOS,
+each of these may impact those effects and
+they need to be controlled.
+So, we need a structure.
+What sort of structure should we have?
+And this is where Cloud
+computing is moving
+the direction we're going at the moment.
+We are defining things called
+software defined architectures.
+And the key part to the software
+defined architecture, first of all,
+it provides services.
+But those services
+are completely abstract.
+They might be providing
+the user his application.
+They might be providing
+the service provider
+some way to control what his service is.
+And there might be some part of it
+allowing the Cloud provider to control
+the allocation of resources and
+the smooth operations,
+the maintenance, and so
+on, of that Cloud system.
+All of those come in through APIs, and
+because of the complexity of all of this,
+because you want customers just to know
+about their particular piece of the Cloud,
+and you'd like the Cloud providers
+to know about all of the Cloud.
+What we do is to employ virtualization and
+access control to
+actually give them those abstractions so
+they can manage it.
+Then, underneath that layer, there's
+Service Logic, to provide the services.
+There's Provider Logic and
+there's Cloud Logic,
+all trying to provide different aspects
+of the totality of what the Cloud offers.
+A middle ware layer offers
+that type of infrastructure,
+and its design we will touch
+upon in this course, but
+not delve too deeply because we
+are really concerned with applications.
+The middle ware matches all these
+services with the hardware,
+software, and data that's on the system.
+Now, you notice over the side of here
+there's two boxes, control and resources.
+The Cloud provider is going
+to actually offer control,
+provide resource allocation and
+access control.
+And he does that through
+software designed to do that.
+And that's going to interact with
+mechanisms to actually allocate
+the resources.
+So, that's my overall software
+defined architecture.
+Now, that's very abstract,
+and I apologize for
+that, what we're going to talk about
+is some concrete examples of this, and
+we're going to finish up with you
+actually programming one of these.
+So, let's look at a data center.
+A software-defined data center.
+Example of an architecture.
+You have your users doing applications,
+and
+those applications will go
+in through a portal that
+offers all the different services,
+the APIs.
+Those APIs will split up the requests
+into different types of requests.
+It will be, oh, this particular
+request requires so much network,
+requires access to the storage,
+requires this compute.
+Well, the portal divides these things up
+into tasks associated with the network,
+associated with the storage, and
+associated with the compute, but
+the user doesn't know anything
+about the real hardware.
+So, these are all virtualized.
+You're going to have,
+underlying this, controls and
+schedulers to actually
+allocate the resources and
+to orderly progress through
+the tasks that have been assigned.
+Those in turn will end up talking
+to the actual hardware provided by
+the data center, the network,
+the storage, and the computer.
+Somewhere in there, those two boxes
+on the right on the previous diagram,
+there's a lot of automation going on,
+and that is going to be the middle ware.
+That is going to be
+the software that allows Clouds
+to actually serve all the customers.
+So today, what we've learned about
+is software defined architectures.
+What we need to do is to tackle this
+question that's the reason about
+virtualization.
+It's a key abstraction in building
+software defined architectures, and
+it's a key abstraction in actually
+building the first ever Clouds.
+We're going to learn what
+software defined networks are,
+what software defined storage is,
+what software defined compute is.
+And we're going to relate
+that to the Clouds and
+talk about it all in
+terms of virtualization.
+Then, and very importantly,
+we need to get you some
+practical experience of
+building an example.
+So, we're going to just
+take a simple web service,
+map it onto a data center, and
+allow you to scale it using load
+balancing to send web requests
+to the appropriate services.
+So, after that lesson,
+what you're going to learn, or
+what you're going to be able to do,
+is actually build your own type
+of system on a software defined
+architecture whether it's Amazon,
+whether it's Google, or
+whether it's OpenStack.
+After that, we're going to look through,
+or in this particular lesson,
+we're going to look through exactly what
+does infrastructure as a service mean.
+Because clearly you gotta start
+somewhere allocating machines,
+and building services on top of those
+machines is a good place to focus.
+We're going to move up that
+sort of software stack and
+look at some of the middle ware.
+And there, we're going to be looking
+at Mirantis and OpenStack as examples.
+We are going to learn how
+they actually orchestrate,
+how they provide views into
+the systems through dashboards.
+We are going to see how
+they are controlled, and
+how they control the Cloud itself.
+And by the end of this lesson,
+you will have an appreciation
+of how systems are structured
+with these abstractions and
+with orchestration using all these tools.
+So, that now, when we finish this lesson,
+we'll be able to launch into
+some examples of applications.
+We're going to be doing
+MapReduce as the next module.
+But first,
+let's just move on to virtualization and
+think about how does
+virtualization support this idea
+we've got of software
+defined architecture.
+[MUSIC]
+

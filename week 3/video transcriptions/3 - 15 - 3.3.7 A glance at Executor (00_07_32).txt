@@ -1,0 +1,156 @@
+[SOUND]
+So,
+so far we've talked about the Nimbus,
+supervisors, and workers.
+But what really does the work for
+the user are the executors.
+Executors are threads that run user tasks.
+They can run more than one task,
+although typically we don't do that.
+Typically in our production environments
+we run one task per executor.
+But Storm allows you to have
+more than one task per executor.
+Let's take a quick look
+at the source code.
+As we talked about in the previous videos,
+executors are threads
+running inside the worker.
+They're launched by the worker and
+these are the pieces of the code
+that go on and run the user program.
+They run the spouts,
+they run the bolts, and
+we will see in a second
+how that's happening.
+So, to open the source code, again,
+you'll see storm-core, source closure,
+back type store, daemon.
+Now, let's look at the executor.
+[SOUND] So, in this source code,
+I want to show you a couple
+of interesting things.
+You can see that when we start,
+depending on whether this certain executor
+is running tasks of type spout or bolt.
+We have different implementations
+of this function so you see for
+making executor-stats which gathers stats,
+you can have
+an implementation for spout which
+calls the proper function for spout.
+If it's a bolt,
+calls a proper function for bolt.
+Similarly, for closing components,
+one for spout.
+One for bolt.
+Now lets get into the more
+interesting function here.
+Functios here that I want to
+talk about is the mk-threads.
+Lots of set up code here, but
+I want to quickly jump into two
+functions within this mk-threads method.
+One is the tuple-action function.
+Oh and by the way, you see that there
+is a mk-threads functions for bolts,
+there's another mixed thread functions for
+spouts a little bit up above this code.
+We'll just glance over that as well but,
+so
+let's see for bolts what happens is
+that for the tuple action function
+what we need to do Is basically,
+before the tuple action I want to
+show you this asynchronous loop.
+This is the loop that keeps on
+running the bolts functions, right?
+So what happens is that the first
+thing that it does, is preparing the bolt.
+It sets up a number of helper functions.
+More importantly the bolt-emit so that
+when the bolt wants to emit something,
+it can go and listen and grab what's
+the tuple that is emitted by the bolt.
+It, of course, gathers a lot
+of metrics as it does that and
+when you're looking at the UI,
+the user interface for Storm,
+a lot of these metrics are then
+aggregated and shown to the final user.
+When it creates a bolt object and
+it calls the prepare method on it,
+and if you can think about it,
+when you, as a user,
+you write a bolt,
+you implement the prepared function,
+it gives you the object,
+the pointer to the object.
+That's the bolt object.
+It gives you a pointer to a conf,
+that's the conf.
+The context, and it also, interestingly,
+gives you an output collector.
+Right?
+Which you can use the output collector
+in the user code to emit tuples.
+Collector that image, right.
+You see that here is where we are creating
+that output collector object.
+So here I'm, you see that I have
+a dot at the end of this string.
+This means that.
+That it's it a Java class, and
+by putting the dot end of it I'm
+asking the system to create an object
+of this class, and
+then pass the object to the prepare
+function of the java object.
+And why do I know it's Java object?
+Because the dot now is
+in the beginning of it.
+So that prepare means that
+this guy is going to be a bolt
+object is going to be a Java object.
+Okay so I'm creating an object
+of type output collector.
+And how do I do that by
+reifying a thrift interface?
+Collector.
+Nice.
+So when you are ready you will implement
+emit function, the emit direct function.
+You know ack, fail, the other meta's
+required to implement that class.
+Okay, so another thing that I want to
+show is the counterpart to mk-threads for
+bolt we looked at it,
+now there's another one for spout.
+Kind of, sort of a similar structure.
+You have an async loop for
+dat that you prepare some stuff before
+starting the object, and then you call
+the open method on the spout object.
+Give it a spout output collector and keep
+running this code in an asynchronous loop.
+So, your spout object will remain
+resident in the memory and
+will keep running and running.
+There are other functionalities
+in the executor.
+Acking spout messages or
+failing spout messages, as well.
+And then there's, of course,
+a lot of metrics gathering codes and
+the executor's metric tick gathers
+certain metrics every couple of seconds.
+Setup takes sets them up before
+calling the metric takes.
+All right, so this is basically the frank
+schnalty of the executor, as we saw.
+In the next video, we will jump
+to a different part of Storm, and
+we'll look at schedulers in Storm and
+see how they're implemented.
+[MUSIC]
+

@@ -1,0 +1,351 @@
+[NOISE]
+So,
+in this set of slides what
+we're going to be talking about
+is how lots of clients can
+talk to lots of services and
+scale the services according
+to how many clients we've got.
+We're going to use a load
+balance to do that.
+So a request enters a router,
+it’s forwarded around until
+it gets to the Cloud.
+The cloud router is going to transmit
+the request to an appropriate server.
+The load balancer is the mechanism in
+the cloud that actually determines which
+service, which node in the cloud,
+which server is actually going to
+be used to provide the web service.
+So, maybe we've got 10,000 nodes in
+the cloud and we make a web request,
+it will go to one of those 10,000,
+farmed out by the load balancer.
+There are all sorts of interesting
+questions about how load balancers
+operate, and we'll try to give you
+a quick overview of how that works,
+but in your NP,
+you will actually be designing a simple
+one just to experiment the whole idea.
+So, we got a request
+coming from the cloud,
+enters the router and
+the load balancing server
+is going to determine which web
+service should process the request.
+Now when you're sending it from the
+internet it's going to go to a particular
+IP address.
+The router is going to take that IP
+address, deliver it to load balancer,
+the load balance will
+change the IP request.
+It'll change the actual IP address to
+the particular server in the cloud that's
+responsible for responding to you.
+Now if you know from
+our discussions before,
+we're using a simple
+sort of rest protocol.
+In interacting with the cloud,
+and that protocol implies very,
+very simple relationship between
+the request and what's serviced.
+As we are doing this, what we're
+going to do is to make sure that
+any particular server we choose has all
+the information that it needs to be
+able to respond to that
+particular rest request.
+So, if I ask for a particular employee and
+their data, then what I would expect
+to happen is that the load balancer
+would send it to one of the servers
+that has that information.
+And there is presumably a large number so
+it can load balance over all those servers
+so that you get good response time and
+you get a fair,
+quick reply to your web service.
+In this diagram, you will see
+that flow of how this operates.
+In particular, what you notice is that for
+every request,
+there has to be a reply, a response,
+which is going to go back to the client,
+which will reveal to the client
+the data that was fetched.
+And the client probably will
+display that on their screen.
+So there are dotted lines
+back through this mechanism.
+The load balancer has to keep
+account of those dotted lines.
+If it gets a request, it's going to
+find a server but then that server
+has to be able to reply
+back to the correct client.
+So it's going to keep, if you like,
+a trail of how to return
+the packets from that request.
+And funnel,
+the particular request from the particular
+server back to the right client.
+So Google, for example, provides web
+search for the whole of the Earth.
+Lots and lots of people do web searches.
+How is that organized?
+Well the request, the web search request,
+goes in as an HTTP request.
+It will go forward it to
+Google web server, and
+it doesn't really matter where you are on
+the planet, you're going to say Google.
+But it will get served by a particular
+Google part of the cloud.
+And in that cloud, there will be
+a unique web address for data requests.
+Now, that is going to talk in turn,
+to all sorts of
+load-balancers, to actually
+answer that request.
+One of the things that it will do,
+just to indicate some of the additional
+add-ons to the load balancer,
+is it will determine out of all of
+the different data sources it has,
+it will determine which of those data
+sources is the most interesting,
+from the point of view
+of your search question.
+So it'll take your search query and
+it will look in various index servers
+for a response from that request.
+And the front end will actually
+sort of forward the packets,
+your requests to those document service,
+corresponding to the correct indices
+of the query that you've made.
+So you're coming through, make your web
+request, it's going to take your query,
+it's going to index it,
+it's going to find from the index servers
+which document servers
+are the interesting ones.
+In all of those circumstances,
+you could have multiple index servers.
+You could have multiple document servers.
+And the load balancer is
+going to split up those packets
+to each of the appropriate
+index servers it's found,
+and to each of the document servers,
+it's going to choose one of those
+in order to reply to you and it's going to
+keep track of all that complexity.
+So, we're going to stick to a very,
+very simple example but
+this slide demonstrates as
+you're making requests,
+you can get into really sort of complex
+implementations within the cloud.
+Your load balancer is an integral
+part of providing this service, but
+there may be other parts to that service
+that the cloud will have to worry about.
+For example, if you're looking for
+something Google-wide and
+the whole universe, whole worldwide, there
+may be so many different things that you
+have to find the right set of web servers
+to actually respond to your request.
+But it's all the same mechanism.
+And what we've described is really
+sort of fundamental to doing
+any of these types of requests.
+And here's just the sort of
+diagram processing elements.
+You're going to be talking to the front
+end here with your web requests,
+it's going to do the processing and,
+actually sort of figure out where
+it needs to find the index and
+find the documents.
+And, down here,
+you've got lots of worker processes that
+are going to be doing all the processing.
+And your load balancing is going to make
+this all sort of seamless and very fast.
+So here's a if you like,
+block diagram of what's happened,
+you got a query coming in,
+there's the Google Web Server.
+It may do various things like check
+your spelling, it may give you an ad,
+it may provide an update with news,
+and books, and so on.
+That would all be processed in the Google
+web server responding to your query.
+Then the query itself is going to
+go out to index servers, and
+some of these will be replicated.
+And these index servers will find
+the right item that you're looking for.
+But that item will be a document, but
+it won't reside on the index servers,
+it will reside on the document
+servers over here.
+So it's actually then going to
+to respond to the web server.
+The web server's going to go back and
+find the document server,
+it will get the document,
+return the document to here.
+And then what's going to happen is
+it's going to integrate all of these
+advertised and miscellaneous services and
+return a webpage to you with all
+of this information on there.
+Now, where is the load balancers?
+The load balance is making sure
+if you've got, say the Olympics,
+or you have a really important news event,
+when there's queries for
+it, there are enough index servers,
+there's enough document servers and
+the loads are spread over those index
+servers and the document servers to
+actually be able to process all
+of those flood of requests.
+So we have this idea of
+providing web service,
+but it can be a huge
+amount of information.
+That information is distributed over lots
+and lots of different nodes in the cloud.
+How do we do that?
+And this is just the sort of high
+level view how we're doing that, and
+we'll get to details later on.
+But, if you have a lot of servers and
+you have a lot of data,
+enourmous amount of data,
+there are ways obviously to
+devise serving this data.
+The data itself can be split up,
+so we could take this red one and
+sort of pop it over onto
+a particular server.
+But then we don't have any replication and
+so we can't do load balancing.
+So we might take one of these and
+put it on several different servers.
+That way there's two servers that can
+actually service the same request.
+Now in general what we would like
+to do is to take all this data and
+map it, we could either split it up.
+So that each element here goes
+on to a different server.
+Or, we can do this type of duplication,
+so we can do load balancing and
+so if one of the server farms dies say,
+we have a spare copy.
+So, a picture of what we're talking
+about here is, we need replication.
+What we can do is to decide
+how much replication there is.
+In this case we've sort of
+got six sets of replication.
+We can talk about where we're going to
+put that onto the web service and
+we can partition that data so
+we can sort of say well okay,
+there's going to be two yellows
+over here on this set of machines.
+There's two blues over in this machines.
+There's a yellow and
+a white over this machines.
+We can have a very flexible way of
+allocating the date to the servers, and
+so in the load balancer itself, we need
+to accommodate all of that information.
+How things have been replicated,
+how they've been partitioned across
+the network, internally, in the cloud.
+So, it's invisible to the cloud user.
+And it gives you the flexibility,
+first of all,
+of being able to respond to lots
+more users of the cloud, clients.
+And it also responds to crashes of
+systems within the cloud and updates.
+Perhaps, this is being updated,
+and so it's busy.
+Is there a spare copy of blue
+you could use somewhere else?
+So this can get very complicated.
+The load balancing approaches, generally,
+are the mechanism to
+overcome this difficulty.
+There are various
+different load balancers,
+we won't be talking at all
+about all of them this time.
+But just to give you awareness,
+there are load balances that
+deal with content, and locality.
+An example that would use DNS servers to
+actually decide how to find the content.
+So DNS servers is relating machines
+to names, and what you would do is to
+associate the content and
+locality with the name of the server and
+then use your DNS service to do it.
+Another way of approaching all of this is
+your load balance might be size aware,
+could be centralized,
+what it does is to distribute over
+all the different nodes that
+have got all the data, and
+the data might be split up
+between multiple nodes.
+So that the load balancer has to
+be aware of where that data is,
+than a centralized type of operation may
+be very practical and in doing this.
+Another type of load balancer's workload
+aware, where you have a lot of servers but
+they're all serving different things,
+and you have a different
+response to clients to trying to get
+the information off those servers.
+So let's say all the clients want to
+see the 515 race at a horse track,
+then what you need to do is have
+the workload aware, some type of system,
+and duplicate the result of that race
+on multiple different servers and
+having a distributed dispatcher
+that will actually go and
+spread the load over all
+of those different servers.
+So what we've seen is to process
+events efficiently, we need to do
+optimizations with the load balancing.
+We're going to send and
+process requests to a web server
+that has files in the cache.
+We're going to make requests to that web
+server with the least amount of requests
+because we can get a really fast response.
+And then we're going to send and
+process those requests to a web server
+determined by the size of the requests.
+So those are the types of things
+that we're going to be doing
+with a load balancers.
+[MUSIC]
+

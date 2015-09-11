@@ -1,0 +1,161 @@
+[MUSIC]
+So, let's go through an example and,
+in a diagram see
+how this whole set of components
+communicate to each other and
+how a map reduce data
+flow progresses in YARN.
+So in this diagram,
+we are showing four different machines.
+In one of the machines,
+you have the resource manager,
+which as we talked about earlier,
+it only manages the resources.
+It doesn't know about
+The MapReduce flow itself.
+On each of the nodes,
+we have a Node Manager instance running.
+The first thing that happens, is that
+User talks to the Resource Manager and
+says, I have a new job for you.
+I have a new application.
+The first thing that the Resource Manager
+does is it asks one of its Node Managers
+to see if there is a container to
+launch the Application Master.
+And if there's enough empty slots, it says
+okay Node Manager, please, on my behalf,
+go and launch a container and then run
+Application Master that the User provided.
+So now Application Master is running.
+It's being launched by Node Manger
+as a response to the request
+by the Resource Manager.
+Once Application Master is up and running,
+the Application Master connects to
+the Resource Manager and
+registers these application instances.
+So it says calls back to Resource Manager
+and says, I'm a dupe instance for
+MapReduce and I'm alive.
+What happens next?
+The User, first of all, can monitor and
+control the job by directly
+connecting to the Application Master.
+So interestingly,
+the User does not need to connect
+to the Resource Manager anymore.
+Okay, so the job has started.
+It needs to launch a set of map tasks
+first and eventually reduce tasks.
+What happens is that Application Master
+is in contact with the Resource Manager.
+It request containers from
+the Resource Manager and
+when its Resource Manager tells it, okay,
+Node Manager number two, for
+example, has an empty slot.
+And Node Manager number three, for
+example has another empty slot.
+The Application Master talks to
+the Node Managers in those machines,
+and asks the Node Managers
+to launch containers and
+then run the map tasks first, and
+then the mutuality reduced task, but
+in here we run the map tasks first.
+Once the Node Managers
+launch the map tasks,
+the maps call back to
+Application Master and
+say, we are here, we are alive,
+we have started processing tasks.
+Let's say this Map 1 task finishes.
+Map 2, let's say,
+still takes a little bit more time.
+Map 1 is the first task to finish.
+Now what we need is a reduce task.
+When it sees that the Map
+1 isn't here anymore,
+Application Master then
+requests the container.
+Again, from Resource Manager, Resource
+Manager checks off and sees that oh,
+okay Node Manager for machine two,
+for example, has an empty slot so
+it tells the Application Master.
+Application Master now calls to
+Node Manager in machine two and
+says, okay I need a container and I need
+you to run my Reduce task inside it.
+Node Manager will then go and
+launch a container and
+will launch the Reduce task
+inside that container.
+Once the Reduce task starts,
+it connects back to the Application Master
+and tells it, hey, I'm alive.
+The very next step, right here,
+is that the Application Master
+tells the Reduce task of the location
+of the shuffle data location.
+So it will tell Reduce that the map
+task that was completed right before
+you was running in Node 1.
+So please go and
+fetch your shuffled data from Node 1.
+Reduce will then go,
+the Reduce task in here, will go and
+talk to the Node Manager.
+So remember I told you that the shuffle
+is a plug-in for the Node Managers.
+So the Reduce can go and
+talk to the Node Manager through
+the shuffle plug-in and retrieve its data.
+Similar things happen
+once Map 2 here finishes.
+Again, Application Master informs
+the reducer of the shuffle data location,
+in this case, the same Node Manager
+reducer talks to the Node Manager,
+receives its data stored,
+and continues its operation.
+Once the reduce completes,
+the Application Master commits
+the final output into HTFS.
+Before finishing up its own process,
+it creates a job history,
+cleans the staging area,
+puts the job history,
+sends to the history server
+running somewhere else.
+And the last thing it does,
+it tells the Resource Manager that
+I'm done, and you can now un-register me
+from the list of applications running.
+So as you see this whole architecture
+designed here is very scalable.
+The reason is that the Resource Manager
+only needs to manage the nodes really.
+It doesn't have to do anything
+about the applications running.
+If the application is network heavy or
+not, it doesn't matter.
+None of that traffic ever
+reaches Resource Manager.
+It doesn't need to talk to the User much.
+The Users, once an application is running,
+they will just directly talk to
+the Application Master instance.
+So, this architecture
+is much more scalable
+compared to the previous
+version of Hadoop.
+And now YARN runs on clusters of
+literally tens of thousands of machines,
+while the previous version of
+Hadoop could really see scaling
+issues in about 4,000,
+at most 5,000 machines.
+[MUSIC]
+

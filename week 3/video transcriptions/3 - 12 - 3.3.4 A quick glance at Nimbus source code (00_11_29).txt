@@ -1,0 +1,246 @@
+[SOUND]
+So,
+in this video we will look at
+the Nimbus code structure.
+Nimbus is really the master
+node in the cluster.
+It's the brains and hearts behind
+the whole operation of the Apache Storm.
+It knows about which topologies
+are submitted to it.
+It can activate or deactivate topologies,
+which means that it can tell
+supervisors to activate or deactivate.
+It can make scheduling decisions.
+It knows where a current topology is
+already scheduled to run and when a new
+topology arrives it can decide which node
+in the cluster has space to run this.
+It receives heartbeats from everyone.
+It receives heartbeats from
+all of the supervisors and
+also it receives heartbeats from
+the worker processes on each machine.
+So the heart beats could
+actually be a lot.
+At least at the moment in July 2015,
+most of the communication with
+Nimbus happens through zookeeper.
+That is the scheduling decisions
+are written through zookeeper,
+supervisors go read from zookeeper.
+Heartbeats also are written from
+supervisors and workers to zookeeper and
+then Nimbus reads them from zookeeper.
+Of course, Apache Storm is a very active
+open source project and people are working
+on changing these, so best specific
+structure might change in the near future.
+So, without further ado, let's go and
+take a look some of the code in Nimbus.
+Let me open Nimbus.
+To find the Nimbus code, you can,
+from the storm-core directory
+you can navigate through src.
+clj > backtype > storm and
+then in the daemon directory.
+And there's a little back story
+about backtype storm-name,
+backtype was the startup company
+that created storm originally.
+Now, of course,
+storm is an Apache project, but
+the file structure kind of remain there.
+So this demon directory contains
+a lot of interesting codes for
+the rest of this lesson.
+In the upcoming videos we will also
+look at some of the other things in
+this directory.
+But let's go and
+look at the Nimbus Clojure.
+So, it's presenting Cloj ure, but
+as I said Clojure has
+complete Java interrupt.
+So you can import some
+Apache code within Java,
+in this case Thrift.
+You can directly import Java
+libraries like Java and IO and
+Java Util, for example,
+we're using HashMaps and Thrift in Storm.
+Or channels, for instance.
+And the Storm generated files,
+the Thrift generated files,
+are imported here.
+For example, in particular,
+I have Nimbus interface,
+which I showed you in the previous video,
+now imported.
+Let me quickly show you this.
+Remember that in nimbus
+I had a class nNmbus and
+inside we had an interface defined.
+We can refer to that structure
+here by saying I want to import
+From class Nimbus, the interface Iface.
+And you'll see that, how it works, but
+to start the description let
+me scroll all the way down.
+In Clojure you can define a function.
+Everything, by the way is in parentheses,
+in Clojure.
+You can define a function using defn,
+define.
+And, you can see, I opened a parenthesis,
+I closed a parenthesis at
+the end of the function.
+So here I'm defining
+a function called -main.
+It doesn't have any input parameters.
+What it does when it's
+called is that it goes and
+calls another function
+setup-default-uncaught-exception-handler,
+and then another function
+calls the function launch.
+With the return value from
+the standalone-nimbus function
+used as an argument to launch.
+So as you can see,
+Clojure is a very descriptive and
+concise language at the same time.
+Sometimes you can see many lines of Java
+being translated or
+rewritten in Clojure as a few lines.
+The flip side of the coin is that you have
+to be careful how you name your function
+names, so that it becomes easier
+to read how the code works.
+So for example here I have two functions.
+One is standalone-nimbus that returns
+a standalone-nimbus and one is launched.
+So, I can read that in English.
+I can say, launch standalone Nimbus and
+it kind of works.
+So for example, let's look at another
+function, the function launch,
+as an input argument it gets
+something called nimbus, so
+you can note here that
+Clojure is typeless.
+You don't need to say what type nimbus is.
+And first thing is I try to get the conf
+to create conf by marriaging two values.
+One is, what I can read from,
+storm-config and
+the other is what I can read
+from storm-yaml-config.
+Yaml is a type of file to be used in
+Storm, yet another meta language.
+That's ok.
+Okay, so I don't want to go
+over everything in Nimbus.
+But let me show you another function and
+something neat that I want to show you.
+And it's kind of continuing our
+story about the Nimbus interface.
+So here I'm defining a service handler,
+right?
+It can imagine that Nimbus is a service.
+It keeps running on one of
+the machines in the cluster.
+It synchronizes everything in the cluster,
+so you can imagine that it should
+periodically do a couple of things.
+And in this function we see that after I,
+for example,
+I call the prepare function
+on some Java object.
+The.
+here before the key name prepare,
+means that the next argument
+is a Java object and I want to call
+the .prepare function on that object.
+Next line, I log something.
+So I do a couple of things,
+prepare things, clean up some stuff.
+Then I schedule tree recurring task.
+I schedule a recurring task using a timer.
+And the frequency comes from conflict
+files, NIMBUS-MONITOR-FREQ-SECS.
+And I'll show you this in a second.after.
+But what I do in this
+recurring task is that every
+couple of seconds I do make assignments.
+In other words, every 10 seconds or
+30 seconds, whatever you decide,
+you can ask Nimbus to reschedule
+the tasks if need be or
+schedule the new tasks that have arrived.
+Two other recurring tasks
+that are scheduled here.
+One is cleaning the inbox so
+that if they are messages coming in,
+you want to make sure that every
+couple of seconds you clean it and
+then you also renew-credentials.
+Nimbus Storm uses for authentication and
+when you get a ticket it
+has a end time and date.
+And you need to renew your credentials
+before you run out of time,
+so you have a recurring task
+that you want to schedule.
+Continuing our story about
+the Nimbus interface,
+Clojure has this nice construct called
+reify, which kind of means you can
+override a job interface and
+create a job at the same time.
+So here I'm saying that, hey, from the
+class nimbus, take the interface Iface,
+and let's start implementing the functions
+in that class, in that interface.
+So the first function I'm implementing
+is submitTopologyWithOpts.
+Then I move down here, I have
+submitTopology, I have killTopology.
+So for example,
+looking at the killTopology as an input,
+we get a name string.
+And I can call sub killTopologyWithOpts,
+which is this function.
+In reality it's a Java class because you
+are implementing a Java class, right?
+The Nimbus$Iface is really
+a Java class and I'm
+giving implementation for a Java class but
+functions remain Java functions.
+So, when I want to call it,
+I have to say .killTopoLogyWithOpts.
+So, for example,
+in this case I take the name and
+ask another function,
+KillOptions, to create an object
+of class KillOptions and then pass it
+to this other, for example, function.
+Another thing to take a look at is,
+for example, activate or deactivate.
+When given the name it tries
+to read the topology-conf,
+specific topology-conf, out of the conf.
+Checks for authorization of
+that certain topology, and
+then if it's authorized to do that, it can
+transition from say inactive into active.
+So as we looked at Nimbus code,
+we saw that it has a lot of code,
+but all of it written in Clojure.
+It uses Thrift and it's a demon so
+it keeps running on the background and
+has tasks,
+especially the scheduling task that
+we'll hopefully get into in another video.
+[MUSIC]
+

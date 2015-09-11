@@ -1,0 +1,107 @@
+[NOISE]
+All right.
+So in the last video,
+we saw how to get the storm code and
+how to set up the IntelliJ.
+Now let's look at the source code of
+Storm and figure out a couple of things.
+First thing I want to show you before
+going through the code is, I want to
+tell you that the Apache Storm Project
+is written in a couple of languages.
+You have a lot of the code written
+in a language called Clojure.
+Now, Clojure is a very
+interesting language.
+It's a functional language,
+functional programming language.
+So functions are the main
+theme of the whole concept.
+And it's also a dialect of LISP.
+LISP was an kind of a old invention,
+it's been there for quite a while.
+A very powerful way of
+thinking about programming.
+Completely functional based on sets and
+maps,
+and it's a interesting way of
+thinking about programming.
+So I would encourage you
+to work on Clojure and
+the reason is that it's a modern language.
+LISP itself well it's been there for
+awhile but
+Clojure it's a recent development.
+I think a couple of years,
+four or five years probably.
+And it's designed first of
+all to run on top of JVM so
+anywhere you can run a JVM
+which is basically everywhere.
+You can run Clojure, so
+that's one thing going for it.
+But aside from that,
+since it's written on top of a JVM,
+you have complete Java interoperability.
+You can bring up Clojure.
+Write the Clojure code.
+In your Clojure code you
+can load Java objects.
+Load Java libraries.
+Create new objects of Java types.
+Call the Java objects methods and
+functions.
+Basically, any Java code that you have,
+you can just directly deal with it.
+You don't need to do anything extra.
+So, that's actually a great thing.
+The other thing that Clojure has going for
+it is speed.
+It is basically compiles things into Java.
+And kind of like just in time compilation.
+Java itself does a JIT.
+So Java is pretty fast these days.
+There used to be a time way back when,
+when Java was kind of slower,
+but nowadays,
+Java is actually pretty fast.
+Maybe not as fast as the C language,
+but not much far behind.
+And it's very faster than other
+interpretive languages like Python and
+Ruby and those things.
+And Clojure is just as fast because it
+just compels things to Java and runs.
+It's great.
+And the other thing, one last thing
+I want to mention about Clojure,
+is that it has this thing called Repl,
+R-E-P-L.
+That allows you to interact with your
+program like an interprinter, so
+you can just bring something and
+you can just type and say, hey,
+make a new object of this class.
+It'll say, okay, I made,
+here's your object.
+And then you can interact with it and
+say, okay,
+call this method of that function,
+and it'll just do that so it's a very,
+very powerful tool to do debugging and
+to do development even.
+So I encourage you to look
+into Clojure as well.
+Now a lot of Storm is written on Clojure.
+The other half of Storm
+is written in Java.
+And I said they have
+complete interoperability so
+there is no problem there.
+There's lots of code in Java, for example
+a lot of scheduler code which is one of
+the main important parts of the Nimbus.
+The master note in the cluster
+is written in Java, as well.
+[MUSIC]
+

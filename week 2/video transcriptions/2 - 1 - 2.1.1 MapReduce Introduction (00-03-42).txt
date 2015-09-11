@@ -1,0 +1,86 @@
+[SOUND].
+In today's computing world,
+a lot of computing tasks are actually
+composed of processing massive
+amounts of data, right?
+We are talking about big data, of course,
+terabytes of information produced per day.
+You need to process this information and
+create other massive data sets.
+And this chain keeps going, right?
+So you really have
+large-scale data processing.
+You want to use thousands of machines.
+Large companies, you know,
+Silicon Valley companies,
+they have clusters of hundreds
+of thousands of machines,
+sometimes up to millions of machines,
+working on tasks, of course in parallel.
+And just if you can imagine
+when you have 100,000 machines,
+how will you manage these many machines?
+When you have a single machine,
+something could go wrong in a year.
+When you have 100,000 of these,
+every hour, every minute,
+there's something going wrong.
+How would you manage so many machines?
+That's basically the motivation behind
+these programming frameworks that we
+are talking about in this course.
+This lesson we talk about MapReduce.
+Later on we'll talk about other things.
+What MapReduce tries to provide
+is a set of user-defined
+functions that fit within
+a larger framework.
+The larger framework provides
+functionality already written that could
+work for many default cases, and
+the user-defined functions that the user
+provides specify the specific
+functionality that the user programs.
+If the programmer, if the user adheres
+to the standards of the framework,
+the framework, in return,
+provides automatic parallelization and
+distribution of the work.
+It also provides automatic
+fault-tolerance, so when, you know,
+any minute one of your
+100,000 machines fail,
+the framework will automatically
+take care of the job.
+Of course, the machine has failed.
+It announces this information
+to some admin somewhere so
+that, you know, a hard drive has
+to be replaced or something.
+But the job doesn't fail.
+The job,
+the framework figures out that, hey,
+that machine failed,
+I need to go around it.
+It provides facilities for
+I/O scheduling so that the programmer
+doesn't need to load this data,
+that the program's data, and
+then figure out how to store the data.
+The framework takes care
+of it in the context of
+hundreds of thousands of machines.
+And it also provides for
+status information and monitoring.
+So that you can, in a, you can figure out
+in a glance how your whole large cluster
+is working and is your job having progress
+on this large infrastructure or not.
+So in the next video we will start
+looking into the motivation and,
+well, really introduction of
+the MapReduce programming model and
+really its implementation, Hadoop,
+that we'll talk about in upcoming lessons.
+[MUSIC]
+

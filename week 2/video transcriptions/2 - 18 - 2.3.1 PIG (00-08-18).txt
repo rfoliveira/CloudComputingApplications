@@ -1,0 +1,172 @@
+[MUSIC]
+One of the really convenient programs for
+writing big data analysis is Pig, and
+today we're going to talk about
+how one uses it and what it does.
+Pig, you already know how it operates.
+It's going to, yes, use MapReduce.
+But it can actually chain together lots
+of different different MapReducers.
+It's a scripting language and
+can create in different
+languages like JRuby, JPython, and Java.
+It can define those
+scripts in those languages
+to do the different functions and
+call MapReduce to do your tasks.
+It uses a collection of user
+defined functions to actually
+accomplish what it's doing,
+and it's an example of ETL.
+That's an extract,
+transform, and load system.
+It's not the first one, perhaps,
+that you've already seen.
+You've seen MapReduce, but it's very
+stylized and well, very set pieces.
+You have to work out the map.
+You have to do the reduce, and that's it.
+With Pig, you can construct
+all sorts of different codes,
+and it gives you much more
+flexibility in the ETL paradigm.
+So, how does it operate?
+Well, it will take some data sources, and
+they can be from a variety
+of different places.
+It could be from some event system.
+It could be from a file system.
+It could be straight from HDFS.
+You have lots of choices.
+And what it's going to do,
+is to extract the data from that
+into a format that it can manipulate.
+And then apply a transforms
+to it to produce the results,
+and store the results in HDFS.
+The sort of transforms it will do,
+you can see listed there, select,
+iteration, and complete transformation
+of the data map or whatever.
+But, it will transform it
+according to a rule set.
+And that rule set really sort of dictates
+what are the underlying primitives
+you're using.
+So it's a very flexible system for
+building very fast ETLs,
+doing a lot of what-ifs.
+You could produce production
+code as I'll show you.
+It's not too bad a performer.
+The Pig scripts are a nice,
+concise way of writing everything.
+They're very readable,
+and they take a lot of
+the drudgery out of using very big data
+operations because they will actually
+produce the MapReduce jobs for you.
+Now we are going to talk
+a little bit about Tez.
+Tez is an intermediate sort of form.
+It describes DAGs that will run on
+a Hadoop cluster, in fact on YARN.
+It basically takes DAGs,
+which are directed acyclic graphs.
+They're descriptions of code, and
+translates and gets them to run on YARN.
+And the Pig scripts are built to actually
+create those DAGs, useful for Tez,
+and then fills all the information
+in that makes Tez become executable.
+So this is the video today.
+Let's talk a bit about Tez, runs on YARN.
+It's a data processing model.
+It is very simple.
+It has a API, a Java API, and
+what that API allows you to do is
+express a DAG of data processing.
+So a DAG, directed acyclic graph,
+described the whole job,
+and outlined there is, for example,
+a job that takes some data and
+preprocesses it.
+Builds partitions to do parallel
+computation, does a sort,
+and then aggregates everything together
+to deliver you the results of the sort.
+It's expressed as a DAG in the sense
+that they're split up into tasks.
+And each of those tasks receive input.
+So you've got task 1 here, and
+it gets input from the sampler
+that you would use to sort from.
+And there's lots of those tasks, and they
+all received their data from that sampler.
+And then there's a partition
+phase where you're actually going
+to take each of those pieces of data and
+work with them.
+And of course using the indexing and
+so on,
+what you're going to do is then
+accumulate these indexes that
+map into a complete sorted
+version at the end.
+So, that DAG, that model,
+is automated to run on YARN.
+The vertexes, you can apply any sort
+of user or application logic to them.
+Here, we've done SAW, but
+it could be anything.
+The edges,
+they connect effectively producer and
+consumer vertices together so
+that you can build
+the bigger DAG overall job.
+What the PIG does, the PIG language,
+and we like to call it PIG Latin.
+It allows you to describe these
+graphs in a textual statement.
+And effectively, begins with a load
+statement the reads data from
+the file system, or from your even driven
+system, whatever it is, is the front end.
+It then allows you to do
+a series of transformations, and
+they're formed by a sequence of
+statements that process the data.
+Those statements use operators.
+The operators are relations.
+And the relations have an input and
+an output, and
+describe how the input and
+the output are transformed.
+And you can use pretty much many of
+the operations that you would use
+with a database to do
+those transformations.
+You could also use the ones
+that you've already grown,
+well the map reduced ones that
+you've already grown familiar with.
+So eventually, you will have finished
+all of those transformations,
+and you'd need to store it
+in the file system in HDFS.
+A STORE statement would do that.
+You can alternatively,
+if you want to, do a DUMP statement.
+And if you're connected to
+PIG with a PIG interpreter,
+what it'll do is the DUMP on your
+display the results of the PIG language.
+So in one go, PIG not only gives
+you a scripting language to produce
+big data output, but it also gives
+you a language to try what-ifs or
+even to sort of interactively develop
+the scripts that you need for
+your production environment.
+[MUSIC]
+

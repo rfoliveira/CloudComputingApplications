@@ -1,0 +1,233 @@
+Okay, now that we talked about
+the structure of code in Apache Storm,
+that is half of it is written in Clojure,
+the other half is written in Java,
+I then might admit there is
+a little bit of native code,
+as in C-code that gets compiled
+to a native code in there.
+Not too much, just a little when you
+want to launch workers, for instance.
+So worker launcher is written in C.
+Now, one other major component
+of Storm is it's use of Thrift.
+Now, of course, we had a whole
+lecture back in week one about Thrift.
+Here we'll see how Thrift is being
+used in the Storm open source project,
+and how it can actually help us
+write a distributed system without
+getting into the gory details of
+all the dead logs and live logs and
+hangs and all of those things that
+write a distributed systems involve.
+So without further ado,
+let's look at some code.
+The first thing I want to show here is
+that you need to have Thrift
+installed on your computer.
+Now let me go to that Thrift webpage.
+Apache Thrift,
+another Apache project open source.
+It's great and you can download the Thrift
+code from here and you can install it.
+There's lots of tutorials
+on internet showing you
+How to install Thrift on your machine.
+Now I have a Mac, and
+I'm pretty sure Linux has similar things.
+So in Mac, I just install Homebrew.
+Homebrew is a very nice package manager
+for installing Linux based packages.
+So for example in your Linux you usually
+have for example, let's say Ubuntu.
+You have app get install thrift.
+Here in Mac,
+after I've installed Homebrew,
+I can say brew install thrift [SOUND].
+I will go and try to install it.
+Of course in this case it
+didn't because I already
+have thrift-0.9.2 already installed.
+But if I didn't have it, it would just go,
+download everything required for
+thrift and find the latest version
+in the repositories which at the moment is
+0.9.2 and go and fetch it and install it.
+Nothing else, I would have done the same
+command would go and install it.
+Okay so I have Thrift installed
+on my machine, right?
+Let's look at how Thrift is
+being used in the storm-core.
+I've already set up my IntelliJ.
+I've already imported the project.
+Let's go to storm-core/src.
+And if you don't have it,
+if you go to the webpage,
+you'll see that under storm,
+there's a storm core and
+source directory.
+This is where we want to look at.
+I can click on storm.thrift.
+Or I can look at that in my browser and
+my intelligi.
+Now I have installed a plugin
+to make it like syntax coloring.
+So let me switch to the browser and let's
+look at the Thrift code little bit here.
+So opening this up.
+So as we talked about in our Thrift
+lecture when you want to use Thrift,
+you can define in a filename.thrift file.
+What sort of communications you
+want to happen between your
+note in a distributed system.
+Right?
+And you can actually
+define a lot of those.
+We can see that a lot
+those are defined here.
+Let me just go up a little bit, so for
+example, just let's take a look at this.
+I have a struct here TopologyInfo.
+TopologyInfo tells you that hey,
+if I want to get the information
+about a topology,
+what I need to provide in a network
+call that goes from, say,
+supervisor to nimbus, what you
+need to pack in into this network.
+Packets is a string called id,
+a string called name and
+integer 32 bits integer
+called uptime_secs.
+You need to provide a list so
+that's a Java list object transferred into
+a serializable object called executors,
+status, so on and so forth.
+Right?
+So that's just one example.
+And then, the other thing
+that is kind of interesting
+here [SOUND] is we can define services,
+right?
+So we have a service called Nimbus,
+this is my how
+Nimbus will act as a daemon
+running on a single machine,
+but it can provide such and
+such services to other
+nodes running on other
+machines in the network.
+Right.
+So in my service Nimbus,
+I can submit a typology,
+I can kill a typology, I can activate,
+deactivate, rebalance, so on and so forth.
+And here in storm.thrift I define
+how these should look like.
+For example,
+let's take a look at this one.
+Activate.
+Here I'm telling you that you should
+provide a function called activate.
+Someone from some other part of
+the network should be able to call this,
+provide you with a string
+that is really a name for
+the topology that you want to activate.
+And that's all the parameters
+that you give.
+Your function can throw
+a NotAliveException or
+AuthorizationException.
+Right?
+And we will see how these are implemented.
+But storm.thrift is just a text file.
+Right?
+It's just a text file that you write and
+you define what I want to happen.
+What happens after this is that the Thrift
+compiler will look at this file and
+will go generate a lot of other Java
+files based on what you have here.
+So let me switch to terminal and clear it.
+Okay.
+So I'm in my Storm new directory
+that I just got from GitHub.
+Let me show you where things are.
+So, you can go to storm-core and
+go to source.
+This is the file that we just
+talked about storm.thrift.
+It's here.
+And the compiler,
+the command the compiler it is also
+already in a file here called gendrift.
+So I can cat gendrift.
+And you see that basically it removes
+some files, makes some files,
+and then it calls the Thrift
+compiler to generate the code.
+So all I need to do is just
+say genthrift and just run it.
+Nothing, it doesn't say anything,
+nothing shows up.
+But, what happened in
+reality is that it went and
+recreated a lot of my files,
+a lot of my generated files.
+And, to show you, I can say, get status.
+And you'll see that as a result
+of calling the compiler,
+a lot of these files in
+the jvm/backtype/storm/generated
+directory are now created again.
+So, let's go and
+take a look at one of these files.
+And I'm going to open here and
+try to open the Nimbus.java file that
+we just looked at the service, right?
+This is a file in
+src/jvm/backtype/storm/generated.
+And, it shows the service that is
+created as a result of having that
+service Nimbus portion
+in the Storm Thrift.
+So, as a result of having that
+service defined in the storm.thrift,
+and let's take a quick look at it.
+Yeah I have a service Nimbus
+defined with sub mythopology,
+killtopology activates on everything else.
+When I compiled this Thrift
+file in my generator directory,
+so you can see in my
+jvm/backtype/storm/generated.
+Now I have a file called nimbus.java that,
+what it does it says, hey it's generated,
+auto generated by Thrift compiler.
+Date, 7/27 which is when
+we are recording this.
+And it has now created a class
+Nimbus and an interface called iFace.
+You'll see that later on being
+used the name Nimbus and iFace.
+And we have the same functions that
+were defined in the Storm Thrift,
+now they are Java functions.
+Submit topology.
+Submit topology with options Activate.
+Activate gets a string as name and
+can throw two types of exceptions.
+Deactivate, so on and so forth.
+And there are other things,
+a lot of other things in this function and
+this nimbus.java some implementations
+of some of these functions as much
+as that Thrift compiler could do and then
+some of these the user has to override.
+But we will see that in our next video.
+[MUSIC]
+

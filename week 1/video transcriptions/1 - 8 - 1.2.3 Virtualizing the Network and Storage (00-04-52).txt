@@ -1,0 +1,118 @@
+Well, virtualization applies
+very specifically to
+processes in a CPU, but
+it has applications elsewhere,
+and it has gradually crept
+over the whole community,
+the realization that
+virtualization is a very,
+very powerful technique to
+organize large data centers.
+I'm going to tackle first
+software-defined networks and
+then I show the same type of
+virtualization of storage, and
+then bring it all together
+when we talk about open stack.
+So with software-defining networks,
+the realization is that people
+are actually mapping virtual networks
+in all sorts of different formats.
+But they're mapping those
+onto networking hardware.
+Now you're going to have a diagram
+here that shows this type of
+notion that what you can build
+up is a set of virtual circuits,
+communications between
+different nodes in a system,
+irrespective of the actual hardware.
+Sometimes you'd have to routes
+through an extra router.
+Other times you could route directly.
+But this notion of providing an overlay,
+an overlay network on top
+of the physical network is very
+very much like the virtual machine
+that we've been discussing but
+it's just applying to operating systems.
+In this case it's applying to network
+operating systems to networks.
+So the picture shows
+applications wanting a network..
+And they talk to a network operating
+system that controls the switching,
+the routing of the packets in the network.
+And that really defines how the packets
+are transferred, but what it
+doesn't do is to say how it will actually
+get mapped onto the physical network.
+That can be different.
+It can be topper rack,
+the star type of thing.
+It could be a mesh.
+So software-defined network has
+been one of the steps that's really
+crucial in developing open stack and
+in building big data centers
+because what it allows you to
+do is to virtualize the network.
+To build a data center,
+build the computation you want without
+knowing what the physical network is.
+But you definite it and
+then you map it on to that network.
+So you can preserve, if you like,
+the original concept and
+then choose lots of different
+implementations to make it run fast.
+So in this diagram what I've got
+is a heart, it's a love affair,
+if you like, with virtualization.
+Virtualization was good for
+processors and CPUs.
+It's also good for networking.
+An example of some networking operating
+systems that control the stretch
+of the network would be NOX.
+But there are a number of them and
+what they do is to virtualize
+the operating system.
+So having established that
+thread we can go one more step.
+What was good for
+the networks is also good for storage.
+You find all sorts of different
+requirements for storage.
+For example,
+whether it's attached storage where it's
+mapped so that each node has
+its own individual storage.
+Whether there's just one big storage
+center in the whole of the data center
+that everybody communicates with.
+It doesn't matter.
+You can build your software so
+it thinks it has storage and
+then map it on to whatever
+structure's underneath.
+So we talk about virtualized
+storage as well,
+whether it's network attached storage,
+whether it's a big server with
+lots of storage, doesn't matter.
+So we have this version of
+our systems where we think,
+well we would define what we want for
+storage and then we will map it
+across on to whatever physical storage is
+actually available in the data center.
+We virtualize it effectively.
+So there's a continued love story,
+if you like, it's a triangle.
+We have virtualized storage as
+a third leg of this data center,
+this virtualization going on for
+data centers.
+[MUSIC]
+

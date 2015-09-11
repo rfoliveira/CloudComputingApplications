@@ -1,0 +1,364 @@
+[NOISE]
+My name is Matt Ahrens.
+I'm an engineering manager
+at Yahoo Champaign.
+At Yahoo Champaign we're tasked with
+solving a lot of the large scale data
+problems for Yahoo in terms of managing
+its audience and advertising data.
+And one of the big things we've faced over
+the past few years is trying to move that
+data to a infrastructure that can handle
+it, and so what we're detailing is
+our move to Hadoop and the benefits and
+even the cost of making that move.
+So data pipeline, so that's the big
+thing that I work on at Yahoo.
+So why pipelines are so
+important for Yahoo.
+So with the the rise of large data sets,
+we need a system to be able to reliably
+and quickly organize the data we have.
+We have transactions coming
+from all of our users at Yahoo,
+including our advertisers, and we want to
+be able to reliably transport that data
+from where they happened to a place where
+we can do analytics and reporting for
+those data sets.
+Now, what do we actually
+do with that big data?
+Here's some use cases
+that are relevant for
+Yahoo, how we actually can make money and
+actually provide value for our users.
+So a couple things are,
+we want to have relevant content.
+If you go to yahoo.com,
+you see a lot of the news articles there.
+And a lot of them are tailored to what
+people have as their preferences.
+So if you go to Yahoo and you tend to
+click on sports articles, over time Yahoo
+will learn that you like sports articles
+and those will bubble up to the top.
+And we use big data to mine
+users' preferences and
+also to understand how our users
+interact with our content.
+We also make the majority of our
+money from digital advertising.
+So part of that is providing large data
+analytics and reporting to our advertising
+customers, to give them insights into
+how their campaigns are performing, and
+also how they can better utilize
+Yahoo as an advertising platform.
+We also have a lot of research and
+sciences group that just want to mine
+big data to make the user experience
+better and also to provide more value for
+advertisers and publishers.
+So, big data is the center point
+of everything we're doing.
+Pipelines are the mechanism of getting
+data from where these transactions happen
+to the back end where we can have these
+large data sets that people can get to.
+You can see here, this is a slide from one
+of our friends in the industry, Google.
+You can see their infrastructure spending
+in the last few years has completely
+ballooned, more than tripled,
+just the amount of they're spending to
+store their data and manage their data.
+And the main reason is because
+the data keeps growing.
+Every day, we're adding to the amount of
+data that is happening on the Internet,
+and we need to keep track of that and
+make it available for our users.
+So a quick introduction to
+what a data pipeline is.
+So the simple definition is that
+it's a system that transforms events
+into a usable format.
+So the input can be raw
+logs from a web server,
+it could be interactions that
+happen when people look at ads or
+click on ads, any activity that we want to
+log and track, and the output is that we
+provide customized data sets for specific
+people who want to access that data.
+So some of those people
+are external people to Yahoo,
+our advertisers who want to look at
+how their campaign is performing.
+We also have internal customers
+who want to do analytics to see
+how is Yahoo Sports, or
+how is Yahoo Finance doing today,
+maybe we rolled out a new
+release af Yahoo News.
+And we want to get analytics to see,
+is it doing better than it was yesterday?
+The scale that we have to operate with our
+data pipelines is growing year after year,
+but right now, we're at billions
+of transactions per day for
+similar platforms.
+I think if you take all of our
+data pipelines that we operate,
+we're really in the hundreds
+of billions of transactions.
+And then terabytes of data per day are
+being processed by these data pipelines,
+which is gigabytes per minute.
+I think in terms of the total
+consumption of data again,
+we're in the hundreds of terrabytes across
+the company that we're having to process
+per day through these data pipelines
+to provide value internally.
+So I want to talk a little bit about
+the architecture before Hadoop
+came into the picture.
+So we built a lot of our
+internal solutions, and
+we had customized
+mini-clusters of hardware.
+So what I mean by that is that we have
+different types of jobs in our pipeline,
+and for each of those jobs we built some
+custom configuration for the hardware.
+So if we had jobs that just transformed
+data from one format to another,
+it would have one set of maybe higher
+CPU and lower memory utilization.
+But jobs that did more joins or
+aggregations, we had higher
+memory in those, and maybe less CPU based
+on what types of jobs you're running.
+So the pro of that is we could
+actually customize it perfectly for
+the job, but the cost of that
+is that we had scaling issues,
+because if we had some job that
+needed a little bit more capacity,
+we had to go order hardware that
+specifically fit into that model.
+So there's a lot of overhead that we
+had in terms of managing hardware and
+trying to check what configurations
+we needed to manage or upgrade to.
+Another thing we didn't have in
+our own proprietary solutions is,
+we didn't have well-defined interfaces and
+APIs.
+So we built our data,
+and our data engineers knew
+how to use it and manage it.
+But we didn't have a standard
+schema format or data model.
+So people outside of our data team didn't
+have an easy way to get to the data.
+And we also had the access limitations
+of just getting people into our data
+warehouse.
+Because it was proprietary,
+we had a lot of access locked down, and
+because we didn't have APIs, that the only
+people who knew how to get to the data
+were ones who were the core developers for
+the data team.
+So this is what the picture looked like
+before Hadoop, the past architecture.
+So this was around 2008 to 2010.
+This is what it looked like,
+is we had a series of jobs that
+would run in the pipeline.
+Each of them had its custom configuration.
+So, we had transform jobs, join jobs,
+validation jobs, aggregation jobs,
+and each of them were on their own set
+of hardware that we had to manage and
+scale individually.
+We also had a data warehouse
+that had a custom format.
+And we also had a SQL layer to
+allow some of our jobs to interact
+in a more simple manner with
+the data in the warehouse.
+Now if you look in the bottom right,
+you can see where our data users are.
+And what you can see there is their
+only access point to the data
+warehouse was through a proxy server.
+So they didn't actually have raw
+access to the data either through
+SQL or any other way.
+What they had to do is they
+actually transport at a file level
+data from the data warehouse
+off the system into their own
+data store the place where
+they could process the data.
+So that was a big limitation.
+So now, around 2009, 2010,
+we started looking at Hadoop.
+I mean, Yahoo had created Hadoop, so
+it was obviously very close to our hearts,
+as a company.
+But it was finally ready for primetime.
+And we said, what if we invested our
+large-scale data pipelines to be
+on Hadoop, and so
+we started down that path.
+Now why were we looking to move to Hadoop?
+So the main reason was scale,
+just size of data.
+The legacy systems weren't handling beyond
+a terabyte a day, and we were getting to
+the point when we had customers that
+wanted more than a terabyte per day.
+We also knew that our advertising roadmap,
+which Yahoo was ramping up, adding more
+types of advertisements, different
+platforms we were connecting with it.
+They were expecting a 3 to
+5x increase in traffic.
+And it's even grown since then.
+We're probably now 10 to 20x
+of what we were back in 2009.
+There was new features,
+new customers onboarding.
+The reason why Hadoop became more feasible
+around that time is you can look here
+at this chart.
+You can see that the cost of
+storage became cheap enough for
+us to say hey, we could actually store
+data, we could store petabytes of data
+at a reasonable cost that we
+got a return on our investment.
+So that's why we could move to Hadoop,
+because the storage that we wanted
+became cost effective enough.
+So the promise of Hadoop, I mentioned
+a couple of these things already.
+It had petabyte plus storage capabilities.
+And that was the big win is that we didn't
+have to maintain our own internal data
+warehouse, which we'd only scaled
+up to maybe 100 terabytes.
+That we could have thousands of nodes that
+had their hard drives linked together
+to store petabytes of data and
+there also was fault tolerance
+built in to that storage layer.
+The other big win is that Hadoop offered
+a hosted service for job execution and
+data storage, meaning that we didn't
+have these separate clusters for
+these different types of jobs, but
+MapReduce would allow us to do all of our
+jobs using the same execution framework.
+And there also was a Pig Latin
+interface which worked well for
+our data pipeline ETL operations.
+And we also knew that Hadoop was
+gaining momentum in the industry.
+There was other technology
+that was being built on Hadoop
+that gave us reason to think
+it was worth investing in.
+So this is what the architecture looked
+like when we moved to it in 2010 and
+2011 to build some of our key
+data pipelines on Hadoop.
+So you can see the the green box on the
+left is the big win there, is now we had
+just one large execution node set,
+and that we didn't have to manage
+clusters ourselves, but we used these
+multi-tenant clusters that our internal
+platform team built that could run all the
+different types of jobs that we needed.
+And we were also able to
+store our data in HDFS,
+which is the distributed file system for
+Hadoop.
+And so that allowed us to
+scale to petabytes of data.
+And we had all this raw
+data now available.
+I think in the architecture before Hadoop,
+we stored data for a few days at most.
+On Hadoop, right away we're able to store
+some of our data logs for up to 40 or
+60 days.
+That gave new types of researchers and
+scientists the ability to mine that data
+to help provide value for our advertisers.
+So you can see, one of the big wins here,
+you can see this green arrow here,
+which now shows that our data users and
+customers can now access
+data directly in HDFS.
+And that was one big surprise
+of moving on Hadoop,
+is once we actually made
+the data available, a lot of
+people inside the company said okay you
+have this data available, this is great,
+and they thought of new use cases for
+what they could do with the data.
+And they built their own systems and
+they built their own systems in
+terms of mining that data or
+doing models on top of that data, so
+that was a big win of moving to Hadoop.
+Now there were some consequences
+of moving into Hadoop.
+One thing that we
+encountered was that we had,
+to get data from our old system to our
+new system, it took longer than expected,
+because we had to build new paths
+to our customers to get data.
+And we had to make them
+familiar with what HDFS was and
+some access patterns related to that.
+And also because we had multi-tenant
+clusters on Yahoo, which meant
+that we have other teams or other projects
+that were accessing the same nodes.
+We sometimes would have
+resource contention.
+As we were scaling up
+these clusters internally,
+we learned the hard way sometimes that if
+we had jobs that used excessive resources,
+we could impact other teams and
+vice versa.
+But like I said before,
+one of the big wins is we had data for
+everyone who was allowed access, so the
+number of people who actually would access
+data from our pipelines increased
+dramatically on Hadoop.
+And one thing that we've
+seen the last five years,
+is that it's scaled
+better than we expected.
+That we've continued to grow year over
+year, the amount of data we need to store,
+and process.
+And Hadoop is kept up with that scale.
+As you could see, Yahoo has built
+its data pipelines on Hadoop, and
+we've gotten a big benefit from
+investing in Hadoop over the years.
+[MUSIC]
+

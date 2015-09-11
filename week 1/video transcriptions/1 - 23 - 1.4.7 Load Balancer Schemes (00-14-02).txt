@@ -1,0 +1,348 @@
+[SOUND] Okay, this video ties into
+your homework assignment.
+It's about load balancing, it built
+on the first load balancing video.
+And what I'm going to explain
+is all the different ways that
+load balances can be organized.
+We're not going to get you to do them all
+for the homework, but this will give you
+an appreciation of just how complicated
+those load balancers can become.
+So what you need to do is to get your HTTP
+request to the server from
+the user to the server,
+to get the needed resources to actually
+provide the data from the HTTP and
+what you're going to do is get that
+data and send it back to the client.
+And remember, you're going to go
+from multiple clients to multiple
+servers and what we want to do is
+load balancing of all those servers.
+So when the load balance
+receives the packet, and
+it's going to receive the packet
+the way we set up all the IP addresses,
+what it then needs to do is to know
+that there is a server available.
+And it mustn't break the user's impression
+that they're working with the session.
+If you're clicking through a set of HTTP
+web slides, web presence,
+whatever, you don't really want to have
+the knowledge that you're actually
+talking to a back end to interfere
+with user's view of what's going on.
+Okay, so the user must always
+get the same resource.
+The SLB must always
+ensure that it happens.
+And in order for that to work, well,
+the SLB must know the servers,
+know the IP/ports, know the availability,
+understand the details of some protocols,
+FTP, SIP and so on.
+And it may need to play
+with the network addresses.
+So there may be a NAT, a Network Address
+Translation, associated with it,
+which would take the incoming
+address on the packets and
+translate it into an address
+that is not inside the cloud.
+Pass that through to the routers,
+get the server.
+On the way back it would need to fix that
+so that the packet actually looks like it
+came from the server the client requested,
+and so
+then that will also,
+perhaps, modify the packet
+coming back to make sure that it actually
+looks it's coming off the web server.
+So why do you load-balance
+where it's scaling?
+It's so that I can have a web service,
+say 20 servers serving 10,000 people.
+And then I can go to 20,000 people and
+double the number of web service.
+It's the ease of
+administration maintenance.
+I don't have to know where everything is.
+I can lay it out in my cloud and when I
+get it right then I can turn everything
+on, and it's all managed for me.
+It's transparent.
+It removes the notion of physical
+service from what's there.
+If I need to repair something,
+if I need to do maintenance,
+if some piece of the system fails I
+can still provide my web service.
+And it gives you resource sharing.
+We can run multiple instances of
+the client's service on the server.
+Can be running on a different port for
+each instance,
+can low balance the different ports,
+whatever you want,
+whatever would fancy and
+make your job easier as a cloud manager.
+There's a lot of load
+balancing algorithms.
+The ones that we need to deal with,
+most predominate,
+first would be the least connections.
+When I get a connection coming in from
+a client I find the server that has
+the least connections going to it and
+I just send that request
+onto that particular server.
+You can modify that if you want to
+include the weight of the service.
+Some HTTP servers, like a search, may
+have more effort involved In that case,
+what I can use is a weighted
+least connections and
+I can send it to a server that has the
+least load and I can adjust the weights so
+that that reflects how much load is
+required or is imposed on the server.
+I can do round robin if I want
+to just distribute it fairly.
+I can do weighted round robin, which also
+adds the weight but they're very, very
+simple algorithms, they need to be because
+this is very, very fast at that front end.
+It's very transparent.
+So main goal is you try to predict how
+best to take all those client requests and
+distribute them to the service so
+the server can give really good responses.
+So how do SLB devices make decisions?
+There's several factors,
+one is it can obtain
+information from the packet headers,
+the IP addresses, the port numbers.
+It can also look beyond that,
+it can look at the HTTP cookies,
+it can look at the HTTP URL
+that's being requested.
+It can also look at the client
+certificate, the SSL certificate and
+use that.
+The decision is strictly
+based on flow counts.
+They can be based on what
+the application is, like search.
+It may take a little bit longer.
+The decisions can be based on
+essentially any parameter you want.
+For some protocols like FTP,
+as you're sending the data across,
+and because FTP sorts HTTP,
+it's the main protocol you would use,
+you would want to know how that
+FTP IP is set up and so on.
+So that the connections always
+connect to the right place.
+FTP has this association once you build
+it between the client and the server,
+the next HTTP request going down the FTP
+would also sort of go to that same server.
+So you need to sort of keep those in line.
+So if you're downloading a large file,
+say, from a server then what you need to
+do is have the load balancer
+keep track of that FTP request,
+and make sure it always looks
+like a continuous stream.
+Otherwise your TCP/IP will get all upset.
+When a new flow arrives,
+you determine if the server exists, or
+the load balancer does I determine
+the level of service required.
+Is this moving fast, is this an FTP,
+is this, do I want multiple FTPs,
+and so I'm going to average or
+do some other type of algorithm.
+You pick a real server and
+then you do all the things that needed to
+actually get the communication across.
+The packet can be breached, if you want,
+using layer two, or it can be at
+layer three, or layer four, and even layer
+five, and we'll describe those in a sec.
+There's some very different architectures,
+traditional
+SLB device sits between the clients and
+the servers being load-balanced,
+however as you scale up,
+you may need a distributed SLB.
+And what it does is to
+sit off to the side, and
+it has forwarding mechanisms to
+actually do the load-balancer And
+the SLB just provides those forwarding
+mechanisms the information they
+need to route traffic and
+we'll show you that in a second.
+So this is the traditional NAT view.
+We've got a NAT.
+Incoming client goes to the cloud.
+The SLB will do the NAT translation and
+send the request off
+to one of the servers.
+And what you notice is
+it could be two way.
+The acknowledgements coming back
+from the server will go back to SLB,
+will go back from the client.
+Then you would say oh, for that means
+the SLB is doing a lot of work, and
+of course it is.
+So another obvious optimization is just to
+send it straight back to the server from
+the client.
+But if you do that,
+then you need that NAT box in the way.
+You need to make sure that addresses
+aren't messed up by doing that shortcut.
+Next as we move on, you can do
+this at layer three and four and
+that gives you some more semantics.
+Now you can look at the destination
+IP address, the port,
+you can make load balancing decisions
+on some of the content on the packet.
+And so you need to do all that before
+you actually send the packet onwards.
+So here's an example of that.
+The client sends his packet.
+The SLB now sort of does its decision for
+the server.
+It picks a server and is a request
+coming in for process, sends it back,
+sends it back to the client and the rest
+of the flow continues through HTTP GET and
+server responses channeled
+through the SLB.
+And everything is nice.
+One of the issues though with
+all of this is just what
+road does the SLB, the device play
+in all of the communications.
+Sometimes, it can just be transparent,
+it just forward the packets forward.
+With three and four,
+it may need to look at the packets,
+look at seeing what's the internals to the
+packet going back with some forwards as
+we saw with the previous slide.
+In layer five it has to
+terminate the TCP flow,
+now we're dealing with high
+levels of protocol, it has to
+terminate the TCP flow if the amount of
+time before the SLB decision can be made,
+then it's going to send that
+TCP connection onwards.
+And so, there is,
+sort of handshake going on.
+And that's illustrated here,
+the client makes his request.
+The SLB thinks about it.
+It says okay, let's go ahead and do this.
+And then there's acknowledgement going and
+some communication and we do a get,
+and that synced to the server.
+The server then will reply and that gets
+acknowledged, you have
+a further acknowledgement, and
+back comes the data from the get and
+everything's happy,
+but you've got multiple steps
+in this handshaking business.
+What you see is the SLBs really
+acting as an intermediary.
+The client actually makes the connection
+to the TCP connection to the SLB
+the SLB then says okay that's right I've
+got it I'll go open the port everything's
+happy and then the client makes its get
+and the SLB handles that get it goes off
+finds the server it needed It would
+then pass that request onto the server.
+So it's a sort of two phase to get
+your packet across to start the flow.
+And if things like file transfer, that's
+what you're going to do because you're
+going to negotiate bandwidths and
+other things.
+You want to know a lot more about what's
+going on and this allows you to do it.
+So lots of work for the SLB.
+How do you make that fast?
+Well you can do it through
+distributive architecture.
+Here's a picture of
+the distributive architecture,
+you've got the packets coming into the
+cloud, the cloud will forward them instead
+of sending them to the SLB,
+it now sends them to a forwarding engine,
+which is a slave, if you like, of the SLB.
+So the SLB tells
+the forwarding engine what
+to do under all
+the different circumstances.
+If the FE doesn't know, it asks the SLB.
+And so in this way, we can have many
+more connections being forwarded and
+responded to in
+a distributive manner the SLB
+is not in the direct line of all
+that data being transmitted.
+So here's an example.
+You set up a request from a client,
+there's a TCP sync.
+It then goes to the four out of the four.
+It talks to the SLB.
+The SLB recognizes what it needs to do,
+sends back instructions,
+and it maps it to a service, Server2.
+Now, what you do is to send that flow
+to the Server2, the Server2 responds.
+And now you've got a request
+going backwards and
+forwards between the client and Server 2,
+avoiding the SLB but keeping the FE busy.
+So you've distributed the load.
+So what you've seen here is how
+complicated the SLB can be.
+How load balancing can be a really
+vital part in distributing the load,
+and it can cope with distributing
+the load at different protocol levels and
+you can achieve different things whether
+it's for file transfer, to distributing
+search requests, to distributing
+cloud requests as we see with RPCs.
+What's missing from this is,
+just how did that flow get to the server,
+how'd it go from the client to
+the server in a nice easy manner?
+What we've seen is
+the distribution mechanism,
+now we're going to turn our attention to,
+how does the protocol actually work?
+We're going to bring all this knowledge
+about RPC's and low balances and
+everything else together into sort
+of finale for the lecture one,
+which is actually transporting that data,
+what's used to transport that data.
+So join me in the next video.
+[MUSIC]
+

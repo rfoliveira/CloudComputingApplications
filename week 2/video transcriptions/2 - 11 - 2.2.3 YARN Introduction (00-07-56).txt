@@ -1,0 +1,178 @@
+[SOUND] In the last video we talked
+about how the old Hadoop, or
+as it's known, Hadoop 1.x,
+was basically working its magic.
+You had a JobTracker that
+would manage different task
+trackers on the nodes on the cluster, and
+each task tracker would do
+what job trackers ask it.
+It would either run a map or reduce or
+a map task and a reduce task.
+And the job tracker is
+basically in charge.
+It manages the cluster, it manages the
+application flow, it manages everything.
+Now, the problem is that the job tracker
+was really a barrier for scaling.
+The primary reason that
+YARN was developed,
+and as we will call we will go
+through it in this video, is that
+it couldn't scale to clusters larger
+than a certain size, about 4,000 nodes.
+Sometimes you had thousands of
+applications running on the cluster,
+each running tens of thousands of tasks.
+And JobTracker was just not
+able to schedule resources
+as fast as they became available.
+A job would finish,
+the resources would become available,
+JobTracker was still busy
+doing the other things.
+And then sometimes you have artificial
+limits, artificial bottlenecks,
+because in the old design of Hadoop,
+you had to specify how many map and
+reduce slots you had on each note.
+And just many times,
+you didn't have the correct knowledge
+before running the applications.
+There were other issues as well.
+Really, MapReduce framework has
+a certain rigid flow of data.
+It first runs maps, then the Frameworks
+takes over, runs shuffle and
+sorting phase, and then runs the reducers.
+Well, not all the applications
+can fit in this model.
+But, Hadoop had a lot of
+work gone into it, and
+a lot of researchers that even people
+in the industry started to try to
+shoehorn more other data flow
+formats into what Hadoop provides so
+they can use Hadoop's benefits while
+running their own applications.
+So they were basically trying to abuse
+the application, the Hadoop framework.
+Lots of researchers were
+trying to work around sort and
+shuffle phase, while there was
+a large movement of people trying to
+basically shoehorn iterative
+algorithms onto MapReduce.
+And the results were typically suboptimal.
+What YARN tries to do is
+basically divide the workload of
+managing the cluster and
+the application framework.
+So YARN tries to be
+application framework agnostic.
+It doesn't really care about
+the data flow of the application.
+And an application for
+example I mean a MapReduce.
+So now in a cluster that
+is running on YARN,
+you can have different application types.
+So you can have a, for
+example, a MapReduce application
+running on the cluster, and
+then you can have a streaming application
+running on the very same cluster, right?
+YARN doesn't care,
+YARN only manages resources.
+So that's why it's called YARN.
+YARN is acronym for Yet
+Another Resource Negotiator.
+From the title it's very
+obvious what it does,
+it just negotiates resources with the
+providers, which are nodes in the cluster,
+and users, which are the applications
+that need these resources.
+And that's all that YARN does,
+provides resource management services,
+including scheduling of new jobs,
+monitoring whether the job is
+going forward as we need it to,
+and providing control mechanism so
+that we can restart the node if
+it's failing or things like that.
+It replaces the resource management
+services of JobTracker, right?
+So now we've made this thing disjoint,
+the resource management services
+is done by YARN, the program flow
+of MapReduce is now done by something
+else, which we'll talk about in a second.
+So YARN is really built on
+top of four components.
+The first major one,
+as I introduced it, is ResourceManager.
+This is the head of the cluster.
+This is ResourceManager.
+This is the guy that makes sure
+all the nodes in the cluster
+are basically active and
+they're doing what they're supposed to do.
+It's a single centralized daemon
+that basically schedules containers.
+It monitors nodes and
+applications running on the cluster.
+NodeManager, on the other hand,
+is a daemon running on each worker node.
+So there are many NodeManagers running
+in the cluster, one for each node.
+It basically launches a job,
+monitors and controls jobs.
+Now, specifically in YARN term containers,
+containers is the fourth one,
+and I'll get to it in a second.
+But NodeManager basically launches
+monitors and controls containers.
+The third component is ApplicationMaster.
+Remember that we divided the work
+of controlling the cluster and
+running a certain framework
+into different pieces.
+ApplicationMaster is the component
+that makes sure a certain application,
+like MapReduce or a streaming application,
+is running correctly on the cluster.
+It provides scheduling, monitor,
+control for an application instance.
+The flow is that the ResourceManager
+launches an ApplicationMaster on a node,
+and then the ApplicationMaster
+will ask ResourceManager for
+resources to run its job.
+And we will go over details of these
+things in the following videos.
+The fourth component
+is containers in YARN.
+These are really the units of allocation
+that the ResourceManager works with.
+Everything in YARN runs in containers.
+ApplicationMaster itself is
+a program that runs in a container.
+Application-specific tasks
+run within components, right?
+So for example, you can have one
+application running on your cluster
+that has three components,
+components 1, 2, and
+3, that talk to that ApplicationMaster and
+they are each, each of these tasks
+is running in its own container.
+Now, looking at this diagram you
+can see that on the same cluster,
+you can have more than one application.
+Application 1 is running here, and
+application 2 is running on its
+own set of containers and
+has its own ApplicationMaster.
+[MUSIC]
+

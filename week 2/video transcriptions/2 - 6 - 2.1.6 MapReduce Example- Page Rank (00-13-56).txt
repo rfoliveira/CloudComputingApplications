@@ -1,0 +1,308 @@
+[SOUND]
+In
+this video we will look at a rather famous
+algorithm called the PageRank algorithm.
+This algorithm was implemented by
+Google to rank any type of basically,
+recursive set of documents using something
+similar to now what we call MapReduce.
+Now of course you remember this
+was developed before MapReduce.
+Basically MapReduce came out of this work.
+But we'll see how this works
+in the upcoming slides.
+So, it was initially developed at
+the Standford University by basically
+Google's founders, Larry Page and
+Sergey Brin, in 1995.
+In 1998 it led to a functional
+prototype named Google.
+Now everybody knows what Google is.
+Its definition is this.
+And I'll go through it although in the
+next slide I'll show you graphically what
+this really means.
+So, PageRank value for a page u.
+So, I assume you have a graph of pages,
+one is u.
+Let's call one page u, another page v,
+and million other pages.
+So, this PageRank value,
+we just want to give it a number,
+number to page u, number to page v.
+If page u's number is larger than page
+v means page u is more important,
+which means if you search for
+something, chances of page u showing up
+in the results is higher than page v.
+All right, so
+the PageRank value for page u is
+really dependent on the PageRank
+values of each of the pages.
+Now let's call those v out of a set,
+which set are we talking about?
+Bu, this is a set of all
+the pages linking to page u.
+So, let's say within the code, within the
+HTML code of page v there is a link to u.
+And then there is another page on
+the Internet that also links to u, right?
+Let's say there are only these two pages
+in the whole Internet that link to
+u, okay?
+So, we call this set B of u,
+which is set of pages linking to page u.
+To find the PageRank value of u,
+we really need to find the PageRank
+values of these other pages first.
+And then add these values and
+divide them by the number of
+links going out from page v.
+Okay, this sounds
+a little bit complicated.
+Let's actually really look
+at what it really means.
+I'm going to show you how
+this works in this animation,
+assuming there are two
+phases to the algorithm.
+The first phase is called propagation.
+So, let's look at this page,
+this diagram here.
+We have a set of Web pages.
+If a Web page is linking to another page,
+it's being shown by a link
+from page A to page B.
+Each of the pages has a certain value.
+Let's say for example for
+this Web page, its PageRank value is
+number eight at a certain point of
+time during the algorithm's run.
+So, this guy's 8.
+This guy's 2.
+In the first phase of the PageRank
+algorithm that we can
+call the propagation phase.
+Look at the animation happening.
+The value of the PageRank,
+in this case for
+this page which is 8,
+the value of this page
+gets divided by the number
+of links going out of it.
+In this case two links
+are going out of this page.
+So, this value gets divided by 8.
+And the 8 is divided by
+2 resulting in value 4.
+And this value 4 is assigned
+to each of these edges,
+each of these links that
+go out of that page.
+That's all propagation phase does.
+Let's look at this again in the animation.
+This note gets divided by 2.
+The result is 4.
+The number 4 is assigned
+to the outgoing edges.
+Now let's move on to the next phase.
+The next phase is called
+aggregation phase.
+In the aggregation phase,
+what you want to do is look at
+all the incoming links into a page,
+add all of their values together,
+and assign them as
+the new value of a page.
+So, let's say in this step of
+the algorithm, the PageRank value
+of this note was number 6, was for
+whatever reason was number 6.
+Now that we have computed new values for
+these two edges that may change.
+So, it considers all the links
+that go into that certain note.
+The values are now 1, 4, and 2.
+In aggregation phase,
+we add them up together and
+give a new value to that note.
+So, instead of 6 now it has value of 7.
+This is an iterative algorithm.
+We keep running phase 1, phase 2,
+phase 1, phase 2, phase 1, phase 2.
+How long do you do that?
+Until there is no more change
+to the values, or typically
+when you've run a hundred iterations and
+you're saying, okay, fine, I'm good.
+Okay, let's start thinking about how
+we can implement these two phases
+as two different MapReduce algorithms.
+Of course maybe you can
+figure out one way of doing
+all of these phases in
+one MapReduce maybe.
+Typically these are done in two different
+sets of one MapReduce for propagation and
+one MapReduce for aggregation, all right.
+Now let's assume your input
+is a pool of objects, right?
+So, objects can be whether an edge or
+a vertex.
+All right, so a page or
+a link are both objects.
+And an object can say,
+if it's a vertex object what we
+can assume is that it has a URL.
+That's the name of the page,
+and the PageRank value.
+If it's edge or a link,
+you can assume that it has
+a beginning URL, ending URL,
+so beginning, ending, and
+the page rank value for the link.
+Okay, so
+let's pause the video at this moment.
+And you can think about this.
+When we come back,
+we will look at the solution.
+All right, so the first phase
+of the algorithm, propagation.
+How do we do this?
+The map function here, what it does
+is that it receives an object.
+So all the objects
+are read by the framework.
+Each object is passed to
+a map function invocation.
+Within the function what we do is first
+we check if the object is a vertex or
+whether it's an edge.
+If it's a vertex,
+all I do is emit a key value pair,
+set the key to be the string
+of URL of the vertex.
+That's the Web page's URL, and
+the value, the whole object itself.
+I can do that.
+I can send the whole value,
+the whole object, if it's serializable,
+which for those of you who are good
+with Java, if it basically implements
+the serializable interface provided
+by Hadoop, you can just do that.
+Now, if the object is an edge, what I
+emit here as intermediate key value pair,
+is the source URL or beginning URL,
+and the value being the object itself.
+So similar to our previous
+example of image processing,
+here again map doesn't do much.
+Map just sets the stage for a reduce
+function to do its real processing.
+It just makes sure that the reduce
+receives the proper set of
+objects to be able to do something.
+And if you had trouble figuring this out,
+let me go back to the previous slide and
+here's the hint.
+Remember, what do you need to do for
+the propagation phase?
+You need one page and
+all the links going out of it.
+So that's the key word.
+Something and something,
+you need more than one thing.
+So that's your hint.
+It cannot be done in map.
+It has to be done in reduce, right?
+What about the aggregation phase,
+this phase two?
+Again, you need a page and
+all the incoming links to it.
+Again there's an and, so
+you cannot do this function in map either.
+It has to be done in the reduce.
+Okay, let's move right forward.
+Okay, so in the map function,
+if it's a vertex you send the object
+itself out with the URL as the key.
+If it's an edge,
+you send the object with the source URL.
+Within the reduce, what will you receive?
+The framework will group all
+the intermediate key value pairs by key.
+Our keys are URLs.
+[COUGH] So when you get here,
+the input would be one Web
+page that has a URL, and
+all the edges, all the links that
+had that URL as their source.
+So all the outgoing links of a page
+plus the page are going to reduce.
+Now that you have all you need from
+here it gets really easy, right?
+So you just find the number
+of edge objects.
+That's the number of outgoing links.
+You read the PageRank value of
+the vertex object, divide it
+by the number of outgoing,
+that becomes your new value.
+You assign that new value that you just
+computed to the PageRank of edges.
+Let me quickly go back
+to the previous slide.
+Remember that in the very first phase,
+Once you compute the new value you
+assign them to the edges, right?
+So you just assign this value to edges and
+emit them out.
+They will go into the file system,
+HDFS file system, whatever.
+Moving on to the next phase,
+the aggregation phase,
+again the map is very similar, right?
+If an object to the coming
+to a map is a vertex,
+you emit the key value pair, key being the
+URL, the value being the object itself.
+If the object is an edge object,
+is a linked object, the key value that
+you emit, key again is a URL but this
+time you use the Destination URL, right?
+And just a value,
+you just emit the object itself.
+Now this time what we will receive
+in the reduce is one Web page with
+that URL and all the links that
+had that URL as their destination,
+in other words,
+all the incoming links to that page.
+Okay, now again in reduce we're happy.
+We have all the objects
+that we need to play with.
+So you just add the PageRank
+value of all the incoming links
+together and
+assign that as the new value of that page.
+And you're done.
+Basically keep calling these two
+MapReduces one after another after another
+and you have your MapReduce computation.
+Now, here's an anecdote.
+Basically this algorithm was
+implemented in a distributed way,
+exactly like this,
+in a project called Nutch.
+Nutch became Apache Nutch.
+And then people thought about it.
+And they said, oh, you know what,
+this way of thinking about problems,
+this way of solving a problem in
+a distributed way is pretty cool.
+Let's get out the jest of it,
+the part that executes a map and
+reduce and let's call it Hadoop.
+[MUSIC]
+

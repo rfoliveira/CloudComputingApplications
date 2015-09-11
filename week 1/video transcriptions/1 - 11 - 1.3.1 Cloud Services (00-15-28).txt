@@ -1,0 +1,367 @@
+[SOUND]
+Well this lecture is to introduce you to
+the different interfaces you can use, and
+the different setups that you can use,
+to get your infrastructure.
+And you can get different sorts of,
+well infrastructure as a service,
+platform as a service,
+and software as a service.
+And we'll compare those.
+And what we're going to do is to use
+what the major cloud companies provide,
+as a sort of set of examples.
+And they also will help us sort
+of visualize what can be done.
+So, here's a comparison between all the
+different services that are provided or
+the major set of services.
+Split them up into three,
+infrastructure the platform and
+then the software as a service.
+And if you look at
+the diagram in more detail,
+what you see is it really
+matters what you contribute
+as the client towards
+the operations of the system,
+is to which one of those IaaS,
+PaaS, SaaS, you actually fit into.
+So, in the packaged software,
+where you're sort of providing everything,
+you manage the whole of the system.
+And in the infrastructure as a system,
+that's decreased and
+what you're doing is
+getting from the provider
+the bottom level, that pink level,
+virtualization services storage network.
+And you're having to manage the
+application's data runtime, middleware,
+and operating system.
+If you move to a platform as a service,
+then this extends and you get
+the operating system, middleware, runtime.
+You only have to manage
+the applications and data as a service.
+Or the applications and
+data in your service.
+If you go to a software as a service then
+it's all managed for you by the vendor.
+And the applications what's
+provided to the client, and so
+the client doesn't have
+to manage anything.
+So these different diagrams show
+you how much involvement you get,
+and what you can do.
+And of course, associated with each of
+these is a degree of flexibility about
+what you can actually do.
+So infrastructure as a service, a lot of
+the on-demand, Amazon EC2, VMWare vCloud.
+Those type of systems are how it's being
+provided and what's being provided.
+Platform as a Service, there,
+you have on demand application hosting.
+You've got Google AppEngine
+as the primed sort of system.
+Salesforce.com uses a turn key system, but
+they also allow you platform as a service.
+And Windows Azure and Amazon all
+offer you the same sorts of things.
+Software as a service,
+there what you're looking at is
+the sort of Microsoft or web companion.
+The things like Gmail and so on.
+It's just turn key use the applications.
+So moving to platform as a service first.
+It's a cloud computing environment, and
+it allows the users to run
+applications on the cloud.
+It's above infrastructure.
+PaaS doesn't require users to develop
+their own operating system environment.
+And what we have is sort of
+a middle ground had developed
+a platform for the customers, yes.
+It offers an application
+development platform that
+scales sometimes with demand.
+Although, many times automatic scaling is
+something that the user still
+has to provide the details for.
+Although there's primitives to
+allow you to do the scaling, but
+you still have to figure out
+how that scaling should occur.
+And the name of the game with this,
+is to provide a cheap service.
+What you're doing is renting the computer
+and the operating system essentially.
+You're providing a sort of environment
+that you're going to build for your user.
+And, this is a sort of
+inexpensive accommodation.
+You're benefiting from having
+all of those cloud's support.
+But you're willing to do
+some support yourself and
+that support is added value that
+you're giving to the customer.
+And so in that diagram you're really sort
+of focusing on this type of territory.
+As you can see, if you move backwards and
+forwards in this diagram, if you go for
+infrastructure as a service,
+then you're having to do much more.
+And if you're doing software as a service,
+you're doing much less.
+So, there's an official
+definition from NIST.
+I don't want to dwell on
+all of that definition.
+But the key things,
+you get control as the consumer.
+But what you can do is to provide your
+customers with deployed applications and
+configuration settings for
+those applications.
+And it requires you to
+do a little bit of work.
+These systems work together with
+other parts of your infrastructure.
+So for example, Google can also
+provide infrastructure service,
+but it mainly provides the PaaS,
+the Google App Engine.
+If you look at sort of Amazon.
+Amazon provides range of facilities and
+it doesn't actually specialize in
+providing a platform as a service.
+And so it's the sort of low-end much more,
+you get a much more involve in
+providing things for the system.
+And whereas the Google App Engine,
+you can use multiple different languages.
+You can use databases.
+You can use all sorts of support
+in order to provide those
+applications to your customers.
+So let's,
+just to be sort of fair to everyone,
+we'll look around at other systems,
+Windows Azure.
+It provides both a platform
+as a service and
+as we later show it, it also provides
+infrastructure as a service.
+It provides sort of compute and
+storage and an application
+fabric within which to work,
+using it's .NET and other types systems.
+So it's kind of a very sophisticated
+platform as service that you can provide.
+And obviously you can
+actually go to Azure and
+get beneath that as the infrastructure as
+a service so can have it sort of continue.
+So how does that rate?
+Well platform as a service
+can be better for
+costs than infrastructure as a service.
+The systems are optimized to
+run applications efficiently,
+you benefitting from the actual server.
+Company optimizing the PaaS for
+the particular platform
+that you're running, and sometimes,
+when you go out there, and
+you get the information of
+Infrastructure's a service.
+It only can provide the hardware and
+the clients have to be in charge of
+everything, including load balancing and
+networking.
+So from the point of view of
+time spent from the consumer's
+point of view Platform as
+a service can be a better deal.
+It can give you better optimization.
+But if you want something very very
+special, then you may have to just choose
+to go with infrastructure as a service and
+build your own.
+One of the benefits of platform
+as a service is that the vendor
+of the services,
+the actual service provider can
+employ multi-tenancy on
+the platform as a service.
+And so optimize their infrastructure
+by allowing many many many people,
+consumers of that PaaS,
+to be using in the system.
+So, this can give you an overall lower
+cost in how things are being operated.
+Multi-tenancy means that many users may
+share the same physical computer and
+data bases.
+And typically, if you have to
+provide your own IAAS Infrastructure
+as a service multi-tenancy, then you
+would get involved in that complexity.
+Well the PaaS avoids you
+having to think about it.
+PaaS is better suited for multi-tenancy
+than IaaS because an IaaS may
+provide each user with
+their own virtual machine.
+May you create this clear
+separation of resources.
+And in the PaaS, you can get finer grain.
+You don't have to switch from
+one VM to another VM, or
+such sort of sharing techniques.
+However, when you've got a PaaS,
+the users will notice that
+they're sharing this machine.
+So as they look at the performance that
+they're getting, it will be degraded
+as more and more users are doing a
+multi-tenancy of that particular platform.
+So you've got a trade off.
+And one you can control it but
+then you have to manage it and
+you have to do the switching and
+the other much more flexible much faster.
+But then there's hidden
+costs that your users will
+actually take cycles away from each other.
+Or share the cycles out
+between them at least.
+And this will look like worse performance.
+So a lot of people worry
+about vendor lock-in,
+particularly with platform as a service.
+The idea there is the platform is a
+service lock in applications by requiring
+users to develop apps using proprietary
+interfaces and languages of the vender.
+So if you want to switch from one
+platform as a service to another,
+it's going to be difficult for you to do.
+So, that naturally leads to
+if you're using the system you get locked
+into the prices, locked into the vendor.
+And your business really depends
+on the dependability and
+the availability of that
+platform as a service.
+If you go for an infrastructure as
+a service, then you have a lot more
+flexibility, because most of that problem
+is hidden in the virtual machine.
+You can move your virtual
+machines to a different provider.
+And you can therefore keep
+offering the same sort of level
+of customizability and
+everything else to your clients.
+But while you're paying that penalty
+of having to work with a whole stack.
+Development tools.
+Many PaaSs offer browser-based
+development tools.
+In this way developers can create
+their own applications online.
+There's an ease of deployment.
+You can get things up and
+running very fast.
+The platform typically provides you
+primitives to take care of scaling, so
+that's much, much more easy.
+So the development tool base, the platform
+as a service is usually richer.
+On software development side,
+as a developer,
+your objective is to create an application
+in the quickest, most effective way.
+You don't want to create applications that
+use convoluted methods that take
+a long time to complete, and
+the user only sees the end product,
+not the development process.
+So in a sense, by having a platform
+as a service, if the platform
+is a good platform to work with, then
+you're cutting out all the main tenants,
+all the thinking, all of the work
+associated with providing that platform.
+And you're building on,
+if you like, the skills of your
+Platform as a service vendor to make
+your system also much more effective,
+and particularly in software development
+and having the cost to getting to market.
+So this are all pluses.
+So overall,
+you do have to when you go to a Cloud
+provider think about what sort of
+service you want to provide, whether you
+can do it through platform as a service or
+whether you'd have to go with
+an infrastructure as a service.
+You need to make those decisions.
+They have long term
+consequences on your business.
+So you need to think them out well.
+If you choose to use
+platform as a service and
+get your application vendor locked in,
+then your business
+may fail if the platform as a service
+greatly increases their prices.
+Or if they provide inadequate service,
+and you won't be able to get out of that.
+You won't be able to move since you're
+application can't easily be migrated.
+And then, an applications that
+used to fulfill a temporary need,
+may be handed to a PaaS solution very,
+very fast.
+And so that's a benefit.
+An application may need to
+be deployed quickly, so
+again a PaaS would be a benefit.
+If your software team is small, then
+running on a PaaS may be a better thing
+because you have the backing
+of the actual PaaS providers.
+Their team will be they're
+supporting making your life easier.
+So that ends the first step.
+And what we're going to look at now
+is all the different companies,
+what they provide, how much,
+I won't detail how much they cost.
+You can go on the web to look at that.
+What I want to do though is to show you
+how each of the different providers is
+operating.
+Sometimes they are mainly focused
+on infrastructure as a service and
+then provide platform as
+a service as an option.
+Or sometimes they provide
+platform as a service and
+they have infrastructure
+as a service as an add-on.
+And sometimes they don't
+provide that at all.
+They just go for
+maybe software as a service.
+So let's go on and
+have a look at some of these companies.
+[MUSIC]
+

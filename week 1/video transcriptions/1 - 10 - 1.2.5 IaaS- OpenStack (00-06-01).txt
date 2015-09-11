@@ -1,0 +1,134 @@
+[SOUND]
+In this set of slides,
+what I want to do is to emphasize
+just what do you get with OpenStack,
+and what are the mechanisms that
+allow you such great deal of control?
+Sort of if you like diving a little into
+OpenStack to give you a feeling of what
+it's capable of doing.
+So the OpenStack project's been around for
+awhile.
+It has a very sort of
+ambitious goal of trying
+to be ubiquitous where you're building
+cloud infrastructures for everyone, and
+Ken Pepple articulated
+that in his statements.
+Basically, he claims
+OpenStack is an open source
+software project enterprise services
+providers can use to set up and
+run their own cloud compute and
+storage infrastructure.
+So you've already seen
+this diagram before,
+I just want to now emphasize
+the elements in here.
+There's a dashboard, the dashboard
+talks to all of the various elements.
+I haven't put in the OpenStack controller
+there, I've assumed that it is in there.
+But what it's going to do, that controller
+on the dashboard, they're going to map
+to the compute networking storage elements
+that you require for your OpenStack.
+And now, you will have instantiated on
+multiple nodes these compute elements,
+and you probably have one networking
+node that controls the network.
+You probably have one storage node,
+and maybe multiple storage nodes,
+that control the storage.
+When you ask the user
+applications to come in,
+you'll be allowing them to use
+those compute, network, and
+storage nodes to define what types
+of Infrastructure they want.
+Typically, for a set of users or
+for a particular user application,
+you'll be giving to that user
+application a specific compute node.
+Well, perhaps multiple nodes,
+a specific network node and
+specific storage nodes, so that that's
+all sort of contained within the cloud.
+The beauty is that when that
+application is no longer needed,
+you can just give it to somebody else.
+You can give the hardware, the network,
+the storage, to somebody else.
+And then if you want to bring it
+back later you can do the same.
+If you want to scale it you can
+release nodes if you want to, or
+you can allocate nodes to make it bigger,
+release nodes to scale it down.
+So it gives you a great
+deal of flexibility.
+So that's the basic sort
+of idea behind OpenStack.
+Its compute server is called Nova,
+it orchestrates large networks for
+virtual machines and is responsible for
+VM instance lifecycle, network management,
+and user access control.
+It has some storage,
+which is called Swift,
+provides a scalable redundant,
+long-term storage for
+things like virtual machine images,
+data archives, and multimedia.
+So these are basically, if you like,
+sub-application, sub-components
+of this whole OpenStack
+infrastructure that allow you
+to do different types of things.
+This last one is an image server, and
+when we are talking about boot images and
+so on, this is what we're referring to,
+what there is embedded into
+the OpenStack architecture.
+The ability to pick up virtual
+machines from previous
+operations, previous times that
+OpenStack had been running, and
+load those virtual machines and run those.
+So you can, if you like, freeze
+the OpenStack, store it away on your
+Glance image server,
+your files will be stored on the Swift.
+This would all be done to the control
+of Nova, and then when you want to
+recreate this whole virtual data center,
+what you can do is to talk to Nova,
+you can pull out that image from Glance.
+You can pull out the file
+system from Swift.
+They're all plugged together because
+of the descriptions in Nova,
+and so now you have a completely
+working data center.
+So you effectively can store and
+retrieve data centers in
+this whole sort of approach.
+So what we've seen is this
+development from a cloud,
+just hardware, to being able to manage
+the hardware with something like Mirantis.
+To bringing up virtual clouds,
+effectively,
+that triple the compute,
+the networking, and the storage.
+To being able to manipulate that
+cloud once it's actually running, and
+that was this section with Nova, Swift,
+and the network operating system.
+So next time,
+we'll be moving from there to some
+cloud services and
+talking about those cloud services.
+Thank you.
+[MUSIC]
+

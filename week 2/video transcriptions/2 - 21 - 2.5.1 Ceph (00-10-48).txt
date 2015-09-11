@@ -1,0 +1,251 @@
+[MUSIC]
+So we've talked about HDFS,
+we've talk about, or
+we will talk about H base but
+underlying all these different things,
+there this notion that
+distributed file system.
+And way back there was
+a distributed file system
+project that kind of gave a future look,
+which we never really sort of got
+implemented to a large extent.
+Ceph is almost the embodiment of that.
+It's a distributed file
+system that has the sort
+of logic ways of accessing of Linux or
+Unix file systems.
+But it gives you a distributed store and
+it gives you all of the parallelisms and
+all of the redundancy and
+full torrance you would like.
+It also is a rethink of just
+how do file systems work.
+When the file systems are built, they are
+built given the profiles of the jobs and
+the uses of the applications and
+nowadays with big data and large
+computations, we have different users,
+we have different lifetimes and so Ceph
+is accommodating some of those issues.
+So motivation for Ceph is an emerging
+technology, it's providing
+an integrated,
+well organized distributed file store
+that takes into account what we are
+beginning to understand about big data.
+It's designed for performance.
+Stripe data of a data
+server's reliability.
+There's no single point of failure.
+It's scalable and so it has adaptive
+metadata clusters as we add more to it.
+The metadata can increase naturally and
+keep the performance moving.
+It's more general than HDFS.
+It has smaller files and
+it has some rivals, yes,
+but it's leading amongst
+the pack of open source projects.
+It's leading the way to a new
+fresh look at file systems for
+distributed computing, GlusterFS file
+systems have more or less similar ideas.
+They use ring-based hashing.
+Ceph uses a scheme called CRUSH,
+but today we won't get into that.
+So how do you build a really
+large distributed system, and
+I should point out here that
+Yahoo is actually using Ceph as
+a file system for petabytes of data,
+hundreds of petabytes of data in fact and
+achieving good performance out of it.
+So it does a dividing conquer.
+It takes away the meta data
+server from the file systems and
+provides its own meta data server.
+It provides object data server for
+all those actual pieces of
+data it stored in it and
+then it has a monitoring system,
+so it can self adjust and
+make best use of all those
+distributor resources that it's got.
+It decouples the data from the metadata.
+The I/O's directly with object servers so
+that where the metadata resides and
+the service for that don't get in the way
+of actually getting at the real data.
+It has a dynamic distributed
+metadata management system, so that
+as you scale out the number of objects
+in your system, the metadata will scale.
+And it has reliable autonomic distributed
+storage, so it's placing the objects so
+that as you scale out your taking
+advantage of that distributed system,
+taking advantage of racks and how things
+are organized on those racks, so they
+are not sort of placing a single
+point of failure in a position
+where it could cause really serious
+to harm to a big distributed system.
+So this is a diagram of
+the way that Ceph is built.
+And, once again,
+you can see it's really broken down.
+It's taking the tradition file system and
+has still got many aspects of the file
+system, but it's breaking them down and
+making them distributed,
+using lots of nodes in the system.
+And here we've got our clients.
+The clients are all sort of
+operating on this file system.
+They are all sort of making procedure
+calls to actually access the files.
+Using highly sort of evolved protocols to
+actually stream the data and get the data.
+Over here you have a Metadata Cluster.
+What that is doing is providing
+all the directory information.
+It's mapping the names of your
+files down into the storage,
+and identifying where all the objects,
+what all the parts of the objects are,
+in your clusters.
+And that's, again, a distributed system,
+so as you scale the whole of Ceph
+as this thing scales bigger and
+bigger, this can actually scale too.
+And match the computational needs of
+what's going and here,
+you've got your object storage cluster.
+It's, again, a distributed system, so
+if you want a larger storage,
+you can add to this.
+Everything is organized so
+that this operates cleanly as you add
+to the storage cluster,
+the metadata can be increased.
+Again, going back to your clients,
+what we see here is an attempt to
+get rid of all of our overhead of
+understanding a distributed file system,
+you get in Hadoop file system, say.
+Where you say, Hadoop file system and
+then the commands you want.
+Now what's happening is you can
+run Bash or your client code.
+You can use the Fuse libraries and
+actually access this thing just as if
+it's POSIX, which is a real step forward.
+Now why is all this really
+sort of interesting?
+Well, as you get big data,
+and you're using more and
+more big data, they way we're using
+file systems actually changes.
+The way we have the metadata and
+we use the metadata changes,
+because now the lifetimes
+of our data change.
+As we get more and more big data,
+we're accumulating it.
+Some of the lifetimes are not
+sort of in seconds or minutes.
+Now they could be years.
+They might be decades.
+Similarly if you're streaming
+data in from Spark,
+whatever that we all
+hear about in the future,
+some of those we will have a great
+deal of velocity in our data.
+And we want to accommodate
+that in our storage systems.
+And again, in this system,
+we have adaptabilities through
+the distributive files
+stores that we've got here.
+Or being able to accommodate some of
+that distributive nature of the system.
+So, we are decoupling data and
+the metadata.
+We're increasing performance by limiting
+the interaction between clients and
+the servers.
+Decoupling is common in
+distributive file systems.
+It's what you would expect
+as we move forward.
+HDFS does that in saying name node but
+name node is a bottle neck now
+we've removed that Lustre and
+Panasas are somewhat similar in the sense
+of where their trying to go but
+Ceph is certainly state of the art
+distributed file system and
+is a great learning point.
+In contrast to other file system,
+Ceph uses a function to calculate
+the block locations and the reason for
+that is because it can then have
+a distributed metadata system,
+a distributed access because that
+function, that's all that needs to
+be known for individuals nodes to
+actually compute where is the storage.
+Overall, we have a method data management
+system and we put smarts into that system.
+It's dynamic, it can grow, but
+what it's doing is to distribute the load,
+accessing all of that metadata over
+multiple CPUs, over multiple servers.
+And that really allows you
+to get higher performance.
+If you remember with Unix,
+lots of small files,
+directory file information and
+Unix file systems were organized,
+we got i nodes around that concept.
+Here you've got lots
+of distributed access.
+The metadata is organized
+around that concept and so
+is the way that's distributed
+amongst the storage.
+The metadata changes with the number of
+requests to even out the load amongst
+the metadata servers.
+The metadata servers can also quickly
+recover from failures by taking over
+neighborhood nodes.
+So this is very, very different from
+our traditional Linux systems, and
+it improved performance by leveling
+the metadata load across everything.
+So it's continually trying to balance all
+the performance of all different parts,
+to give you the maximum parallel
+throughput for that filesystem.
+How about reliability?
+We know files, or at least disks crash,
+on a regular basis.
+And what you need to do is have
+a firm basis of replication
+underlying all of the store,
+if you want reliability.
+And this system provides that.
+The other store has servers,
+act on events all by themselves,
+they initiate replication,
+they improve performance by offloading
+decision making to many data servers.
+They improve reliability by removing
+central control of the cluster and
+setting it out amongst
+those distributing nodes.
+[MUSIC]
+

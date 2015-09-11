@@ -1,0 +1,393 @@
+[MUSIC]
+Hello and welcome.
+I'm Bobby Evans.
+I'm an architect at Yahoo,
+responsible primarily for
+a few big data open source projects,
+Storm, Spark,
+Kafka, things that are kind of
+the next generation big data projects.
+So, I want to talk a little bit
+about what we do at Yahoo and
+what I do in particular.
+So, Matt Ahrens,
+I think he gave a talk a while back,
+he provides a lot of the value to Yahoo.
+I mean, he produces the pipelines
+that count all the pennies when
+you click on an ad,
+that helps pay my salary and his salary.
+What we provide, what my group provides,
+is a platform for
+his group to be able to run on.
+And so it kind of fits with the building.
+One of my colleagues, Rezza,
+pointed out that the platform guys all
+sit on the bottom floor, and the pipelines
+people all sit on the top floor.
+So we, I kind of showed it here.
+So we provide a hosted platform for,
+not just the pipelines,
+but all of Yahoo to run on.
+So, some of the groups that use our
+stuff is not just the pipeline but
+Flickr, news, sports, search,
+everything that Yahoo does
+flows through these platforms,
+whether it's Hadoop, or
+it's Storm, or whatever else.
+A lot of them actually are on both
+to build to get both low latency and
+massive scale processing.
+So what is that we do?
+We primarily are concerned with making
+sure that these tools that we provide
+in addition to the normal software
+engineering things of providing new
+functionality for people, fixing bugs,
+and pain points that they have, but a lot
+of what we do is making sure that they
+will scale to a scale that Yahoo runs at.
+Making sure that they're secure, and
+then making sure that they're easy to use.
+So, scale.
+What is Yahoo's scale?
+Well, here's kind of a slide for
+this year, 2015, of some of the things
+that we were doing at the beginning of
+the year, both with Hadoop and Storm.
+So, the largest Hadoop cluster we have
+is about 5,000, over 5,000 nodes.
+The largest Storm cluster is still only
+about 300 nodes, but if you compare that
+to other people and their stream
+processing, that's still pretty big.
+And the total number of nodes that we
+have for Hadoop is over 40,000 nodes.
+And for Storm we're only at 2,000 nodes.
+But if you add all of that up,
+we're talking about hundreds
+of terabytes of memories.
+And hundreds of petabytes of disk space.
+Many of these people, many of these groups
+that we work with are processing hundreds
+of terabytes of data every single day.
+And so this is a massive scale beyond
+what a lot of people deal with.
+And it produces lots of
+interesting problems.
+So, one of the problems that we're
+working on right now with Storm,
+which is a string processing system.
+Is how do we schedule to be
+able to take advantage of this?
+That if you look at a network topography,
+how the different machines are fit
+together, it's not homogenous.
+They can talk to every other node,
+but the speed that it goes at and
+how many points that it has to go
+through are completely different.
+What I'm showing here is a fairly
+typical network called a fat tree.
+But there are lots of other
+network topographies too.
+Some of them are even just random.
+They try to connect as many random ways
+as possible to hopefully get a route
+that's short from one place to another.
+And so, the software that we
+write has to be able to deal with
+these different pieces.
+That if we just place things randomly and
+place the tasks randomly on
+these different computers,
+as the network increases as the size of
+the cluster increases, we're going to get
+statistically much, much more flowing
+through smaller pipes as we go.
+And that becomes very problematic.
+Now, this may seem simple but
+it's been proven that this isn't just
+a knapsack problem but this is a multi
+billion knapsack problem which you can
+go up to Wikipedia, read all about it.
+It's some very interesting things at
+the scale we're working at we can't
+just brute force it.
+Is MP complete.
+So we, we have to look at heuristics.
+We have to try and do balancing
+acts to be able to deal with this.
+But what's more,
+this is not a static system.
+That once this thing comes up and
+it starts running,
+people can interact with it.
+Somebody can say, oh, I want to start
+doing something new over here, and
+I want to shut down this old thing.
+So now, actually,
+it's the halting problem.
+You can't predict the future.
+We can't figure out what
+people are going to do.
+We can play some games with that and
+see if people do things
+regularly like with Hadoop.
+But for Storm, we can't really do that.
+And so, we have to come up with these
+really interesting heuristics to get
+the best fit possible.
+And then decide what happens when failures
+happen because in the real world,
+nodes go down.
+Network switches go a bit crazy and
+start sending random data.
+Things happen, and
+we have to be able to detect these things,
+adjust, switch around.
+So it's very interesting and hard problems
+that show up when we're at scale.
+Some of these other things that we
+deal is with the massive amounts of
+metadata that we have.
+So, I recently gave
+a talk at Hadoop Summit
+on how we've scaled Storm
+to the level we're at now.
+A lot of it is around the metadata that
+we're collecting and processing for
+all these different systems.
+And to be able to work
+around these issues,
+you have to understand in pretty decent
+detail, what the hardware is doing,
+what the software is doing, and
+how they interact with each other.
+So, in this one case we had
+an issue with ZooKeeper,
+where it couldn't process
+as much data as we needed.
+A typical spinning hard disk runs
+at about 80 megabytes a second.
+ZooKeeper is an in-memory database, but
+it writes all the data out to disk
+to be able to have persistence.
+And so,
+that is the limiting factor in Zookeeper.
+As we go through and we looked at
+the different things we were writing to
+ZooKeeper, there was
+scheduling information,
+information from the supervisor,
+heartbeats saying what they're up to.
+And then, we have heartbeats from
+each of the different topologies.
+And those tended to dominate,
+and so when we looked at that,
+we're getting massive amounts
+of data being written from that.
+And we looked at a number
+of things we did.
+We compressed the data, we switched
+the data over to a new format that was
+more compressible, all kinds of different
+things to be able to get a smaller, but
+each of those were incremental changes.
+And so, from that we could see
+that the theoretical limit,
+the maximum limit we can run
+at was just over 1000 nodes.
+And, typically in engineering,
+you don't want to run [LAUGH]
+at the theoretical maximum.
+You want to probably run
+at about 50% of that.
+So that kind of set our limit of what
+a cluster could handle to about 600 nodes
+and that wasn't anywhere
+near where we wanted to be.
+And so, with that we have to be able
+to then work around bottlenecks.
+Understand what those bottlenecks
+are in this big massive system and
+to be able to go in different directions.
+And so, because disk was
+the bottleneck in this case,
+we decided to move to
+a complete in-memory system.
+That these heartbeats that we were
+writing in, if we lose some of them,
+it's not the end of the world.
+That they're there mostly for
+aliveness and a little bit about making
+sure that we get the right statistics.
+And so, some of these hard problems
+that we'd look at in scale is how do we
+remove these bottlenecks and
+what the impact is going to be.
+So it's very much like performance tuning,
+but kind of harder,
+because you have 100 nodes,
+200 nodes, 1,000 nodes.
+And you probably don't even have all
+of that hardware available to you
+to be able to test things on.
+That you're doing simulations and trying
+to guess as to what this is going to do
+in the best case scenario and
+the worst case scenario.
+And so with that, we started, we saw that
+we had removed disk as the bottleneck and
+now it had become network
+that was the bottleneck.
+In certain situations, depending on
+the hardware that you're running at.
+And so, then you have gigabit network,
+which can do about 125 MB/s, best case.
+And so, if we set the arbitrary limit of,
+we want to download all of this data
+from the state store in 10 seconds,
+which seems reasonable since that was the
+frequency we had been scheduling in Storm,
+then, that came up with a theoretical
+limit of about 6,000 nodes.
+Which is great, but again,
+that's the theoretical limit.
+We probably want to do about
+3,000 nodes at that point.
+But these aren't the only bottlenecks.
+We start running into other
+issues like the scheduling issue,
+that if we're scheduling things badly,
+having a 3,000 node cluster,
+now we'll have hundreds of racks of nodes.
+So, if you look at a data center,
+there'll be a single cabinet,
+a rack, filled with different computers
+with a switch at the top that is
+connecting all the computers together.
+And they'll be multiple of these racks
+in a data center if we have 3,000 nodes.
+And the more of these we put in,
+the more important it is we get
+our scheduling algorithms right.
+The other thing we look at is making
+sure that everything we do is secure.
+Your data is important to you.
+We want to make sure that somebody
+doesn't break in and steal it.
+That's why it's very important to us.
+We look at these data breaches
+that show up all the time.
+We definitely don't want to be in the news
+as the recipient of one of those.
+And so, everything,
+every time we produce a new product or
+we want to go release
+an open source product,
+we need to make sure that we've
+gone through and secured it.
+This is a bit of a time consuming
+effort because it really just involves
+understanding how all the different
+pieces communicate with each other and
+then making sure that there's
+a way to authenticate.
+Anyone that is communicating and then have
+an authorization mechanism to make sure.
+A lot of times we try to use off
+the shelf components because, I consider
+myself a smart guy, but I don't want to be
+the one writing the encryption algorithm.
+That I'm not the mathematical genius to be
+able to really come up with these things.
+And so, in most of these cases we
+tend to default using Cerberus and
+off the shelf encryption systems, but,
+again we need to make sure that as we
+go through that we secured every single
+connection that exists and ideally
+encrypted many of the connections as well.
+The final thing we want to do is we
+want to make sure that it's easy to use.
+And this is actually probably
+the hardest thing that we do,
+because we want to make it very simple for
+our end users to do.
+So that's a simple API we
+want to make it simple for
+them to debug, but our end users we also
+have people who run these clusters for us.
+So we want to make sure
+that it is very simple for
+these people to set up the clusters and
+to upgrade the clusters.
+Ideally, we don't shut
+down the whole cluster,
+all thousand nodes,
+because then people get angry at us.
+We want to be able to do
+it in a rolling fashion.
+And they're very difficult problems
+with some of these things too.
+When you have one machine,
+failures will happen.
+But usually when a failure happens,
+the whole machine stops.
+We want to be able to have hundreds,
+thousands of these different
+machines together.
+And, if one of them fails in a weird way,
+the whole system doesn't stop.
+So, when I was working on Hadoop, and we
+were creating the map reduce version two.
+We ran into a very interesting problem
+where you could have a split brain issue.
+You can look that up in Wikipedia too.
+Essentially it's a network partition.
+You have two different processes that
+think their the one that's in charge
+but one of them isn't.
+And if both of them
+are trying to do things,
+you can get situations where you have
+data corruption or other problems.
+And so, these very difficult problems,
+we have to come up with
+solutions as a platform.
+We don't want to force our end
+users to think about these things.
+Oh, is this going to cause
+a split brain problem?
+Oh if I write this out
+at this really bad time,
+is that going to bring down the cluster?
+Can I do a denial of service
+accidentally on the entire system,
+which is very easy to do at 1,000 nodes.
+So, we want to make sure that everything
+that we have is going to be easy to use,
+that they don't have to
+concentrate on making it scale, or
+making it on these really
+difficult problems.
+We want to make sure that all they
+think about is what is my algorithm?
+So, if somebody is
+designing an algorithm for
+deep learning, they don't want to have to
+worry about all the thousand nodes and
+how do I get the GPUs and everything else
+that I'm using, we just want them to be
+able to ask, can you give me a thousand
+nodes with GPUs and I'll handle the rest.
+So, that is really what we do at Yahoo,
+and
+the platform side,
+is trying to provide a scalable,
+a massive scale distributed cloud system
+that is easy to use and easy to debug.
+[MUSIC]
+

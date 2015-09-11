@@ -1,0 +1,121 @@
+[SOUND]
+In this video,
+we will talk about the ApplicationMaster.
+Remember that in Yarn,
+you have resource manager that
+only knows about resources.
+It's just one entity overseeing
+the cluster's resource usage.
+We have node managers that each one
+sits on top of one physical box,
+basically manage the containers
+running on the node.
+The node manager and
+both of the resource manager,
+none of them know anything about
+what's going inside the containers.
+It could be a Hadoop task, it could be
+a Storm task, it could be anything.
+It could be a web server task,
+they don't know.
+They only care about this is a container
+that needed such and such resources.
+Five CPUs, 200 gigabytes of disk space,
+five gigabytes of RAM.
+This is all those two
+components know about.
+ApplicationMaster, on
+the other hand is the entity
+that knows what's happening
+inside the containers.
+It knows that there's
+an application running.
+It knows it's Hadoop,
+therefore it needs map tasks,
+it needs reduced tasks,
+it needs to do shuffle.
+It needs to move data from
+these components into this
+other set of components.
+Therefore, the ApplicationMaster is
+the component that schedules and
+monitors the application in stance itself.
+It's only the ApplicationMaster
+that knows if a task is hung.
+If there's no progress in the task itself,
+for
+example the map task of Hadoop,
+of map reduce.
+So, for
+example if a node manager is involved,
+it just sees there's a container.
+There is a program running.
+Is it hung?
+It doesn't know, and it doesn't care.
+It's only the ApplicationMaster
+that knows this.
+So, since it's the ApplicationMaster
+that has this information,
+it can also heartbeat to resource manager.
+Right?
+It can gather information from all
+of the tasks running on the cluster
+and figure out if there is progress
+happening in the application.
+And if it decides that, it sends
+a heartbeat to the resource manager
+that it indicates the liveliness
+of the whole application.
+It can request new containers
+through heartbeats or
+receive acknowledgement for
+allocated containers.
+And then it can go say, okay, I needed
+five new containers, now resource manager
+tells me that such and such nodes
+are ready to give me containers.
+Now I can go and talk to those boxes and
+get my containers to launch more
+map tasks or more reduce tasks.
+Finally, the ApplicationMaster
+provides an optional tracking
+URL when it registers as a new
+application with the resource manager.
+It's a proxy URL provided by resource
+manager when the application is submitted.
+Which makes it easy for the user to
+find an application instance, right.
+So remember that a Yarn
+cluster could be running.
+Hundreds of or
+maybe thousands of Hadoop applications.
+And you really want to know, okay,
+what's the user wants to know
+what's happening to my application.
+All right?
+That's how this mechanism,
+the proxy URL that resource
+manager gives you when
+you're stopping an app,
+gives you a view into
+your own application,
+which really goes and
+talks to the ApplicationMaster.
+And then this URL can be updated
+when you are un-registering
+an application to point
+to a history servers.
+So when your application is done,
+your map reduce program is done.
+It updates this URL,
+there's no application master anymore,
+there is a history server that can say,
+okay for now,
+these logs that were
+aggregated by note manager for
+a certain application,
+the application is not alive anymore.
+Let's move the logs to a history server
+and update the URL to point to those logs.
+[MUSIC]
+

@@ -1,0 +1,182 @@
+So I'm going to talk to you about Hive,
+which is a database that runs on top
+of HDFS and
+uses MapReduce to do its computation.
+The whole idea was
+started that Facebook and
+it was to look at data
+from nightly chron jobs.
+They were put into an Oracle database but
+that proved to be very a lot of
+overhead and the data was very large.
+So they developed an ETL
+using hang coded Python.
+And develop their own language called HQL,
+which was a variant of SQL,
+and what HQL does is a query language for
+Hive.
+It avoids some of the problems
+that you get into with event,
+if you have an eventually
+consistent sort of system.
+And you're looking at all these
+things in a distributed maner from
+multiple machines.
+And HQL provides you a way to do that and
+doesn't require
+you to have a rigid sort of
+SQL type of interpretation.
+So what we're looking at with Hive is
+a translation of queries
+into map reduced jobs.
+And this can run on top of Hadoop YARN.
+It runs on top of Tez or Spark as well,
+which gives you alternate ways to
+actually implement it, and
+sometimes those can be faster.
+Again, note here that
+the database itself is
+not updated or changed in any
+form while this is all happening.
+You're assuming a read-only database, and
+it's going to focus primary on
+query part of the language SQL.
+The implementations, so
+there are missing pieces of SQL if
+you like in HQL, but
+they allow it to perform very fast.
+So, Hive looks very similar
+to an SQL database.
+You can do a relational
+join on two tables.
+If you're on the table of word counts,
+Shakespeare's collection of words in
+a book, and you found a table of word
+counts from a Homer on one of his books.
+And you want to actually compare them,
+you can do so.
+And that would look like
+an algorithm like this.
+What you're doing to
+select from Shakespeare's.
+In here, and
+you're going to get the frequency
+of the words that you had selected.
+And then you're going to join that
+information with the same thing
+applied to another
+select applied to Homer.
+So here's the Homer data with words.
+And what you would like to do is just to
+look at the ones that have some sort of
+values in there.
+So we're asking the frequency
+counts are bigger than zero, but
+in the Shakespeare and the Homer database.
+And then we're going to order
+the whole result of that select so
+that what we have is a limit on
+what we're going to print out.
+And it's going to be ten and we're going
+to be doing it in descending order.
+And that's what's actually listed below.
+The ten top frequency words that appear
+in the join between Shakespeare and
+Homer, and surprise, surprise the leads
+the and it lead the pack there.
+So, behind the scenes,
+what is that example actually doing?
+Well, what it does is to take the data
+from these two collections, and
+it creates an abstract syntax tree, which
+is sort of just basically a set tubules.
+And the words from those and
+as you can see,
+what it's collected here
+is where those words occur.
+It looks like a syntax tree where
+you're taking the Shakespeare words,
+you're taking the whole words and
+then you're applying different operators
+that are high primitives to those.
+And, as you extrude you will
+see that each of those Hive,
+the HQL has been translated into this,
+more sort of primitive sort of
+language of looking at each individual
+item and applying a function to it.
+And what then occurs is
+you take all of these and
+you map them into what I'm all,
+MapReduce jobs.
+So for example, with the word, looking for
+how many, or counting the number of words,
+what you're going to do is be building
+a MapReduce job that counts the number
+of words from the Shakespeare job,
+and then from the Homer job, and then
+you're going to go down here with a JOIN.
+You're going to write a similar MapReduce
+job that maps these two things together.
+So Hive as you've seen is
+actually got a shell and
+you can write pretty much
+that language into a shell.
+And the introductory
+tutorials from Hive on our
+Horton works, looks well,
+builds that type of query
+in the shell like that.
+There's drivers that handle the sessions,
+fetch and
+execute there's a compiler that does
+the parsing and the planning and
+optimizing how the map reducers will
+be performed and what analysis goes on.
+And then, there's an execution
+engine that takes all of this
+description that sort of
+abstract syntax tree and
+executes it as different
+MapReduced jobs with HDFS and
+all the metadata to build the results,
+which it then stores back in HDFS.
+Hive uses a traditional
+database to store its metadata.
+It's a sort of namespace
+containing a set of tables.
+Those table definitions contain
+column types, physical layout,
+holds partitioning data.
+It could actually be used to store data in
+a variety of different, databases,
+depending upon what you want.
+But if you can map them
+into something like Hspace,
+you can get a much faster implementation.
+The Hive has a warehouse directory
+in HDFS, as to built for Hive.
+And provides,
+there's a tutorial that provides lots of
+examples on the warehouse in Hadoop works.
+The tables are stored in sub
+directories of warehouses of warehouse.
+The partitions from
+subdirectory of the tables
+Allow you to access pieces of each of
+those tables on different machines.
+And then you're going to use
+MapReduce over the whole thing
+to actually aggregate it.
+The actual data is stored in flat files.
+They are delimited text or
+sequential files.
+And they can be customized to use any sort
+of format, but mostly just text files.
+So this whole thing sort
+of ends up looking like
+an HDFS with blocks holding ASCI text.
+That's actually input to do the
+manipulations by your map reduce programs.
+[MUSIC]
+

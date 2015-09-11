@@ -1,0 +1,186 @@
+[SOUND]
+This lecture is about Big Data.
+It's a singular phrase, you might say.
+We're looking at a collection
+of data sets so large and so
+complex it's impossible to
+process it on one computer.
+And it's impossible to process it
+with the sort of usual databases and
+tools that have existed for
+the last 40 years in computer science..
+Because of its size and complexity,
+Big Data is hard capture.
+It's hard to store, copy, delete.
+There's privacy issues.
+It's hard to search.
+It's hard to share.
+It's hard to analyze and
+it's hard to visualize.
+So it provides multiple
+different challenges.
+But, what it allows happen,
+are all sorts of very, very good things.
+So descriptions of Big Data.
+I guess, if you want to look at
+definitions, Big Data represents
+the information assets that
+are characterized by such a high volume.
+It's high velocity,
+you're getting lots of data in.
+By the variety, all the different
+types of data you're actually seeing.
+And it requires specific technology and
+analytical methods.
+It gets transformed into values that are
+worthwhile for society or for businesses.
+So those aspects are generally becoming
+accepted as to what Big Data means.
+So what are the Challenges?
+Well, moving into the internet of things,
+we have a huge amount of
+data on social networks.
+We have instruments that record huge
+amounts of information like the telescope.
+So, all those devices, and
+I've sort of listed them here,
+Provide enormous amounts of data, and
+some of those data, like cameras,
+now produce 30,
+40 megs just as a snapshot.
+Medical data is going to
+be a big leverage.
+When you think of genomics and
+its interaction,
+you will see all sorts of possibilities
+for huge amounts of data.
+So, what do we want to do with this?
+Well, that's this next piece,
+this is a processing piece.
+Analytics, but you gotta do analytics on
+something, so you have to capture it,
+you have to curate that data,
+just like you curate books in library.
+You need to search, share, you need to
+store it, transfer, visual, visualize it,
+because eyeballs are a lot more efficient
+input processes for humans than just text.
+And then you gotta protect
+everybody's privacy.
+What do we expect to get out of it?
+This is if you like the gold.
+What we're looking for is, predictive
+analytics, so you can sit down and
+say your company is
+going to do this next year.
+Or you can look at science and
+say, oh, there's
+some connection here, some correlation
+here we need to investigate that.
+Maybe there's a new physics law,
+or people with this gene
+are having this disease.
+Maybe we should look at
+how to fix that problem.
+So it's doing predictive analysis.
+Better decision making discovery.
+What does it look like in terms of graphs?
+Our growth in data has been
+enormous over the last decade
+and this is all happening
+because of file computing,
+because of ubiquity, the ease of
+use of gathering that information.
+You can see it outranks phones.
+The way that cellular
+phones have increased.
+And it has outranked all sorts
+of things including businesses.
+It has really sort of grown tremendously,
+exponential growth.
+I'll give you an example of
+how it's influencing bio.
+So Bioinformatics, down in the 1980's,
+we were sort of looking down
+microscopes at slag gels and
+sort of gathering data off those.
+As we move forward till today,
+we're analyzing huge proteins.
+We're looking at DNA.
+We're looking at all the implications of
+life itself, in terms of information.
+And so,
+that has made a massive increase and
+it allows discoveries that
+just are unparalleled and
+we're beginning to learn how to
+approach things like cancer.
+Astronomy's another example where
+enormous amounts of data coming to us.
+We start off down here back in the 70s,
+and
+really we were limited by our
+IO devices and the storage.
+Now, we're way up here.
+We're inventing new telescopes.
+We have new telescopes in the sky and
+on land and
+they're producing petabytes a day.
+So that's a huge amount of information
+to suck in, process and use.
+And you would really like to go back and
+look at all those astronomy databases
+once you've got a whole sky surveyed.
+Well, where are we going?
+I'll give you some numbers, just so
+you can see the exponential growth.
+We've taken a lot of different examples
+from a lot of different areas and stuck
+them into one graph, but I want to just
+sort of outline some key points on this.
+So, we have a database of 150 species and
+their genomes and
+that takes up about just
+below 16 terabytes of data.
+If we looked today at social networks,
+then Twitter and
+all those crowd,
+they're operating around that area or
+maybe 3, 400 terabytes of information.
+But as we go forward, we're going to
+be sort of investigating very,
+very complicated things like brains.
+The human brain is way up in complexity,
+millions and millions of vertices.
+So that direction is what
+we would like to get to.
+So where's the future?
+Well, we have scientists locally here,
+Gene Robinson, for example.
+What he would like to do is,
+to combine DNA with RNA,
+with proteins, neurons,
+brain circuits, behavior.
+So you could take a honey bee, And
+you could have a model of a honey bee and
+predict how it goes out and forages.
+Put that into a computer, you can't.
+Put that into a cloud, you can.
+That could occupy all of
+the machines today, but
+we need to be able to do that
+to understand how life occurs,
+and how we can do optimizations.
+And that applies not
+only in the bios world,
+but it has enormous implications
+on economies and on businesses.
+So, we have this scaling
+of real-world entities.
+Up here, right at the top, is our target.
+We can't actually do this yet,
+but this is where we're moving.
+This is where we might be tomorrow.
+This is where we are today.
+[MUSIC]
+

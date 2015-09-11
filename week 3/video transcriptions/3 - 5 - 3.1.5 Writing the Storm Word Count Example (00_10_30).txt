@@ -1,0 +1,222 @@
+[MUSIC]
+Let's first look at how
+we would write a Bolt.
+Writing a Bolt in Storm is quite simple.
+Majority of the functionality of the Bolt
+is already implemented by the framework.
+And it's provided to you.
+We are certain interfaces and
+parent classes.
+In this case like the interface IRichBolt
+and the parent class ShellBolt.
+So all I need to do really
+is define a new class.
+Lets call it SplitSentence as my first
+Bolt in the diagram that I showed you.
+That just extends the required
+parent classes and
+implements the required interfaces.
+And inside this you just
+write simple java code.
+As input, you can just say,
+have a sentence and
+outputs are just words.
+So let me show you in another example,
+more detailed.
+Let's look at our next Bolt for
+example, the WordCount Bolt.
+This time I'm implementing
+a different interface.
+BasicBolt.
+And our next lesson where we get to talk
+about the more advanced parts of Storm,
+we talk about the differences between
+the RichBolt and the BasicBolt
+and how they change
+the functionality of Storm.
+But for now let's just assume that
+there is apparent sort of interface
+that you just decide to pick one or
+the other and just implement it.
+So here I'm creating a new
+class called WordCount,
+implementing the interface BasicBolt.
+And inside I want to write
+code to count words.
+What you have to do here and I just didn't
+show you in the previous example just to
+keep the slide a little bit clear.
+Is you have to overwrite
+a function that is defined as
+an abstract function in the interface.
+Now you have to overwrite it
+to make it a useable class.
+The function that you have to
+overwrite is the execute function.
+Which the framework gets to call every
+time there is a new tuple arriving.
+What it does is that it gets that tuple,
+calls your execute function,
+gives you the tuple, and aside from
+that it also hands you a collector.
+Which is off the type basic
+output collector in this case.
+This is your mechanism to
+use to emit output tuples.
+So now from here on it
+becomes very simple.
+You have one input value.
+And you can do your processing,
+any sort of processing,
+and use collector to just emit outputs.
+Once you've written your Bolts, for
+example the sentence splitting,
+the word count Bolt.
+And so on and so forth.
+Sorting, merging.
+You need to connect these Bolts
+together to make a topology, and
+topology is really the combination
+of these Bolts and
+their connections that achieves
+your goal and runs your program.
+To build a topology,
+what you do is you use this class
+provided by Storm called TopologyBuilder.
+Once you make a new
+object of this type and
+as we will see,
+provide correct parameters, it
+builds a topology that then you can pass
+to Storm to a running instance of Storm.
+And say, Hey, this is my topology,
+please start executing it.
+The first thing that you
+need to do in a topology
+is give it a set of spouts and Bolts.
+So let's see how this works.
+I start with a Spout,
+I just give it the designation one.
+For the class that it needs to go and
+find a code for spout.
+I'm telling it to go and create
+the spout from this class, KernelSpout.
+This is one of the Storm classes
+that can read data off of Twitter.
+As parameters to this KernelSpout, I'm
+telling it just to, I'm giving it the URL
+to read information off of Twitter and
+possibly a port number,
+some parameters requires for
+reading information off of Twitter.
+And one important thing that I'll talk to
+you about in a second is this number five.
+I'll talk to you about
+that in just a second.
+So once you've identified the spout
+that you want to use in your topology
+you continue by giving
+the TopologyBuilder object set of Bolts.
+So the next thing I say is that
+use a split sentence Bolt.
+I just introduced a class
+myself to the system.
+This is the class I implemented myself,
+and showed you in the previous slide.
+I give it the designation two.
+And what I do here next is I say,
+the input
+to this Bolt comes from
+components number one.
+And component number one was defined here.
+This is the spout and
+it's component number one.
+And not only that, I also specify
+how I want to get the tuples.
+In this case I say shuffle grouping.
+That means that any of
+the tasks in this Bolt.
+Can receive randomly a tuple
+created by the spout.
+So how do I specify the number of tasks
+that each of the spout ovals have?
+This is what I was talking about.
+Number five here, or number eight here,
+or number 12 in the next Bolt.
+This is what is called
+the Parallelism Degree.
+And it's really the number of tasks for
+each spout or
+Bolt that a programmer specifies.
+Once the Storm system sees this topology,
+it tries to launch eight tasks for
+this certain Bolt, our split
+sentence Bolt across the cluster.
+12 word count tasks across the cluster,
+five spout tasks as well.
+So now we can imagine there are five
+inputs streams of Twitter information
+coming into the system,
+into the topology right afterwards.
+So there are five input and
+then there are eight SplitSentence tasks.
+And each spout.
+Each tuple coming out of a spout
+can randomly go to any of these.
+Let's finish up this example.
+The next, the third Bolt and
+I give it the designation number three.
+I say it use this class,
+WordCount class that we saw how to
+implement in the previous slide.
+Run 12 tasks for it,
+get the input from component number two,
+which is the previous Bolt.
+And use field grouping,
+which as you remember, uses some
+sort of consistent hashing function.
+And since it requires a consistent hashing
+I am actually giving it the class that
+does the hashing.
+Finally, we need to,
+now that we have created a topology,
+we need to submit it to
+a Storm running cluster,
+a cluster that's running Storm and
+we are really talking about Nimbus.
+So what we really need to
+do is to tell Nimbus that,
+hey, this is my topology,
+it's in a jar file.
+I mean the topology builder
+puts it in a jar file.
+And then hands it to a Nimbus, but we
+eventually want to tell Nimbus that, hey,
+this is my topology I
+want to give it a name.
+Let me call it word-count.
+And, how do I get the topology,
+I ask the builder object,
+to now go create the topology.
+Before this, I told the builder,
+how the topology is going to be built,
+eventually I asked the topology to
+build a topology, and then pass it to
+Storm Nimbus through a class
+called StormSubmitter.
+This way after all of these steps,
+Nimbus gets the topology and
+then starts scheduling it.
+On the running supervisors and the cluster
+as many tasks as the user requested.
+Eight tasks were some of the Bolts, 12 for
+the other Bolt, and so on and so forth.
+Of course in this example I
+didn't show you all of the Bolts,
+in the diagram in the beginning of
+the video I showed you, four Bolts.
+Here I'm just showing you the code for
+two,
+the other two Bolts are quite similar.
+[MUSIC]
+

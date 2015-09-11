@@ -1,0 +1,85 @@
+[SOUND]
+So
+let's wrap up our discussion on MapReduce.
+What we saw was a very general
+interesting program and abstraction.
+That allows you to easily write
+programs that run on many, many CPUs.
+In the MapReduce abstraction basically
+the communication management is
+completely done for you by the framework.
+So, it's effectively gone,
+you don't need to worry about that at all.
+I/O scheduling is also done for us.
+So as you remember throughout this video,
+we never read data from the disk or
+write back to the disk, we just hand to
+the framework and it will take care of it.
+The framework provides for
+fault tolerance, it's provides for
+very nice monitoring of what's
+happening in the machines.
+So if there's a machine failure,
+if there are machines that
+are just suddenly acting slow,
+these are all handled by the framework.
+It becomes much easier to design and
+program your algorithm that runs
+on tens or thousands of machines.
+What you can do is you can also cascade
+couple of different MapReduce algorithms.
+One after another as we saw
+in our page rank example.
+You can have one job running
+after another MapReduce job
+running after another MapReduce.
+That's totally feasible and simple.
+Now, these are all advantages.
+What about some disadvantages?
+It restricts the set of
+problems that you can attack.
+It might be hard to express the problem
+in the MapReduce abstraction.
+As you remember, throughout this video,
+this lesson really,
+we talked about multiple examples.
+And what we learned is that you really
+have to start thinking in terms of
+maps and reduces now not every
+algorithm is prone to that
+sometimes you have algorithms that really
+have different communication patterns and
+it cannot be done that way so
+that's one shortcoming.
+Really data parallelism is the key here.
+If you have data parallelism,
+that means you can in parallel
+process different pieces of input data.
+That problem might be a good fit for
+MapReduce.
+Not all problems have data parallelism,
+that's one of the shortcomings.
+So, MapReduce is a proven useful abstract.
+It's being used in industry everywhere.
+If you look at the trends,
+you'll see that basically most
+of the programming languages for
+the last decade their popularity
+had either remained constant,
+or like Java, C, whatever,
+goes slightly down.
+Hadoop exponentially increasing, and
+still the trends show that there's
+lots of interest in Hadoop.
+Greatly simplifies
+large-scale computation.
+Based on functional programming paradigms,
+but
+now it's much simpler to apply
+that mentality to large datasets.
+And basically,
+it lets you focus on the problem and
+let the middleware and
+framework handle all the messy details.
+[MUSIC]
+

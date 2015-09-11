@@ -1,0 +1,314 @@
+[SOUND]
+Let's look at some more detailed examples
+of map reduce in this video.
+We start by Pi Estimation, so
+we want to estimate a value of pi.
+And then we'll move onto
+an image processing algorithm.
+So in that first example, what we'll
+want to do is use what is called
+a Monte Carlo simulation method to
+estimate the value of number pi.
+The idea is actually very simple.
+It's based on throwing darts at a board.
+Right?
+So let's say you want to
+estimate the value of pi.
+You can draw this board,
+as you see on the righthand side.
+You have a square and
+you have a circle right in there.
+The radius of the circle is one.
+It's just a simple shape.
+We know that the area of circle
+in this case is p r squared,
+r is equal to one, so
+the circle area is pi.
+The square area is 4, right?
+Of course you have 2 multiplied by 2,
+square area is 4.
+So if you want to calculate
+the value of pi you could
+basically divide the area of
+the circle denoted here as
+value C by the square area.
+Do you know what that is?
+Multiply by 4,
+that gives you the value of pi.
+How can we do that?
+How can we estimate pi
+given that you already know
+the value of C and value of S?
+You already know the areas of
+the circle and area of the square.
+So you already know how to do that, the
+only question remaining here is if you,
+how can you find the circle
+area on the square area.
+And now that's how, that's why we
+start throwing darts at it, right?
+So, here's assume that you have a million
+darts and you have this dartboard.
+You start throwing darts
+towards this dartboard, and
+let's assume you are really good,
+you will never miss the board.
+So your darts will start landing here.
+Right?
+And assume that you have a million
+of these, you can imagine after
+throwing a million of these, the whole
+are will be filled with darts, right?
+All you need to do is
+throw a million darts.
+And then count how many of
+them landed inside the circle.
+And how many you were totally throwing,
+the ones that didn't count,
+didn't land inside the circle,
+obviously landed outside the circle.
+Which is, you know what I'm saying.
+So in other words,
+to find the value for c And
+S here, in this formula, you just
+need to have a count of the number of
+darts that landed inside the circle and
+the total number that you threw out.
+Once you have those values you can
+compute the ratio of the darts
+landed within the square versus
+the darts landed within the circle and
+evaluate for their particle or
+dart landed in a circle or not.
+All right, so at this point I
+would like to invite you to
+pause the video for a bit.
+Think about it and then once your
+done we can move to the answer.
+All right so you thought about it.
+So hopefully your solution
+will look similar to mine.
+But lets look at this solution for
+Pi Estimation.
+So the mapper function in this case,
+the the mapper itself
+generates points which
+really is a pair of X and Y.
+In a unit square, so we can have you know,
+values between -1 and
++1, created for X and Y,
+so the map function creates
+these as random numbers, and
+then counts the points counts
+the points that are inside the circle.
+To find whether a certain point is
+inside a circle, it's pretty easy.
+All you need to do is to find the square
+root of X squared plus Y squared.
+If it's less than value 1,
+that would indicate that
+the point is within a circle.
+If it's not, it's outside, right.
+So, once you do this test in your mapper,
+all you need to do is emit an intermediate
+value pair saying that Inside.
+Value one.
+If that's the case.
+If it's, again, and then.
+Aside from this, you can also, and
+with something else as, total.
+One, right?
+That means I created one dot so I can keep
+a count on it and it was also inside.
+If this condition does not hold,
+you just emit this
+total and want intermediate value
+you do not create inside and one its
+says hey I threw a dart but
+it was not inside fine.
+And in your reducer you just
+accumulate the points you find out
+the number that we're inside, you have the
+reduce finds a number that we're in total,
+you can run this for a billion numbers
+on 10 machines 100 machines whatever.
+And calculate pi to any number of
+accuracy that you want the more
+random numbers that you create the better
+accuracy your pi value will have.
+So, to calculate the pi all you need
+to do is calculate the ratio of number
+darts inside, divided by number total.
+All right,
+let's move on to other example here.
+We're talking about an image
+processing function
+that is typically called smoothing.
+If you have any experience with image
+processing applications like Photoshop or
+things like that, you know that
+there's a sharpen function and
+then there's a smudging function, right?
+You can smooth that image by
+basically reducing the sharpness.
+Now one algorithm that I'm showing here
+uses what is called the sliding mask.
+And, using this mask, you take this mask
+over all your picture, and
+replace the values of each pixel.
+So, let's look at how it works.
+The mask that you have takes nine pixels.
+Right?
+As we can see, there are nine pixels here.
+It considers nine pixels.
+It averages the values of
+all these nine pixels, and
+then replaces the value
+of the center pixel with
+that average pixel of every pixel around
+it, and itself, of course, included.
+So it can imagine a serial algorithm
+would start by going through the first
+nine pixels and then it would move one
+to the right then it would move one to
+the right and then you can kind of scan
+the picture line by line, pixel by pixel.
+And once you're done, this algorithm.
+Okay, let's implement this
+algorithm with map reduce, right?
+So let's assume your image is really
+large, 100,000 pixels by 100,000 pixels,
+or maybe even more,
+a million pixels by a million pixels,
+which is not that uncommon especially
+in astronomy when you have telescopes
+that scan the sky and they do create
+really really high detailed values.
+Now of course this is an example an
+astronomer wouldn't know why you want to
+smooth an image you would
+usually want to sharpen it but
+you know this is just a simple example.
+To make it a little easier for
+you to think.
+In a serial implementation you can
+assume that, hey, if I apply my mask
+first here then move onto the next
+one the new values are taking effect.
+Let's ignore that.
+Let's say that you want to process
+all the pixels in this image
+in parallel using one certain snapshot,
+and
+then you want to create
+a new image with new values.
+So forget about the dependencies of
+the algorithm if it's scanning, or not.
+All right, so
+this is a good time to pause the video and
+think of this problem a little bit.
+Once we come back we'll
+talk about a solution.
+The way I solve this
+problem is by assuming that
+the input key is an A pair of x and
+y coordinates, and
+the value to the map is a triple.
+A pair of red, green, and blue values.
+That's very common in
+image storing formats.
+You usually store a red, green,
+and blue value for each pixel, so
+that's what we have.
+Right?
+Now, remember this is what it
+makes it a little bit hard.
+Let me go back to the previous slide and
+talk about this in this picture.
+You might have actually started to think
+in terms of how can I process nine pixels?
+Right?
+But remember, what did I say?
+A map function gets only one input value.
+In a map function you do not
+have access to nine pixels.
+And it becomes very, very hard,
+very possibly impossible to trick
+the system into somehow getting the values
+of neighboring pixels to you in the maps.
+So, don't go after.
+What you have in your map function
+is one pixel and one pixel only.
+You have to play tricks to get your
+algorithm working, but map is what it is.
+So what I do instead here
+is instead of looking at
+my data flow let me show here again
+of values of different pixels coming in.
+I actually start thinking in reverse.
+Let me wipe this out.
+I'll take in reverse.
+I'll actually move
+information out of my pixel
+into the other neighboring places, right.
+So what I do in my map I.
+Emit 9 points, what do I have,
+I'm given x and y.
+Now I can create x- and y-1,
+that's information I have.
+So x-1, y-1, emit with the same
+RGB values x and y-1 RGB values.
+x +1, y-1, R, G, B values.
+So and so forth.
+So now then you have again x-1.
+Sorry.
+X-1and y.
+x and y.
+x +1 and y.
+And it's nine different values.
+What have I done here?
+What I've done is basically
+I send the information
+in the intermediate key value space so
+that the framework can do it's job.
+The framework can pair the nine
+pixels in the right place.
+Now who's doing the real
+computation that I want,
+and remember the real computation
+is bringing the information in.
+The guy that does this is reduce, right?
+Frame work finds all
+the intermediate key value pairs
+that have the input key as X + Y,
+no sorry, not x,y.
+What happens is that it goes and
+finds all these values that
+that imitate from all the neighboring
+pixels that come to this pixel.
+For reduce, and inside it it computes
+the averages of those nine pixels.
+So this is actually a good example.
+You don't need to do your
+processing always in map.
+That's like a tendency that
+programmers new to map usually think.
+I should do most of my work in map,
+reduce just wraps up things, right?
+Not necessarily.
+A lot of times, and we'll see
+actually in our next example as well,
+map might do less work than reduce.
+So, to wrap up this example,
+once your reduce function
+computes the average R, G,
+B values for all the pixels.
+It just emits using its given key,
+x and y, and
+the value being the average R,
+G, B that it just computed.
+The result that will go in
+the file will have the smoother,
+the average value, inside the output file.
+[MUSIC]
+

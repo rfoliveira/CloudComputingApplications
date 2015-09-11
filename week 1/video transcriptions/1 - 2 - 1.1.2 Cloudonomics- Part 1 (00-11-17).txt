@@ -1,0 +1,262 @@
+[SOUND]
+Economics really is
+the foundation of cloud computing.
+Cloud computing revolution really
+started because people were considering
+the costs involved in providing
+computational facilities.
+And whether there's
+a better way to manage all
+data center's computational
+infrastructure, networks, everything.
+We first look at utility pricing,
+and later,
+we will look at benefits of common
+infrastructure in a different video.
+This topic is based on a paper
+by Joe Weinman, Cloudonomics.
+And I suggest you take
+to look at that as well.
+There's more details in that paper and
+more benefits explained.
+We pick these two.
+So, looking at the value
+of utility pricing.
+We want to explain why you
+can have cloud services
+that are more expensive than owning
+your own infrastructure per hour or
+per day, whatever, and
+still be economical.
+Let's look at an example.
+Consider a car.
+You can buy or lease a car for,
+let's say, I don't know, $10 a day.
+Number's not that important,
+but let's say $10 a day.
+And let's say, if you want to rent a car
+for a day, it costs you $45 a day.
+So, very obviously,
+renting the car is more expensive
+than owning the car, per day.
+But let's say you go to a trip.
+Let's say you take two days, and for
+a vacation, and you go somewhere.
+You don't buy a car over there.
+You take an airplane trip.
+And then you rent a car for
+two days because buying wouldn't
+make much sense over there.
+So it totally depends on
+the type of demand that you have
+to figure out if it's more economical
+to rent or buy a car or services.
+So, let's look at this in
+a little bit more detail.
+We try to model this using
+a simple mathematical model
+and figure out how everything
+is going to work out.
+So let's say you have demand.
+Demand is shown here by demand of t
+that denotes that its demands per time.
+One day you might have
+a lot of computing demands,
+another day your demands could go down.
+We are looking at this for
+a certain time period between 0 and
+time capital T, let's say capital T is
+I don't know, a whole year, 365 days.
+During this time,
+your demand goes up and down.
+So P is the peak demand
+during one day throughout
+this 365 days,
+your maximum demand we can denote by P.
+What else do we have?
+We can talk about the average demand,
+you'll take
+the mathematical mean of all
+the demand during out the year.
+B would be the baseline cost
+of your computing unit.
+So for example, a computer costs $10
+a day, that would be your B here.
+So that works, $10.
+Therefore, what is B of T?
+B of T would be the total cost of owning
+infrastructure throughout the year.
+And we will try to compute this value.
+What about cloud costs?
+Cloud unit cost is the cost of cloud
+resources, say again, per day.
+We want to compute what
+is the total cost of
+renting cloud computing
+resources throughout the year.
+Now finally, we have the utility premium,
+which is defined as the ratio
+of cloud cost over baseline cost.
+So for example, if your cloud cost
+is $45 then baseline cost is $10.
+Your utility premium would be 4.5.
+So, our mission here is
+trying to find out the total
+baseline cost per year, and total cloud
+cost per year, and then comparing them.
+Well, let's actually start
+from total baseline cost.
+This is easy.
+If your demand goes up and
+down, let's say this is your demand
+throughout the year, and goes up and down.
+You need to provide the services
+to your customers every day.
+And you don't go and
+buy new machines every day.
+So since this is your peak demand,
+you need that many machines
+throughout the year.
+You need 200 machines.
+That means that throughout the year
+you need all of 200 machines
+to be sitting there.
+And that's actually really
+the reason why we go through
+to the argument of cloud computing.
+But let's continue.
+So the total cost of owning
+would be the baseline cost,
+multiplied by the time period, 365 days,
+multiplied by how many machines
+do you have, P, the maximum
+number of machines that you need to
+answer your workload for peak demand.
+Now what about cloud cost?
+For cloud cost,
+it's actually a little bit more detailed.
+You can very quickly yen.
+Get and release resources from the cloud
+provider as you demand goes up and down.
+So now we can actually do an integration.
+Integral of the cost of the cloud that's
+actually you multiply by B,
+just look at here.
+Cloud cost is really you multiply by B.
+And you do an integral over
+time throughout the year
+from the first day to the last day.
+If you compute this,
+you get less value for the cloud costs.
+So now the question is, when is cloud's
+going to be cheaper than owning?
+CT less than BT.
+If we substitute these values
+that we just computed.
+In this argument, we want to find
+out when is A multiplied by U
+multiplied by B multiplied by T, less
+than P multiplied by B multiplied by T.
+If you do the math, implies that
+clouds are cheaper than baseline
+when the utility premium is less than the
+ratio of peak demand to average demand.
+So if your workload is
+very highly various,
+goes up and at some point goes down and
+goes up again and goes down,
+say here your average is a certain
+value and your peak is a certain value.
+If the ratio of peak to average is more
+than the utility premium that the cloud
+provider is asking it becomes more
+economical to use cloud computing.
+So in real world that was
+a simple mathematical model.
+What about in real world?
+So in real world and practice,
+demands are often very spiky which
+is good for cloud computing.
+You have news stories coming in, something
+happening, everybody's interested,
+goes to their news website, tries to
+find out, and then within a day or
+two, nobody cares anymore.
+The demand goes out.
+Marketing promotions.
+Manufacture wants to sell their things.
+There's a one week, two week time period.
+Everybody wants to use a certain sale,
+and then the sale is done.
+Product launch is the same thing.
+Internet flash floods.
+Your article or
+blog somehow made it through /.website.
+Everybody in the world comes and
+checks out your blog and
+you need to resources to
+respond to that sort of demand.
+And then within a few days
+again that demand goes down.
+Tax season,
+everybody has to file taxes within
+a certain time period throughout the year.
+The rest of the year nobody
+goes to that website.
+So in reality, lots of demands are spiky.
+Now often, a hybrid cloud computing
+model provide the best advantage.
+So going back to our car example,
+in your own town,
+you own a car, you use it for
+your daily commute, go around.
+Whenever you travel, you rent a car.
+For example,
+when you need to move from one house
+to another house, you rent a van.
+You don't own a van all the time.
+Even in your own hometown.
+So a key factor is really figuring
+out the ratio of your peak demand to
+the average demand that you have.
+And own part of your computing
+infrastructure yourself, for
+your average demand, and
+be able to move on to cloud computing and
+providers whenever there is a need to.
+Although of course,
+I should mention here that it’s not
+very simple, as I just implied.
+You should also consider
+the network costs.
+Because if you are providing a hybrid
+model, you have to have a good network
+that connects your infrastructure
+to the cloud infrastructure.
+You need to provide interoperability
+between your own cloud and
+the public cloud so
+that might cost a little bit.
+And of course, you need to
+consider reliability requirements,
+accessibility requirements that you have.
+So it's a little bit more detailed but
+what we see
+today is that a lot of entities grow
+towards hybrid cloud computing.
+So to summarize, utility pricing is
+good when demand varies over time.
+As is the case for startup companies,
+seasonal businesses, etc.
+When utility premium is less than the
+ratio of peak demands to average demand,
+cloud computing is beneficial and
+makes sense.
+In the next video, we will look at
+the possible savings on the other side for
+the cloud providers that they can create
+by using statistical multiplexing.
+That's putting different jobs from
+different customers together.
+[MUSIC]
+

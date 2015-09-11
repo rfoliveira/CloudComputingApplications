@@ -1,0 +1,269 @@
+[SOUND]
+In this lesson we will talk about how
+Hadoop is implemented.
+Now, the first video we'll
+talk about Hadoop itself,
+as in how a map reduce application
+implemented on top of map Hadoop works.
+And this is the way Hadoop is
+implemented in Hadoop 0.23
+which was basically Hadoop's
+architecture for a long time.
+Now in the rest of the videos in
+this lesson, we will move to YARN,
+and we will talk about how YARN has
+changed things and what it has retained.
+And we will talk in detail
+about the architecture of YARN.
+But before getting into detail about YARN,
+we need to know how Hadoop was
+implemented before because
+the terminology will remain the same.
+So as I mentioned,
+Hadoop 0.23 which was later renamed
+to Hadoop 1.x is basically
+this architecture.
+Map reduce application, as we have
+talked about in the previous lesson,
+you have a input data set.
+You basically divide it into
+arbitrary-sized pieces,
+store the pieces probably on HDFS.
+Run map functions on input data chunks,
+create intermediate key-value pairs,
+hand the key-value pairs to the framework,
+the framework will group them by key.
+Once it's grouped them, it will pass them
+into reduce function invocations and
+create the output.
+But now let's see how this would
+be implemented on top of Hadoop,
+how Hadoop would execute this.
+So in Hadoop what you have is
+basically two separate main entities.
+One is a JobTracker.
+You can think of it as
+the master node in the cluster.
+JobTracker is the machine that
+coordinates everything on the cluster.
+Now, on each machine,
+on each worker machine in the cluster,
+you have a program,
+a daemon called TaskTracker.
+TaskTracker basically listens to
+what JobTracker tells it to do,
+and will do that task.
+So for example, JobTracker will say,
+it will tell TaskTracker, run such and
+such function for map, or such and
+such function with such and
+such input data for reduce function.
+So the first thing that happens is
+that a client, a user, submits a job,
+a map reduce job to the JobTracker.
+By submitting a job, the user provides
+the code that it needs to be run.
+It's typically stored in a jar file,
+as in a Java jar packet.
+And it also tells JobTracker where its
+input files are, typically stored on HDFS.
+What happens then is that JobTracker
+breaks the file into k chunks,
+k number of chunks.
+k could be the number of nodes
+you have in your cluster.
+For example,
+in this animation you see 6, and
+assigns work to different
+TaskTrackers on different nodes.
+TaskTrackers would go start running map
+functions on their assigned input pieces.
+And once the maps are done,
+they would start exchanging map outputs,
+the intermediate key value
+pairs that the user has created
+by executing the map function.
+And so
+it does a shuffle in the network and
+creates the key space grouping
+by key of the intermediate
+key value pairs.
+Once that's done, TaskTrackers
+will tell JobTracker, we're done.
+JobTracker will then break
+the reduce function,
+reduce will break the key set grouped
+by key into number of chunks.
+Now in this case, again, I'm showing 6.
+And then assign work to
+different TaskTrackers.
+Again, this time it will ask
+them to run reduce function.
+And finally reduce function outputs
+will be stored back in HDFS.
+So this is how Hadoop is designed.
+Let's look into detail
+a little bit on the steps.
+So the first step is
+initialization of execution.
+What happens is that the system
+splits files into smaller chunks.
+Now when I say small, again remember that
+you're talking in the context of big data,
+so 64MB or maybe 128MB are typical chunk
+sizes used in, for example, HDFS or GFS.
+Contrast this with what you have on
+regular Linux or Windows file systems
+where your typical chunk size stored on
+a hard drive is maybe 4 kilobytes of data.
+In HDFS you have 64MB of
+data stored in one chunk.
+So continuing what happens after
+you divide the input files into
+pieces is you fork off the program
+into multiple machines, and
+one machine becomes the Master.
+That's your JobTracker.
+Master then assigns idle machines
+to either map or reduce tasks.
+The Master also coordinates data
+communication within map and
+reduce jobs, map and reduce machines.
+So that map machines, once they're done,
+they send their information to
+the proper machine to be
+divided into key groups.
+So one important thing here
+is partition function.
+So when you have an input data chunk
+that will be passed to a map function,
+a map task, remember the input
+data chunk could be 64MB in size.
+That's a large size.
+That doesn't necessarily map
+to the size of an input item.
+An input item,
+as we've seen in our examples before,
+could be one line of text,
+a couple of bytes of information.
+All right, so
+let's look into what the map-machine does.
+A machine that was assigned
+by JobTracker to do map, what
+it does first is that it reads contents
+of the assigned portion of the file.
+It then parses that portion of the file,
+could be 64MB, 128MB, whatever,
+and prepares data to be input
+into the map functions.
+For example, the input data could be
+one line of text that needs to be
+extracted out of that 64MB chunk size.
+A line of text could be a couple of bytes,
+so the framework needs to
+provide this functionality.
+Now, the framework does this by
+using classes that implement
+InputFormat class.
+The InputFormat, basically,
+gets a large file,
+again, HDFS chunk size 64MB.
+Goes through it,
+extracts record by record by record.
+There are a bunch of these InputFormat
+implementations provided in Hadoop.
+And of course, the user can always
+go in and overwrite a class and
+create his or
+her own custom InputFormat class.
+All right, so
+what happens next is that this
+InputFormat class will
+extract input records,
+and will pass them one by
+one to the map function.
+And we'll call map again and again with
+input records read from that 64MB file.
+The framework will also take
+over any intermediate key-value
+pairs that the map creates, and
+store them somewhere in memory.
+And then if there's too much of them,
+it just spills them to disk.
+And it periodically notifies the Master
+of the partially completed
+work done by the map.
+So that the JobTracker,
+the Master, knows the progress
+of the map function and can show
+the progress on the user interface.
+What does the Reduce-Machine do?
+The Reduce-Machine receives
+notification from the Master, or
+the JobTracker node,
+of partially completed work.
+What it does then is it
+retrieves the intermediate
+data from Map-Machines using the network.
+And as the partial
+intermediate data come in,
+it sorts them by key used in their
+intermediate key value pairs, right?
+And then once the Map-Machine says,
+okay, I'm done, by this point,
+just there's a little bit of
+information left to be transferred,
+you transferred them.
+And then it starts iterating
+over intermediate data.
+By this time, the Reduce-Machine might
+have information for more than one key.
+So it groups them by key and
+sends the corresponding set
+of values with a certain key to one
+invocation of a reduce function.
+And finally, it handles the output
+from the reduce function provided by
+the user and stores it into
+an output file on GFS, or HDFS.
+So, where does the data get stored?
+Both the input and the final output
+are stored on some implementation of
+a distributed file system,
+HDFS in the case of Hadoop.
+Now one thing that
+the Hadoop scheduler tries
+to do is to schedule map
+tasks on the physical
+machines that are close to
+where the data is stored.
+Now, it has defined notions of
+how data is close to its source.
+The closest of course is if the hard drive
+on the same machine contains the data.
+But for Hadoop's purposes, it considers
+any machine within the same rack
+as data local, because the's only one
+hop from the machine storing the data
+through the top of the rack switch and
+back to another machine on that rack.
+So that's how Hadoop considers
+closeness to the data,
+and data locality is a very important
+thing for processing big data.
+Intermediate results,
+where are they stored?
+Well of course, they are buffered into
+memory and once the buffer is full,
+they are stored on the local file
+system of map or reduce machines.
+So they don't need to
+be stored in the HDFS.
+And then one final thing to mention is
+that since the outputs are stored on HDFS,
+the output of a job, output of
+the reduce task are stored in HDFS,
+they are ready to be fed
+into another map reduce job.
+[MUSIC]
+

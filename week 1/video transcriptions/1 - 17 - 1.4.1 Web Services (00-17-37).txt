@@ -1,0 +1,416 @@
+[SOUND] We described
+how to build clouds and
+how you can create
+scalable cloud services.
+The question is,
+what sort of services would you provide?
+And if you like 101,
+is web services providing
+just the feasibility of a scalable
+webserver that can cope
+with multiple requests and
+an increasing number of requests
+that would require more servers.
+And perhaps that fluctuates from
+being enormous to a small amount.
+You can imagine, for
+example, the Olympics.
+The Olympic servers might, you might just
+have one server serving everybody, but
+as we get close to the Olympics you're
+going to want a large number of servers
+providing Olympic information, and
+that's going to scale up over the period.
+If there's excitement about a particular
+event you may have to duplicate servers
+for that particular event,
+serving out the web requests.
+And then eventually it will be history,
+and
+you can shrink that whole operation down.
+You will have seen from
+the previous descriptions,
+with say OpenStack, that what you can
+provide is an infrastructure to do this.
+But what we didn't describe is just
+how would you make a web service
+that's scalable and can operate that way?
+And in this lecture, and in the NP you're
+going to be doing, what we're going to be
+exercising is web services and
+the ability to be able to scale.
+So, overview.
+Today will be, well, how do you provide
+web services and that might seem
+simple to a lot of you, but hold on.
+As we go through it there will
+be ramifications in what we're
+describing that might get
+a little bit more complicated.
+We're going to talk about how
+web services can migrate into
+providing remote procedure
+calls using SOAP and RMI.
+And this forms the basis of doing
+many of the operations that you saw
+we needed in order to run OpenStack or
+even Mirantis.
+That they communicate from the front end,
+the dashboard, to various servers.
+And they use protocols to do it, and
+those protocols are based on HTTP and
+actually SOAP underneath.
+Later we'll find out they use JSON and
+XML and all sorts of other things.
+What we will then go and
+talk about is a prescribed way of
+using HTTP that records
+state associate with HTTP so
+individual HTTP requests can
+move you through the state.
+Effectively the server behaves
+like a state machine' and
+the requests come in move you
+through the state machine.
+And that description is called REST.
+We'll describe that.
+And then we'll go for richer
+descriptions of of HTTP, JSON, and XML,
+which add information on or above just
+straight HTTP requests so that you can
+have a richer communication environment.
+The reason for all of that will be we'll
+get to load balancing and what we want
+to describe is the situation where you
+provide a web service for lots of people.
+And as those people increase,
+what you would like to do is to take their
+requests and
+move them to different servers.
+You're going to use load balancing to do
+that, and you're going to exploit some of
+the features that were in those earlier
+protocols to allow you to do that easily.
+So that's the name of the game.
+And what we're going to start off
+is just talking about web services,
+we're going to ease into it and
+by the time we get to load balancing,
+you'll see why we've been careful
+about defining our terms.
+So, this is the notion.
+We're going to introduce you to
+web services and load-balancing.
+And typically, you're out there
+in the cloud, in the Internet,
+you're accessing through
+whatever mechanisms, but
+they'll involve routers
+into your data center.
+There will be a server in the data center,
+and
+that will be running on its own machine.
+All those requests coming off the router
+will go into that load balancer.
+Typically the load balancer
+doesn't do very much.
+What it does is to farm out those
+web requests to different servers.
+It makes sure that if you are client A,
+say,
+you're going to go to web
+service to a particular server
+A in a consistent manner throughout
+your session with the cloud.
+The next time you come back,
+you might go to a different node, but
+this time you will be going to that
+particular node to provide the service.
+So the load balancer is going to look
+at the overall incoming requests,
+and it's going to say well, I've got a lot
+of load on these machines, I need perhaps
+to create a node with a new web server for
+you.
+It puts it up, and
+then lets you talk to it.
+So what it's in charge of,
+is fair sharing if you like, or
+sharing out all those requests for
+servers amongst the available servers,
+and if it doesn't have enough servers,
+it will go and create extra ones
+as necessary, depending upon how
+sophisticated the load balancer is.
+So, once you actually
+farm out the request and
+you notice the flow goes down,
+we've got the Internet here.
+It's going to go down through the router,
+but the load balancer
+is going to send the request
+to the individual web servers.
+They're all going to be sort of identical,
+duplicates of each other.
+They're going to provide
+the same information, but
+they're going to respond particularly
+to one particular person.
+That web server is going to reply
+to you with the results of your
+web request, and so
+that will follow the network back to you.
+So there has to be a linkage between
+your request and and the reply.
+Well, the techniques for
+doing all this are commonly
+lumped together in one
+definition of software.
+It's this sort of middleware layer for
+the web.
+Basically, middleware that provides
+services to our locations beyond those
+available from the operating
+system point of view.
+The middleware allows
+you to have libraries,
+all sorts of different services.
+So typically the web services
+will be classed as middleware.
+And what we're going to describe
+is all those components that
+are needed to make this happen.
+So why middleware?
+Well what we're trying to do is to provide
+those functionalities across different
+applications, and
+across different types of implementation,
+trying not to duplicate
+software that we don't need to,
+and also making sure that people
+don't reinvent the wheel and
+don't have all sorts of different
+ways to do very similar things.
+So what you're going to find is
+that there's middleware for HTTP.
+There's middleware for the web services.
+There's middleware for JSON.
+All that stuff is implemented
+in that sort of layer.
+And what we're going to be doing
+is building distributed systems.
+They're going to be very, very identical
+to each other for maintenance purposes.
+They're not going to be that
+different from a single node, they're
+just going to be tweaked, if you like, so
+that they work in a distributed fashion.
+So here we've got the applications,
+they're going to want to communicate
+down to your cloud systems.
+Those cloud system are running
+operating systems services.
+The middle layer is in the middle, and it
+implements all different functionalities.
+It's going to put/get data for
+the HTTP requests.
+It may implement remote procedure calls,
+meaning what it will is to simulate
+the effect of a procedure,
+but that procedure will cross
+the boundaries from your application,
+on your browser, to the remote site,
+where it will look like a procedure
+there on the actual cloud.
+And then you will get return values
+coming back to your browser,
+just as if you called a procedure locally.
+And that's implemented with SOAP.
+There's going to be support for
+applications beneath that, so
+that support needs metadata
+about what you're doing, and
+that metadata is provided in different
+data representations like JSON and so on.
+And so there's another middleware
+layer that's responsible for that.
+And then, the operating system will
+be actually running the servers, and
+interacting the middleware will be
+communicating with those servers, and
+so it will all fit together.
+So let's first look at SOAP as an example.
+We understand HTTP.
+What HTTP does is to put and
+get data to and from a server.
+You put a request you get
+back the webpage, and
+that's a get, and
+that is get send display.
+Well, let's suppose you wanted to do
+something more sophisticated than that,
+let's suppose that what you wanted
+to do is to make a request to create
+a OpenStack server, say,
+how would you do it?
+Well, the mechanism that's used is
+to transmit an HTTP request with
+a put to the OpenStack interface,
+and it will be coded in XML with all
+sorts of special metadata in it.
+What you're going to get back is a handle,
+in the form of an XML document
+if you like, that would
+describe the instance that
+the OpenStack has created for you.
+So that sort of return and reply,
+what it's done is change the state of the
+cloud in response to a request from you.
+And so it really acts like
+a procedural call, in a sense.
+And there's lot and lots of different
+circumstances where you can
+actually make those type of
+procedures out of the web requests.
+But SOAP is a protocol that
+allows you to do it simply.
+It's well defined so
+that you can read those SOAP requests and
+see what's going on, and there are tools
+actually to build SOAP systems.
+It really underlies the web service
+description language, WSDL,
+that you can find on the World Wide Web.
+In other places,
+it describes a sort of protocol for
+establishing more complex relationships
+other than just the plain web servers.
+So, that type of description,
+that's SOAP, it's an example
+of providing procedure calls.
+As we said, in general procedure
+calls can be two objects, meaning
+it's not just procedure call, there's
+a special argument in the procedure
+that denotes a specific entity on the
+cloud service that you want to talk to.
+So in this way, you can talk about lots
+of different objects within the cloud
+by using that object
+parameter in your request.
+So you have procedure calls, you can have
+a special parameter, which is the objects.
+Typically, if you do that, then
+the procedure call will be routed to that
+object to actually invoke
+the procedure on that object, and
+you have a sort of remote object call,
+effectively.
+You also find that there's
+notions of shared memory which
+don't really work across
+a distributed system.
+So as a consequence, what you do is
+to have representatives of objects.
+You have identifiers for the objects.
+And you pass these backwards and
+forwards because you don't really
+have a shared memory environment.
+You can't just name an address.
+You have to use some sort of handle,
+some sort of identifier.
+And what we're going to find is
+in things like SOAP and so on,
+you're going to be using web addresses,
+actually,
+those strange slash, slash,
+slash, slash path names,
+to actually identify the objects that you
+want to talk about and which are shared.
+So, the middleware is going to
+provide all the software to
+allow this to happen in
+a distributed application.
+It's all going to be transparent to you,
+as a client, what is occurring.
+The middleware will provide
+that level of functionality.
+We're going to start by backing off,
+if you like, going to square one.
+What are objects,
+what are procedure calls,
+and let's just see how then
+that gets mapped into HTTP.
+So, within a process address space
+you typically have an object.
+It's got a set of data, a set of methods.
+You probably met it as a C++ object.
+You probably met it as a Chord object.
+There could be all sorts
+of ways you might see this.
+The object reference is usually some
+sort of identifier which uniquely
+designates that particular object, and
+typically in C++ it will be a pointer.
+Now, nothing like that will work
+in a distributed system, so
+we need to find substitutes.
+We need to find distributed substitutes
+for these in our middleware.
+And at the interface, what you're
+going to be doing is passing requests,
+which will be basically calls
+to different procedures,
+and one way of talking about that is
+you'll have a set of methods on an object.
+Each of those methods will be a procedure.
+There will be a unique object in
+the procedure parameters that's the object
+method, or designates the object to
+which the method's being applied.
+You're going to want to
+describe what that formal
+mechanism is, and
+that will be a signature.
+These requests will return arguments,
+and so
+you will have this two-way protocol.
+So, put(objectname), get(objectname),
+those are the types of things you
+will have for talking to objects.
+You will provide, or
+the middleware will provide,
+mechanisms to go across address spaces,
+as we said.
+So, you're talking to your application
+space, you want to talk to the servers.
+You're going to want to
+cross those address spaces,
+you use something called
+remote method invocation,
+meaning that you look as if your
+application is calling a procedure, and
+what it turns into is a sort of HTTP
+request to the server at the backend.
+The server will take those requests and
+map them back in to a procedure call
+on the right object, get the return
+values, return them again with the web,
+and they will then get mapped back
+on your machine into the results.
+So, remote objects will be
+objects that can receive
+remote invocations following a procedure
+call, looking like a procedure call.
+Remote object reference will be
+some sort of string, perhaps a URL,
+that refers to a remote object and can be
+used instead of a pointer or an address.
+And a remote interface, well,
+that’s going to be how you call these,
+how you actually invoke the procedure
+mechanisms, and typically, it’s going to
+look like some web server in our
+implementations we are going to describe.
+[MUSIC]
+

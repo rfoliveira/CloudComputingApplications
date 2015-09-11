@@ -1,0 +1,193 @@
+[SOUND]
+In this
+video we will talk about the details of
+the resource manager component of Yarn.
+Now resource manager is
+the controlling interface.
+It's basically coordinates the resource
+allocation throughout the cluster, right?
+It controls the node managers, and
+application masters also talk to
+resource managers to request resources.
+So, the way I describe resource
+manager here in this video is to
+go through the Java interfaces that
+the resource manager object implements.
+To see basically what classes of services
+is provided by resource manager.
+So as you see in this diagram
+users talk to the ResourceManager.
+NodeManagers also talk to the
+ResourceManager, and ApplicationMasters.
+Each of these actors in this model
+talk to different components
+of the ResourceManager.
+So as you can see, users have
+a set of user facing interfaces.
+Application, client protocol,
+web apps, web services,
+and ResourceManager/AdministrationProtocol
+that they communicate with.
+Node managers really talk
+to the resource tracker and
+application master they talk to
+the ApplicationMasterProtocol
+part of the ResourceManager, and we will
+introduce them in the upcoming slides.
+Notice that there is one component here,
+the YarnScheduler,
+that doesn't need to talk to anyone.
+This is the component that decides,
+okay, now it's time to schedule such and
+such tasks on such and
+such containers throughout the cluster.
+So, let's go through these one by one.
+Application client protocol is
+an interface designed for ResourceManager,
+so that the user can submit
+an application or control an application.
+It can kill an application, submit
+an application, query an application for
+its status.
+It gets the cluster state and
+so on and so forth.
+This sort of information the user
+can interact with ResourceManager.
+The web apps interface provides a UI,
+a user interface for
+users to track the state of the cluster,
+the state of the applications, the state
+of the scheduler and such information.
+Keeping on the track for
+the user facing interfaces,
+we have the web proxy interface.
+This is actually a user provided URL,
+that users submit to ResourceManager
+when they submit an application.
+And they intend this
+URL to act as a proxy.
+Therefore, application master then,
+can communicate to that proxy
+that the user provided.
+And the proxy basically what it does is it
+redirects users to the tracking the URL.
+The other service provided
+here is web services.
+And through it we can avoid
+programmatic screen scraping of
+web apps and really increase
+the security of the system.
+The last user facing interface here is
+the ResourceManagerAdministrationProtocol.
+Where it provides facilities
+to control access of users,
+reconfigure the scheduler, decommission or
+restrict some of the nodes, and
+it's basically the administration
+interface to the ResourceManager.
+Okay now, moving on.
+Let me show you this again.
+So, we talked about these four
+interfaces already here now.
+These were the user facing interfaces.
+Now, I'll move to the application
+master moving interface.
+The ApplicationMaster facing interface,
+known as ApplicationMasterProtocol
+is an interface to which YARN provides
+the following functionalities.
+It provides the functionality for
+application master registration and
+liveliness monitoring so you can
+figure out if an application itself is
+running correctly under cluster or not.
+And let me remind you again by application
+here we are not talking about say
+one specific algorithm implement
+on Hadoop for example.
+We are talking about the whole Hadoop.
+In this context we call
+Hadoop as an application.
+Another application could be Storm.
+Another application could be
+to hold Tez cluster, right.
+So, through this interface you can
+first figure out the liveliness of
+an application, Hadoop for example.
+Register new ones.
+You can notify the scheduler,
+which I haven't introduced, but
+I'll introduce in upcoming slides.
+Can notify the scheduler of requests for
+container updates from
+the application master.
+So application master tells the resource
+manager that hey okay I need for
+example new containers,
+happens through this interface.
+It can notify application masters
+of whether the request for
+a container was granted or not and
+whether a certain container was reported
+as completing it's task or not.
+It can notify the application master of
+the capacity remaining in the queue of
+the nodes.
+And it also provides URLs for tracking the
+management of the different applications.
+Now, moving on.
+To the right hand side of the diagram,
+we need an interface to
+talk to the node managers.
+What we have is basically
+a resource tracker interface.
+Through this interface, the resource
+manager can talk to the node managers.
+It can do node registration.
+Remember, for example, in the previous
+one, we had application registration here,
+now we have node registration.
+So when a new node comes into the cluster,
+it can register itself
+towards this interface.
+We can also figure out the liveliness of
+different nodes through this interface.
+And finally it can process the status
+of different containers and
+notify the scheduler component of
+the status of different containers.
+On the nodes through the node patch.
+Okay finally,
+we get to the scheduling interface.
+This interface isn't facing
+any other components,
+it's just sitting there
+in ResourceManager.
+This is interface that you can implement,
+there are multiple
+implementations in YARN.
+It's a pluggable interface so you can
+write a new scheduler if you want for
+your YARN cluster.
+At the moment there are multiple
+schedulers already provided in YARN.
+FIFOScheduler, first in,
+first out scheduler.
+There's also CapacityScheduler,
+FairScheduler bundled with YARN,
+and it is really an active
+area of research in YARN.
+Schedulers are really very important
+in cluster distributed systems.
+There's lots of research going
+on in the schedulers of YARN,
+and also,
+other systems like Storm scheduling,
+there's a lot of research
+going on in that.
+Anyway so, these interfaces are
+implemented as pluggable interfaces and
+that's why it's easy to
+introduce new schedulers.
+[MUSIC]
+

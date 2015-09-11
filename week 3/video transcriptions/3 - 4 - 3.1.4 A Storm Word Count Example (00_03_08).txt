@@ -1,0 +1,53 @@
+[SOUND]
+Let's look at an example of an application
+that we want to write with Storm.
+And let's go through
+the code a little bit to see
+how you would really write a real
+world streaming example with Storm.
+Looking at the diagram,
+we can see what we want to implement
+here is a streaming word count.
+We can assume the input contains
+a set of sentences, a set of codes.
+That come in, in real time and
+they just keep coming.
+And what we want to do is we
+want to know at each moment
+what was the last top k
+words that was seen and
+observed before at a certain time window.
+To write this program we can write
+something like the following diagram.
+In the first bolt that you have,
+you can consider to have a sentence
+splitting bolt functionality,
+that what it does is just get and
+input sentence and
+as output will emit individual words
+that are seen inside that sentence.
+The results of that could go to
+another bolt called word count bolt.
+Word count,
+what it does is keeps the total count for
+each of the words across all of the codes,
+or all of the sentences.
+And any time it sees a certain word,
+any word,
+it emits a new tuple with the count
+that it has seen so far updated.
+The results of these bolts go
+to the next set, which would be,
+for example, sort bolts.
+Sort bolt will continuously
+sort partial lists and
+emit the list as the output
+periodically and
+then the next and
+final bolt would be a mesh bolt.
+That combines partial lists together and
+outputs one final merged top words list.
+Let's look at how we would write
+these bolts in a Storm program.
+[MUSIC]
+

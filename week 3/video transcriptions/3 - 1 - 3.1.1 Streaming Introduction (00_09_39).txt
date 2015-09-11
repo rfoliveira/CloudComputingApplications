@@ -1,0 +1,209 @@
+[SOUND]
+In this module we will be talking about
+real-time streaming systems,
+cloud based real-time streaming systems.
+We are talking about a new
+breed of streaming real-time
+data processing systems that
+have become very common
+as of a few years ago,
+maybe two or three years ago.
+And there's a lot of work going
+into these systems at the moment
+the research is very hot.
+A lot of enthusiasm in the industry
+on using these systems as well.
+So, why would we be interested in
+real-time data processing anyway?
+Real-time, big data stream processing?
+It has become, really,
+a requirement for modern businesses.
+Of course we've talked about big data and
+cloud computing and
+how cloud computing has changed the face
+of modern IT services and infrastructure.
+And how processing big data,
+it has become really mandatory for
+businesses to survive.
+The nature of big data is starting to
+evolve little by little in the industry.
+Of course we still have
+huge amounts of data.
+Log files, static data files, that we
+need to do bash processing on them.
+That hasn't changed.
+There is definitely a place for
+Hadoop, for batch based systems,
+as we talked about in our module two.
+Pig, Piave,
+those are definitely valid used cases.
+But now we have a different breed of big
+data, real-time information streaming in.
+Think about real-time search.
+As a search provider, company would have
+millions of requests to address each hour.
+Tens or hundreds of thousands per hour,
+per minute really.
+Or think about high frequency trading.
+Their machines, are, deciding, in,
+milliseconds, nanoseconds, really,
+whether they should do a buy order,
+or a sell order, on a certain stock.
+Social networks,
+think about social networks.
+You go to your favorite social network,
+Facebook, Twitter, whatever, and
+you see your friends or
+people you're following.
+New events come for them or
+about them every second.
+So, for example again in
+the case of social network,
+as a user you wouldn't want the provider
+to only have a batch processing system.
+Every hour we update
+the status of everyone and
+within the hour you just keep reading
+what was there about an hour ago.
+That's not what you want.
+You want to see if some of your
+friends post something on Facebook.
+You want to see it within a few seconds.
+So, any system that has a stream
+of events that's flowing
+through this system for
+a given rate of data, data rate,
+we consider it sort of
+a real-time streaming system.
+Another example is advertisement clicks.
+A lot of large website providers,
+they put advertisements on their websites.
+And within each minute,
+within each second,
+there are hundreds of people
+clicking them, seeing the ads.
+And you really want to see how the users
+are reacting to a certain advertisement or
+not within at most a couple of seconds.
+And as they say,
+time is money in this industry.
+You really don't want to show an ad
+more than it's being paid for.
+But you also want to maximize
+the utilization of your advertisements.
+So these systems are huge.
+The processing system
+that wants to handle this set of data
+must also keep up with the event rate.
+If it cannot keep up with the event rate,
+say suddenly there's just so much demand.
+And the number of machines
+that you have set aside for
+processing this streaming
+data set is not enough.
+We want the system to degrade gracefully,
+for example, by eliminating events.
+We don't want the whole to go belly up and
+crash.
+We want the system to keep continuing,
+maybe drop some of the events.
+And well,
+we call this feature load shedding.
+You want your real-time big data streaming
+system to have load shedding and
+gracefully handle load.
+And as I mentioned, batch processing
+systems like Hadoop and MapReduce.
+They store and process data in batches, at
+scale, which is good for some use cases,
+but it's not useful for real-time systems.
+In a previous video,
+I was talking about how Hadoop
+system was hacked by researchers and
+then some industry participants into doing
+some things it was not designed for.
+For example, iterative computations.
+Okay, there was some hacks but
+for some [INAUDIBLE] some not.
+But for real-time streaming
+systems there was no hack.
+Hadoop itself was just so different.
+So fundamentally different set of
+requirements was used in designing
+Hadoop as a batch processing system
+that there was really no hack
+to get Hadoop to do real-time processing.
+And lack of a Hadoop of real-time,
+as we can call it,
+because Hadoop was becoming, has become,
+and had become very, very popular.
+Many million man hours of work was
+spent on developing Hadoop and
+finding bug fixes and
+making sure it's scalable and everything.
+So it was very popular.
+We needed something like that system for
+real-time processing, streaming systems.
+And it was,
+at least up until a year or two ago,
+it was really the biggest hole
+in data processing ecosystem.
+So, what we had and what now we have,
+in the last couple of years, and I really
+am talking about starting in 2011, 2012,
+and really exploding into
+a large number of systems now that
+people are interested in work on.
+And as I'm talking to you right
+now people are working on it,
+fixing bugs,
+trying to make sure these systems scale.
+The area is very hot.
+There's a handful of systems,
+a couple that I want to mention.
+Number one is Apache Storm.
+It was kind of earlier than
+the other systems to the game.
+And in this course,
+in the upcoming videos,
+actually this whole module,
+we talk about Apache Storm in detail.
+How to write applications for it.
+How it goes and manages to run your
+streaming big data application on
+a very large cluster of machines.
+And more examples,
+there are other examples as well.
+Twitter Heron,
+is a system recently announced by Twitter.
+Twitter was originally working on Storm
+as we will talk about in our next video.
+And then at some point they decided
+that they will want to adapt
+it more to their needs so
+they actually forked it off and
+wrote a new system called Heron,
+and that’s one of the competitors.
+Apache Flink is another one of these
+big data streaming systems that
+has its own set of proponents.
+Now, of course, there was a set of older,
+non-cloud, non-big data
+systems that never the less we're
+trying to address real-time streaming.
+IBM System S is a prominent
+commercial example.
+Still very readily used in the industry.
+Borealis had its roots in academia,
+really.
+It's a descendant of
+another academic system,
+Aurora, that came out of
+the Brown University originally.
+There's not much work on
+these systems anymore.
+A lot of work is going on Storm and
+then some of the other
+open source systems.
+[MUSIC]
+

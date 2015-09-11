@@ -1,0 +1,918 @@
+[SOUND] Hello everyone,
+today I have Bobby Evans
+from Yahoo with us.
+And he's kindly accepted to come here and
+talk to us about stuff that Yahoo does.
+So Bobby, why don't you introduce
+yourself to our audience?
+>> Sure.
+I'm Bobby Evans,
+I'm an architect at Yahoo.
+I work primarily on big-data projects, and
+kind of the next-gen big-data projects,
+so Spark, Kafka, Storm.
+We do a lot of streaming and
+iterative processing.
+We provide Damixa platform
+as a service at Yahoo!
+>> You mentioned an architect.
+What does an architect do?
+>> Well, that varies from company
+to company, but at Yahoo,
+it's a little bit like a technical lead.
+I still write code, thankfully, but
+a lot of what we do is kind of setting
+the direction that we want to go in.
+So, understanding how the different
+components in the system work together and
+how they talk to each other and
+putting all those big pieces together.
+>> All right.
+So, you mentioned you oversee Spark,
+Kafka, Storm, Rogue.
+Let's talk about Storm a little bit.
+Let's talk about Storm with Yahoo,
+what does Yahoo do with Storm?
+>> So Storm is a string processing system.
+So if you're familiar with Hadoop,
+I assume you've talked about Hadoop,
+that it really is batch.
+And so you'll get a large amount of data,
+you'll process that massive amount of data
+in one big job or multiple jobs to
+be able to come up with an answer.
+The idea behind Storm
+is that a lot of times,
+the time from when the data shows up
+until the time that you actually get
+an answer that you can react
+to that data is critical.
+So, like in cases of say,
+you know think of a thermostat.
+If it took an hour for your thermostat
+to update that would be really bad.
+Your house would be either too hot or
+too cold all the time.
+You want to keep that feedback loop very,
+very small.
+And there's similar use cases within
+Yahoo, where we're trying to be able to
+deal with budgeting for ads, and making
+sure that we show the right number of ads
+without showing free ads or
+not using up all of the advertisers money.
+Things like that where we want to
+have a nice type feedback loop, and
+Storm provides that.
+And so, as an event shows up,
+we can process and
+update the result in near real time.
+>> So Yahoo uses Storm,
+not only for ad budgeting,
+but a whole bunch of other things.
+>> Yeah, so like every time
+you upload an image to Flickr,
+Flickr will automatically tag it.
+It will use some deep learning
+algorithms to be able to
+say whether this is
+a picture of a puppy or
+a baby or whatever else, and
+all of that is done through Storm.
+>> Well Storm is a nice
+open-source platform, but
+I assume Yahoo is a big enterprise, right?
+So do, what does Yahoo do on top
+of what we get from open-source?
+>> Well, so
+Yahoo tries very hard with open
+source to give back as much
+as possible to open source.
+So, on top of, is, is probably
+not necessarily the right words.
+It's more of, in, what contributions
+have we been putting in.
+And so some of the contributions we really
+try to do is we want to make sure that
+any project or any tool we use is going
+to have security, it's going to be fairly
+easy to use as far as being enterprise
+ready, and it can run a Yahoo scale.
+Some of these projects that
+talk about big data, well,
+Yahoo is quite a bit bigger
+than a lot of other companies.
+There is only a small handful of groups
+that really run at the same scale we do.
+Obviously, Google, which has their
+own proprietary set of things, but
+like Twitter and Facebook and Linked In.
+This is a small group of people that
+really do the same massive
+amount of processing that we do.
+>> Yes, so before we started talking
+today you mentioned multi-tenancy.
+What do we mean by multi-tenancy?
+>> Okay, yeah.
+Thanks.
+[LAUGH] One of the other
+things that we want to do
+is we want to provide these
+things as a hosted service.
+>> Like the cloud computing?
+>> Cloud computing, so think like Amazon.
+If you're at Yahoo you don't what to
+have to spend the time figuring out how
+much hardware you're going to need,
+what you're going to do, what processes
+you install on that hardware,
+you just want to concentrate on what is
+the algorithm that I want to implement.
+What's the final result.
+And so with that we want to
+make sure that we provide
+all of this as simple as possible.
+And so one of the easiest ways to do
+that is to have one large cluster
+that everybody can share, and
+that's essentially multi-tenancy.
+So, it's multiple tenants all at
+the same time, think of a big apartment,
+>> So, multiple programs,
+multiple storm programs running
+on the same setup hardware
+under the control of
+the same members node.
+Well, I can say it because I
+had it in my lectures, but.
+>> So it's multiple different use
+cases all running at the same time,
+ensuring the same hardware.
+So right now, for Storm,
+because of the latency issues,
+we don't have multitendency
+with Hadoop in the batch side.
+Technically, that's possible, but because
+of resource constraints and things,
+batch doesn't really care as much to make
+sure that they are strict with resources
+as Storm needs to be able to
+give those same guarantees.
+And so, you have Flickr running on
+the exact same node and using massive
+amounts of CPU and even potentially
+GPU to be able to process images.
+All the advertising people that are using
+massive amounts of memory to be able to
+cache lookups for the different
+advertisers and other things.
+>> All right.
+So let's go back in history a little bit.
+There is definitely
+a kind of a revolution in
+the way people do computing
+especially big data computing.
+Right?
+Before 2010,
+nobody had heard about clouds or
+big data and
+enterprises typically did their own thing.
+And then you had this thing
+called Hadoop coming in.
+How did Yahoo as a big enterprise
+company respond to this change?
+>> So, Yahoo, as most people know, is
+not number one in absolutely everything.
+We do have a lot of really great number
+one websites, but as far as in the backend
+processing of things, Google was
+really leading the way at that time.
+And so, they published a number of
+papers on let's say, map reduce and
+some of the other things
+that they were doing.
+And Yahoo, we saw these things,
+we saw how great they were, and
+then we decided that this is something
+that we needed to implement.
+But we also understand
+the power of open-source.
+That if it's just us doing something,
+we can build something, it can be great,
+it can be fabulous.
+But if we can get other groups,
+other people involved as well,
+then it's not just us building it.
+That can build on top of what we've done,
+and
+we can end up with a much
+better product overall.
+So we decided as part of this, as we
+were implementing an implementation of
+the map reduce algorithm that Google had
+published, to release it as open source.
+And so we hired some people like
+Doug Cutting who had a lot of experience
+in open source, and
+we started with him and
+with another group of people, I wasn't
+on at the time, to be able to build
+an implementation of Hadoop map
+reduce in the nutch project.
+So, nutch is an open source,
+kind of, search engine, and
+Yahoo wanted to be able to
+use some of that technology.
+to be able to do our own search indexing.
+And eventually Hadoop split off from Nutch
+as it became more general purpose, and
+it grew and it grew, and it grew through
+all kinds of different things at Yahoo,
+and then we started
+looking into other pieces.
+So, there were other things
+built off top of it.
+So, SQL engines on top of Hadoop,
+all these other things.
+At this point in time, Google
+actually had a term for being Hadoop,
+where they don't publish their things
+nearly as much as they used to because
+they realized that open
+source does have this power.
+Groups of people can combine
+together to be able to
+follow very quickly behind them,
+but also catch up.
+And so Google now actually runs
+several Hadoop clusters or so
+I've heard, because they bought companies
+and those companies use Hadoop.
+And it's more painful for them at this
+point to be able to force all of them onto
+their proprietary system than it would.
+It is just to run a Hadoop cluster.
+And that's the power of open source,
+and that's why we really do
+like open source at Yahoo.
+>> Interesting.
+What about Storm,
+what about the streaming platform?
+>> So, the streaming platform, we've known
+for quite a while streaming is important.
+Yahoo initially wrote a streaming
+platform called S4, and
+we released it as open source.
+There were some architectural issues with
+S4 that made it difficult for adoption.
+That was really written for
+an enterprise system, and it had
+a few assumptions in mind that didn't
+make things very easy, so it was lossy.
+That when you're writing a program and
+some of your data can disappear at any
+point in time, people get nervous.
+Now that, for the most part when
+you're doing analytics, and
+you're trying to figure out how
+many people saw your website,
+statistically you loose a tiny bit
+of data, it really doesn't matter.
+But it still makes people very nervous
+to be able to write it, especially for
+the other use cases.
+Say, counting pennies for
+financials or things.
+And so S4 never got the adoption
+that we were hoping for.
+At the same time, Nathan Marz,
+a startup called BackType,
+he wrote his own stream
+processing system called Storm.
+And Twitter bought BackType, he convinced
+Twitter that they should let him
+release it as open source, they did,
+we saw it, and we adopted it.
+At the same time, lots of people
+have great ideas at the same time,
+there are a number of different groups
+that are also exploring stream processing.
+And so we have other things like smart
+streaming that showed up, we have
+a commercial one called Data Torrent that
+recently announced that they're going to
+be releasing their core as open-source,
+and then LinkedIn came up with Samza,
+and some really smart guys out
+in Europe came up with Link,
+and so lots of different people
+all had the same idea, and
+it's really kind of nice to be able to see
+all these different groups all fighting
+each other to be able to come up with
+the best streaming platform out there.
+>> Yeah it's actually very interesting,
+maybe five, six,
+seven years, I don't know,
+maybe ten years ago, there was a similar
+sort of a battle going on in the batch
+processing world and then Hadoop won.
+And right now we have the same sort
+of battle in the streaming world.
+>> But, but I think some of the difference
+in this goes back to open source too,
+is there are lots of different
+batch processing engines.
+But a lot of the big batch
+engines were closed source.
+And so, they were done by these big
+enterprise data warehouse companies.
+And we say that it won, but
+there's still lots of big companies with
+lots of big data warehouses out there,
+it's just now all of them are trying
+to integrate with hadoop.
+Because it can do things
+that others can't do.
+And it is open source which gives
+a lot of people confidence in that
+if they go with one vendor,
+that that vendor closes shop,
+there'll be another vendor and
+even if all of them close up shop.
+Well, at least you can hire somebody
+to still run the software that
+you're running.
+>> Actually,
+I want to get into detail a little bit.
+So, we're talking about Storm and
+a lot of its competitors.
+One particular thing that
+I've over the internet and
+I get feedback from some people is
+that Storm is written in closure and
+what, tell us about that decision.
+What do you think about it?
+>> Okay.
+So,
+a lot of big data processing
+tools are written in Java.
+If you go back and you talk to
+Doug Cutting, he wanted to learn
+Java when he started writing Hadoob for
+Nutch, so he picked Java.
+[LAUGH] And then all the other tools
+started inter-operating with each other,
+based off of Java.
+Java's a great tool, but there are a lot
+of other things, there are a lot of things
+that are kind of lacking in it,
+in some areas with languages.
+And so a number of people have written
+higher level languages, so you get people
+like Scala, which is very popular a lot of
+big data tools are now written in Scala,
+and they interoperate quite well
+with with the rest of Java.
+Closure is a Lisp language
+that runs on the JVM,
+so it can interoperate
+with the rest of Java.
+Some people find it difficult
+to look at Lisp and
+really grok functional programming.
+I understand that.
+>> I was like that at the beginning.
+When I started looking closer.
+I was like, "Wow.
+This is hard", but then it grows on you.
+>> Yeah.
+And so, Storm, when Storm was
+first being created, they wanted to pick
+a language that would be very functional,
+very easy to write, for
+people who knew what they were doing.
+And there has been some push back,
+we don't get as many new
+developers as we'd like.
+And so a significant amount of
+the code base is written in Java, And
+I think more of it is going to
+be moving towards Java, but
+closure itself, we don't really have too
+many complaints, few small bugs, but
+I mean,
+on our scale we find bugs in Java too.
+>> [LAUGH]
+>> We've gone back to Java and
+had them fix a number of things for us.
+>> Yes.
+And that's actually the beauty of open
+source projects, you find you're doing
+something, you find a problem in
+Zookeeper, you can file a bug against
+Zookeeper and some other people go fix it.
+>> Or you fix it yourself
+if you can fix it yourself.
+>> A contributor changes
+back to the problem.
+So while we're on the topic of languages,
+some people say that,
+why the choice of Java for
+a lot of these big data platforms?
+Wouldn't it be faster more efficient
+to do something like C or C++?
+>> Yes and no.
+So if you look at the micro benchmark
+numbers for things between Java and C,
+you're going to get maybe an order of
+magnitude speed up going from Java to C,
+which that's fine,
+that's great if you're really trying to
+push the boundaries of what you do, so
+you look at things like Impala which
+is a sequel engine on top of Hadoop.
+It's written in C, because they really
+truly wanted to push the boundaries
+of what they could do and
+get every little bit possible.
+But, architecturally, the best
+you're going to do is a 2X speed up.
+Now if you really want to make
+a huge difference in things,
+you need a much higher speed up than that.
+So one of the big trends recently has
+been recently from moving from disk-based
+computing to in-memory computing, and
+that's much more than one order of
+magnitude speed-up if you can
+keep all your data in memory.
+And then you have other games that people
+really try to play, where you want to make
+sure that the data you are processing is
+as close to the processor as possible.
+So you want to do almost micro
+batches that fit within the cache.
+And these are games that all SQL
+data bases have been playing for
+years and years.
+And people who really know what they're
+doing with software engineering.
+Have been doing that for years.
+It's a little harder in Java,
+because of the garbage collection and
+the pointers and things,
+but it's not impossible.
+But then again Java has a C interface
+too and so if you really want to.
+>> You can always write nato code.
+>> You can always write nato code and
+Hadoop even has some assembly code so like
+talking about the power of open source
+intel really wants everybody
+to run on their processors.
+So they have a group of people
+who go out to help open source
+projects
+>> Make sure that they run really well on
+Intel processors.
+So in some of the Hadoop code,
+Intel has been happy to give us
+Intel optimized instruction sets.
+I mean not instruction sets but code,
+assembly code even to be able
+to run those things really well.
+>> Yes.
+>> And then again in the land of
+big data we are bound by data bandwidth,
+right.
+>> Yeah.
+>> Here or there, so.
+>> So, a lot of times it is the bandwidth.
+Whether the data's coming from disk or
+the data's coming from memory, that can
+actually be a bandwidth limitation.
+It's more of where the data is.
+That you can process it.
+So like talking about Impala,
+both Impala and
+with Hive they've been putting in
+features into the core of Hadoop so
+that you can be positive all of
+your data is cached in memory.
+>> Mm-hm.
+>> And
+that's closer to 100x speed-up instead of
+the 2x speed-up of Java versus C.
+And so
+from a developer productivity perspective,
+if I don't have to worry as much
+about segfaults and I know that
+the developer doesn't have to worry
+about cleaning up their code afterward,
+I mean not the code but th,
+the objects afterwards.
+The garbage collection
+will handle that for them.
+>> So
+let's talk about that stuff a little bit.
+Yes, Java might be a little bit slower,
+we are anyway bound by data bandwidths
+here or there, but
+what does Java bring to the table?
+>> So Java makes life easier for
+developers for the most part.
+I'm not going to say
+that it's 100% better,
+because Java is very C
+like in it's syntax.
+But a few things like garbage collection
+make life a little bit easier,
+especially if you're writing
+a big multithreaded program.
+Being able to keep track
+of all the pointers and
+everything else that you've allocated and
+not get memory leaks.
+It's definitely not impossible that you
+look at all the big operating systems and
+so much code that's written in C.
+It's just if that can be freed up from
+you, then you can do other things.
+But, at the same time, we start getting
+other issues like with HDFS, HGFS keeps
+all of the metadata about all the files
+in memory in one single big JVM process.
+And garbage collection
+is a constant problem.
+That, that,
+if you have 64 gigabytes of heap
+on your JVM, and it decides to do
+a stop the world garbage collection,
+where it stops all the threads within
+that process until it can find space.
+Just scanning through that much memory
+can be on the order of a few minutes.
+Quite a few minutes,
+no thread, nothing is running.
+>> Yeah, for a few minutes it looks
+like all of HDFS has stopped and paused.
+And that's something that we
+really want to avoid at all costs.
+And so we put in a lot of time
+being able to tune the garbage
+collector to make sure that we're
+not going to get these huge pauses.
+Google knows this, I mean,
+not Google, Oracle knows this, too,
+they've been working on their own
+next-gen garbage collectors like G1 and
+other things, to be able to avoid all
+of these pauses and these other things,
+being able to support larger heap sizes.
+But any tool you pick there is going
+to be advantages and disadvantages, and
+it's important just to understand
+what those are so you can.
+>> Yeah, and speaking of advantages and
+disadvantages,
+people of course as we just talked about,
+the closure is hard to learn.
+On the other hand, closure gives you this
+nice software transaction on the memory so
+yes it might be harder to pick it up,
+but once you pick it up it is so
+much easier to write PAL software with it.
+And I've run tests too, that we've
+had performance bottlenecks and so
+I'll take the same piece of code, rewrite
+it in Java and, in some cases, the closure
+code actually runs faster because of
+the way the locking semantics work.
+>> Mm-hm.
+>> Most of the time, they're essentially
+neck and neck with each other.
+So at least from my perspective,
+closure has never really been
+that much of a performance issue.
+So long as you know what you're doing.
+There's certain things where
+closure is trying to be smart and
+make life easier for the programmer, and
+falls back to doing reflection into
+Java classes, which is very very slow.
+>> But as long as you know what
+you're looking for it's not that bad.
+>> So let me talk a little bit
+about the competitors, right?
+>> Mm-hm.
+>> You did mention Spark streaming,
+at some point you mentioned
+this thing called micro batch.
+Some of the companies, they have
+Storm take the micro batch route.
+>> Okay, so in stream processing.
+The idea is,
+let me step back a little bit.
+There's stream processing and
+then there's low latency processing.
+Sparks streaming says that
+they're stream processing, but
+by the definition of stream processing
+I'm not sure I'd group them into that.
+What they do is very,
+very low latency batch processing and
+so, as events come in they
+will take a batch by default.
+About one second of data.
+Put that in memory, and then run
+a very fast batch job, all in memory,
+to be able to aggregate whatever it
+is you're looking at, process it, and
+then commit those results to wherever
+you're writing the result to.
+And so unless you're sending one
+event Every second, at most.
+You're not processing event by event.
+You're processing small batches of events.
+>> Mm-hm.
+>> And so it has very high throughput, but
+the latency is at minimum
+however long that batch size is.
+And in a lot of use cases, in fact,
+most use cases that really doesn't matter.
+A lot of times if you're moving data from
+one colo to another, one datacenter to
+another datacenter, then you're
+going to be on the order of a second or
+two anyways just to move the data there.
+So adding another second to bash it up,
+really doesn't matter.
+But in other use cases,
+then having sub-second processing
+can be a huge differentiator.
+So true stream processing
+Is event by event.
+So as an event comes in,
+it gets processed.
+State get updated, and result,
+it's written out wherever it is.
+>> It is kind of well known that Storn and
+a lot of this other streaming
+systems have scaling issues.
+And you also talk about scaling Storm.
+So, what scale can Storm run now?
+And then, how can we see, because
+you're also an Apache commenter right?
+You're also part of the Apache open-source
+core of people working on Storm.
+So, where do we see this scaling go?
+Like, where is Hadoop now,
+where's Storm now?
+Where do we see things progressing?
+>> So, right now, Storm tops out at
+a little over a thousand nodes
+if you tune things correctly.
+There are certain limitations in
+some places where we store state,
+and I'll talk about that
+in the other slides.
+But we really do have plans to be
+able to scale much, much higher.
+And I'll talk about details of some of the
+things that we're doing to be able to deal
+with that.
+I was talking with some guys from CERN,
+you know the Large Hadron Collider.
+They have this problem where they will
+generate four terabytes of data a second
+from the collider.
+>> Four terabytes of data?
+>> Per second.
+>> A whole hard drive full
+of data every second.
+>> Yeah, and
+they don't have enough spindles
+to be able to write all that data out.
+So you look at a typical hard drive,
+a spinning hard drive, about 80 megabytes
+a second is what it can handle, best case.
+So that's on the order of 60,000 hard
+drives to handle four terabytes a second.
+>> Okay.
+>> That's--
+>> Big data.
+>> That's very big data.
+They don't want to store all of that.
+So they've developed all kinds of very
+special fancy algorithms to be able to
+filter out what does make sense and
+what doesn't make sense, so
+that they only write
+the pieces that matter.
+And we were talking to them about whether
+they'd be, well they were interested in
+whether Storm could handle some of this
+and some of the newer things that they
+want to be able to do, especially with
+GPUs and other things to speed that up.
+And so that is one of my goals is to
+be able to get to the point that Storm
+truly can handle 4 TB a second.
+This is going to be
+several thousand nodes.
+You just look at the networking
+involved even with infinband.
+It's going to be a significant number of
+nodes to be able to process all this data.
+The CPU involved, all of that,
+it all has to be in memory.
+You're never going to be able to
+touch a disc until the very end.
+And so it's a very interesting problem.
+Internal to Yahoo, we have a goal to be
+able to have a four thousand node cluster.
+And so put it very much on the same
+scale of what Hadoop can support.
+>> So one of the question I have,
+you are a Apache Storm PNC member right?
+>> Mmhmm.
+>> So, tell us about the open source
+process of development of Storm.
+Say somebody, one of our students,
+wants to start contributing,
+what is the process, how does it work?
+>> So, open source in
+general is kind of a free for
+all, in that there are lots of different
+groups, lots of different project.
+You can go to GitHub and
+who knows what's there.
+They might not even have
+a license associated with it.
+A lot of the big data projects
+have found a home in Apache.
+When people hear about Apache,
+they think of the web server.
+It's still there, but it's an entire
+software foundation devoted to
+open-source and all their projects
+are under Apache Open-Source License.
+One of the Apache concepts is you know,
+it's community over code.
+That having a strong vibrant community for
+a project is much more important
+than having the best code possible,
+because a vibrant community will be able
+to fix the issues that are in the code.
+And so, that's kind of the Apache way,
+that's the idea behind Apache,
+is to be able to do that.
+And so Apache provides
+a number of different things.
+So if you go to Apache.org, they'll
+have a big list of all the projects,
+one of them is Storm.
+So there's Storm.Apache.org,
+or Hidoo/g.Apache.org, or
+Flink/g.Apache.org, or Spark.Apache.org,
+all of them have found a home there.
+And so you'll go to there,
+they'll have a list of some of the mailing
+lists that you can sign up for,
+you can ask questions on, there usually
+is a agero, which is a bug tracking tool,
+or there's Bugzilla or other things
+that are associated with the project.
+And you can go look at that.
+Most of them are also reflected on GitHub.
+So if you go to GitHub.com/apache,
+it should list the vast majority of the
+projects and their repository with a nice
+Readme in there to be able to explain
+a little bit about how to contribute.
+For Storm in particular,
+you'll sign up for the mailing lists and
+you can people questions about
+whether there are projects or
+things that you want to
+be able to help out with.
+One of the other things you can do is just
+go directly to the bug tracking tool,
+agero, and goes looking through for
+something that's there.
+But one of the things I really find
+to be most critical is that you start
+using the tool.
+That whatever it is that you want to
+contribute to, you want to start using.
+And then you find something that bugs you,
+something that doesn't work quite right.
+It could just be they misspelled
+something in the documentation,
+or this documentation missed a quote,
+or doesn't do exactly what I expected.
+And so you can contribute back
+some of the documentation.
+And then you start looking at it and you
+say oh, I wish the storm could do this.
+I got an exception, I want to be able to
+get that exception back programatically,
+from the command line through
+a shell script type thing.
+Rather than having to go through thrift or
+looking at the UI.
+There's somebody that we worked
+with that decided, you know,
+those guys, the people working on Storm
+just weren't listening to me enough,
+they didn't put it in, so
+they spent all of 15 minutes, wrote
+the small function, and contributed that
+back, and now Storm can do that as well.
+So it's kind of those things, you find a
+pain point, something that you want to do,
+and you start working with that, and
+then like any other project,
+you're going to have work your way up.
+It's complex, and it will take a while to
+be able to understand what's going on.
+But as you contribute more, and
+as you answer more questions of people
+who have questions, and you ask questions
+to learn more, slowly you get more
+of a reputation in the community.
+Apache is supposed to be a meritocracy.
+I'm not sure how well that works
+in practice for everything,
+but it works fairly well for open source,
+at least, in these big distributer groups.
+And so as you contribute more, and
+as other members of the community get
+more confidence in you,
+eventually you can become a commitor,
+which is some body who actually has
+commit rights to the repository.
+So when somebody says,
+hey I have this lovely new feature or
+I have this bug fix committers
+can take a look at it,
+understand that yes this is good or
+give feedback, and then check it in.
+Now, other people in community
+are encouraged to take a look at
+those patches, give feedback.
+Also there's that less
+step of checking it in for
+the repository,
+that is what the committers can do.
+And for most projects,
+a while after that then you can become
+a project management committee member.
+And that's mostly there for
+voting on things
+like how the project should be run and
+who other committers should be.
+So it, PMC members,
+project management committee members,
+there's kind of this aura or
+whatever [LAUGH] about it.
+But it really is just they vote
+on whether these other people
+seem to be at the level technically
+that they need to be to be committers,
+and it doesn't have to be
+just code contributions.
+One of the things we really
+like to encourage is
+other people who are just from
+the community that we have one member,
+Michael Moles in Storm,
+who is an amazing person.
+He's done all kinds of blog posts about
+Storm and how to get Storm up and running.
+He has done a couple code contributions,
+but not a whole lot.
+But is mostly the documentation and the
+whole community aspect of what he's done,
+that we decided that he would be a perfect
+person to be a part of the PMC for
+Storm, and
+to really help the project along.
+>> And then contributing to
+open source projects helps our
+students' job prospects later.
+>> Yes, you put Hadoop on
+your LinkedIn profile and
+it's hard not to get people ask me for,
+you know, to come work for them.
+>> Yes, yes.
+Well.
+Well, thank you very much Bobby.
+Thanks for coming here and spending this
+time of your day to talk to our students
+and we definitely appreciate it.
+>> Thank you.
+>> Thank you very much.
+[MUSIC]
+

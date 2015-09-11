@@ -1,0 +1,216 @@
+[SOUND]
+In the previous video we looked at nimbus.
+Now, it's time to look at
+the counterpart to Nimbus which
+sits on other nodes in the cluster.
+It's name is supervisor.
+So the supervisor gets its
+commands basically from nimbus.
+Nimbus can tell a supervisor to activate
+a topology, to kill a topology,
+to restart a topology, to start a new
+topology and get new assignments.
+And so on and so forth.
+So what supervisor does basically,
+it gets information,
+gets instructions from nimbus.
+And then it launches workers.
+Supervisors doesn't do
+any of the user work.
+It launches workers,
+that in turn, run the user code.
+Supervisors send heartbeats
+to nimbus periodically.
+To let the heart,
+to nimbus know that they are still alive.
+So that nimbus knows that,
+okay, I can schedule tasks and
+components on that machine.
+So without further ado, let's take
+a look at the code for supervisor.
+To find the source code for supervisor,
+you need to navigate the directory
+that we've been into.
+That's storm-core.
+Under storm-core you have source,
+closure, backtype, storm and daemon.
+Let's find supervisor.
+It's right below nimbus that we
+looked at in the previous video.
+And we can open that and
+start looking at it.
+All right.
+So again,
+there's lots of code in supervisor.
+I want to show you just a few points
+in it and let you be adventurous and
+figure out the rest of the code.
+The entry point to this function,
+this whole supervisor, is of course main.
+Which the first thing it does
+is it sets up some as default.
+And then it launches the Supervisor.
+So let's see.
+IntelliJ is nicely telling us that, okay,
+when I click on launch
+this is the function.
+And we can take a quick look at it.
+Launch gets a supervisor.
+Which this other function standalone,
+supervisor returns.
+And launches that as
+a ever running process.
+So once it does that,
+the supervisor is started and running.
+Now, during its life.
+What supervisor does is,
+it listens to nimbus.
+And Nimbus gives its assignments.
+And as a result,
+supervisor launches workers.
+So very understandably,
+you have functions called launch-worker.
+There are two different implementations
+of launch-worker in this class.
+One of them you can see here is for
+local implementation of storm.
+So you have a method called launch-worker.
+And it says when you're running storm
+in local mode, you can do that.
+And there's another implementation
+of it a little bit up there.
+Launch-worker when you're
+running in distributed mode.
+You can do that.
+And for example, take a look and
+see what it does.
+It says, hey,
+I want to run worker as a certain user.
+Asks the configuration file to see whether
+the supervisor should grant
+worker as a user or not.
+And then get some default values
+from the configuration files.
+For example, finds the directory for
+storm-home, storm-options.
+Where the config file is,
+where the log files directory is.
+And so on and so forth.
+And eventually it goes on and
+tries to launch the work.
+To launch the worker, eventually,
+both of these function
+calls get to call a function
+called worker-launcher.
+This worker-launcher function is
+an interesting point in storm.
+Once we know how to launch
+the worker with what parameters and
+for what user and to run what storm code.
+What happens is that we go and call
+into the only native code part of storm.
+Here under this line,
+we do a launch-process.
+A certain native code.
+Now the native code I'm talking about.
+You can find,
+not in the Clojure directory.
+But you have to go back and
+come under storm-core source.
+You have to look at the native directory.
+You see there's a worker-launcher.
+And in the implementations
+directory there are a few C files.
+This is where you can find
+the worker-launcher native code.
+By native I mean C code.
+And you see that this guy can go and
+launch a new process.
+And it was written like this because
+we needed more system control
+when launching a new process.
+Therefore, we wrote the whole thing in C.
+As in, like the authors of Storm.
+The whole open source
+community wrote it in C.
+Okay, going back to
+the supervisor closure.
+The other thing I want to talk about
+is another part of supervisor.
+When it sees that there
+is an assignment to it,
+it needs to go and
+download the user program file.
+The JAR file.
+That contains the code
+that it needs to run.
+So it launches the worker and
+gives it the JAR file to run.
+But it needs to download the code first.
+And it does that in this
+function download-storm-code.
+And as you see,
+similar to the launch-worker function.
+There are two different
+implementations of it.
+One implementation is in
+the local mode of storm.
+And another implementation, back up here,
+download-storm-code is
+in the distributed mode.
+Looking at the distributed code.
+Again, it does what you
+might think it should do.
+It figures out the root directory and
+storm root directory that it
+needs to download the code.
+And then it locks because it
+actually wants to make sure
+that the task of downloading
+the file is done correctly,
+without an interference
+from any other processes.
+So it locks certain.
+And then there's a lock message,
+then starts making a directory,
+downloading from masters,
+three different files.
+One is this storm JAR,
+one is the storm code, one is the conf.
+Downloads these three files,
+makes a directories.
+Puts them in the right places and
+finishes downloading the file.
+So supervisor does things that, like you
+think it should do, downloads the code.
+Launch as a worker.
+And eventually once it is done,
+it also needs to intermittently,
+every couple seconds,
+send a heartbeat to nimbus
+saying that I am alive.
+And you can see that functionality
+in the makes supervisor function,
+there's a lot of other code here.
+But what's interesting is that,
+we define a heart beat function
+by calling the DOT supervisor
+heart beat on a Java object.
+We get the heart beat
+every couple of seconds by
+scheduling this heart beat function.
+As you can see here,
+this heartbeat function as
+a recurring task using a timer.
+And as a result,
+based on user configuration
+SUPERVISOR-HEARTBEAT-FREQUENCY-SECS based
+on this value.
+Every couple of seconds there is a new
+heartbeat generated and sent to nimbus.
+Okay this pretty much concludes our
+very short and quick tour of supervisor.
+Our next video,
+we will talk about workers themselves.
+[MUSIC]
+

@@ -1,0 +1,354 @@
+[SOUND]
+The whole Economics of cloud,
+the [FOREIGN] or whatever for
+clouds requires you to share.
+So lots of users,
+they see their own piece of the cloud.
+They don't see other people's
+pieces of the cloud.
+They don't understand that
+they're sharing hardware.
+That's all sort of
+abstract in front of them.
+The answer to how we do this,
+well it's layers of abstraction.
+Introduce through virtualization
+that provide that.
+So we're going to introduce
+an abstract model of what a generic
+computing resources should look like, and
+we have a background knowledge of what
+physical computer resources are like.
+Well, what we have do is, to build
+that abstract model from this physical
+computing resources, and
+we do it with virtualization.
+So let's have a look at
+Layers of abstraction.
+I go out, I purchase a cloud center.
+I can get lots of hardware.
+I get some processes,
+some network in the center there.
+I get some CPUs, and I get some storage.
+That physical model then is going to
+be multiplexed to many different users.
+Virtualization keeps them all independent
+from tripping on each other and
+allows us to build our
+software defined architecture.
+So if we put all these things in a box,
+what we're going to do
+is to model what those systems provide,
+but in an abstract way.
+Compute, storage, networking.
+So those abstractions will get
+mapped down on to the actual,
+particular physical entities, but
+where we’re building Layers of Abstraction
+that simply the matter of running
+your tasks on the systems.
+Virtualization is a mechanism
+to actually create
+the dependencies to map those
+dependencies onto the real hardware and
+provide the layer of
+abstraction that we want.
+So here we build using
+those machine components,
+which we've abstracted
+a complicated data center.
+And it's going to have abstract storage.
+It's going to have an abstract computer,
+it's going to have an abstract network.
+We may have multiple computers.
+The networks can be hierarchies,
+they can be tiers.
+All sorts of different arrangements but
+we don't have to care because what
+we're doing is hiding that
+under a layer of abstraction.
+The physical computer resource
+is provided to many users.
+Each user is going to see
+the system that's provided to
+them rather than the whole of the cloud.
+So moving up a level, what we're
+going to build on top of that is,
+another Layer of Abstraction, and
+that is how we actually allow users to
+program and
+interact with the services of that cloud.
+So you need programming platforms.
+You need to have mechanisms to
+allocate those programming platforms.
+You need monitoring, you need billing.
+All these other things,
+they're all going to be built on another
+layer of abstraction that hides,
+if you like, the underlying complexity of
+all those virtual machines interacting.
+So, as we said, Virtualization is
+the foundation of cloud computing,
+and we're going to step through
+this fairly rapidly, but
+we're going to step through it because
+it then answers a lot of the questions
+you will have about how we actually
+build such complex systems.
+So Virtualization allows
+you to have distributed
+computing models mapped across
+networks onto individual machines.
+And what it does is,
+it doesn't create dependencies between the
+physical resources and your application.
+Instead what it does is,
+to build an abstraction that
+allows you to program them, but
+not have to care about them.
+So, each of the services are going to
+be based on virtual machines.
+They're going to be based on remote
+procedure course because of distribution.
+And the client's servers model is going to
+be employed quite extensively in providing
+the services to the outside
+clients of the system.
+It will offer simplicity of use,
+ease of programming, and
+allow those client server paradigms
+to be used to construct services.
+But now instead of just perhaps
+a single threaded simple model,
+sequential model of a client’s
+server paradigm, it may end up that
+the client' server paradigm
+uses lots of resources and
+offers lots of parallelism
+through distribution.
+It will certainly offer
+lots of fort tolerance,
+lots of reliability because
+of the duplication.
+What sort of virtualization exists?
+Well, in this and
+the subsequent presentations,
+we're going to talk about
+different Types of virtualization,
+in this one I want to focus on a single
+one, which is that for compute.
+What we're going to take is,
+if a simple model of a computer,
+and virtualize that so
+that multiple instances,
+multiple applications each think
+that they have that simple model of
+a computer underlying their computation.
+There are two ways to do that.
+One is we can do that
+with hardware assistance,
+building into the computer model.
+Mechanisms to give different images to
+the application such that they think they
+have the whole machine all to themselves.
+Another approach is Para-virtualization,
+and there what we do is,
+to compile that view virtualization
+into the actual software itself,
+so that all of the software runs through
+special compilers that take care of giving
+you different instances of the hardware
+for each of the different applications.
+At the operating system level,
+we can also talk about virtualization.
+We can talk about different mechanisms for
+virtualization using the operating
+system existing approaches
+to virtualization.
+Now you've got virtual memory.
+You have different threads and processes.
+You have, interrupts and
+process switching.
+So at the operating system level,
+you can provide virtualization
+in the sense of Containers.
+That's a process with an environment
+that you can easily duplicate.
+We have Jails,
+these are processes contained in
+a virtual memory that's
+difficult to get out of.
+We can provide operations that enclose or
+increase the amount of
+the system you can see, and
+change root allows you to do that.
+By having change root what we can do is,
+to move you up
+the file system hierarchy so you can
+only see a piece of the file system.
+We have zones.
+We have Open-VZ and Virtuozzo.
+All sorts of different software systems
+running an operating system that can
+help provide virtualization.
+So, just to recap.
+We have, first of all,
+your Native hardware.
+Then we have hHrdware
+assisted virtualization,
+which gives you sort of
+copies of that hardware.
+We have Para-virtulaization
+with our compilation methods.
+Then we can move up a level
+into the operating system and
+provide virtualization at
+the operating system level.
+Well, Native and Full Virtualization
+would clearly be an attractive
+opportunity to provide really powerful and
+effective virtualization schemes.
+So we'll deal with that one first.
+The virtual machine simulates enough
+hardware to allow an unmodified guest
+operating system, one designed for
+the CPU, but to run it in isolation
+that it doesn't know about any other
+of these guest operating systems.
+So in the diagram, what you see is,
+we have multiple guest operating systems.
+We have some management software and
+what we're doing is
+to multiplex those different
+guest operating systems onto
+a Hypervisor Virtual Machine Monitor
+on top of the actual hardware.
+The hardware is providing virtual
+machine instructions, and
+virtualization instructions,
+the Hypervisor takes advantage of
+those instructions to build the guest
+operating systems that operate in
+that sort of isolated environment.
+There's a number of examples of those,
+VirtualBox, Virtual PC, VMWare,
+QMU, all of those are examples of how you
+could build that full virtualization.
+The hardware, well, what it does is,
+to allow each operating system
+to think it's independent from
+every other operating system.
+What you need is additional
+layer in the supervisor
+state of the computer to enable that.
+Intel uses Intel VT.
+AMD uses AMD-V as a virtualization
+scheme that's very similar.
+And software,
+which takes advantage of that is,
+VMware Fusion, Parallels Desktop for
+Mac, Parallels Workstation.
+All of these things provide
+you software to actually
+control the hardware
+instructions in the Intel chip,
+or IMD chip,
+to get you that virtualization.
+Paravirtualization, this is
+where you're using compilers or
+interpreters at runtime
+to give you that same.
+The virtual machine concept offers
+a special API that can only
+be used by modifying
+the guest operating system.
+So when you're running paravirtualized,
+what it's going to do is,
+either compile the operating
+system in a special way,
+inserting special API's where
+the existing APIs are, or
+what it's going to do is to require you
+to modify the operating system to call
+those APIs so that your operating
+system becomes virtualized.
+An example of that is Xen.
+Here's a diagram.
+What you see happen here is that we've
+produced Stubs between the actual
+Hypervisor and the modified operating
+system, the guest operating system.
+And those Stubs link all of
+the systems together with
+a controlled piece of software
+called a Hypervisor VMM and
+then all of that virtualization
+is basically interpreted
+by the Hypervisor, giving you independence
+for all the guest operating systems.
+So, we've talked about the hardware,
+and doing
+it with software or hardware instructions,
+providing virtualization that way.
+You can also provide it at
+the Operating system-level.
+Operating systems, for a long long time,
+have had virtual machines, and
+that allows you to create
+all sorts of stretches.
+So in this part of our lecture, we're
+talking about virtualizing the physical
+server at the operating system-level,
+enabling multiple isolated and
+secure virtualized servers to
+run on a single physical server.
+If you want to go out,
+look at software, Lenux-Vserver,
+Solaris Containers FreeBSD Jails,
+Chroot, CGroups,
+are all examples of software
+systems running in an operating
+system to virtualize a physical
+server above the operating
+system level to provide those
+set pro-virtualizations.
+And often times we call those
+things private servers.
+They're not completely virtualized,
+you will find security and
+other sort of issues,
+interference between some of those things,
+typically when you step outside
+the requirements that the specifications
+given by the software that gives that
+sort of system level virtualization.
+So we've moved from looking at software
+defined systems to virtualization,
+as virtualization beinga mechanism
+to offer the various layers within self or
+defiant architectures
+to allow you to control and manage
+the systems, and to give the applications,
+the user applications,
+independence from each other.
+And what we've seen here in
+the virtualization lecture,
+is we can take compute and
+we can provide services
+to individual operating systems
+that can then run applications.
+Or we can provide an operating system
+that offers services that are being
+virtualized in an independent and
+provides those to the user.
+So all of those mechanisms are available.
+We're going to next take a look
+at software defined networks and
+then software defined storage and
+show that there similar approaches with
+storage facilities that mimick this.
+Then we're going to take all those and
+put them together back into our
+package to provide a cloud.
+[MUSIC]
+

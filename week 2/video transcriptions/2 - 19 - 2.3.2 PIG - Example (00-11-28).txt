@@ -1,0 +1,253 @@
+[SOUND]
+Let's try a simple Hello World example and
+we will start off with taking
+some student information and
+look at that student information.
+And I'm not going to go too far,
+too sophisticated because I want
+you to get a feeling of the basic
+ETL of what we're trying to do.
+So first, we want to load the data
+from whatever's out there,
+file system or whatever.
+In this case we're loading the data,
+which is going to be called student and
+we're loading it from PigStorage.
+And we have a descriptor
+of what we expect to find
+in that PigStorage in
+that location student.
+It's going to be a name, and
+it's going to have an integer.
+It's going to have GPA.
+And then what we're going to do is
+to go through each of the names.
+So we use a FOREACH GENERATE, which you're
+probably familiar with
+from databases languages.
+It's going to go through each name
+that it finds, each name character A.
+It's going to generate the name for
+that and then what we're going to do is,
+dump results,
+which are now stored in this table B.
+We're going to dump
+the results on the screen, so
+what it would is to go to the data and the
+data will have a table, that is this A.
+They all have John 24,
+I don't know.
+What GPA should we have him, as a 2.7?
+And DUMP B will just dump
+those names onto the screen.
+Now if I had used STORE,
+I could have also stored that into HTFS.
+Much more sophisticated example here is,
+we're looking at users, and users
+are visiting various webpages out there.
+What we've collected locally
+here is some storage and
+our storage is just
+the frequency with which they
+actually go and look at these things.
+And we've got some examples
+here of users when they
+actually visit a URL and
+the time that they do it.
+And in different database,
+what we've got is a set of URLs,
+again it's overlapping
+with a sort of quality.
+And this is a page rank.
+It's the number of links into that
+particular URL from others URLs.
+So it shows the connectivity
+of the web to those websites.
+And what you can see here is
+that CNN is greatly preferred,
+because it's got a pagerank of 0.9.
+Flickr has also got a large one,
+and NBC down here.
+These are all made up numbers,
+but it's of a lesser quality.
+So what we would like to do is to see
+which users actually access our CNN and
+Flickr by combining these two tables.
+How to do it?
+Well, we can just sit at
+the terminal with Pig and
+we can devise our Pig script, run it,
+and extract that information.
+Now conceptually what we're doing,
+is to load
+information about the users,
+their URL and their time.
+And we are also loading from our database,
+pages and the pagerank.
+It will be the URL on the pagerank.
+So we're going to load those
+two things into the system.
+As you can see, you can draw a graph
+representing doing that loading.
+In the process,
+we want our URLs to look all the same.
+So we're going to canonicalize the URLs.
+Now these URLs should look like
+these URLs if we're lucky.
+These ones in here have been
+previously canonicalized.
+So, now let's do a join,
+which is very much like a database join.
+Really all we're doing is to go through
+these two databases, compare the URLs,
+see if they're the same, and
+if they're the same were going to that
+data stream and process it for some more.
+S this is an example of selecting
+out the data that we want.
+What were going to do is to group
+it by user and then we're going to
+compute the average pagerank, so these
+will be transformations that we're doing.
+We're going to filter on that and extract
+all those that have an average gpr, or
+in this case, greater than 0.5, so
+that's the sort of scheme that we've got.
+We can take that data graph and
+map it onto the actual execution.
+And this is how you would
+sort of implement this.
+You have your visits, you have your
+pages and what you're going to do is,
+load from databases here and here.
+And of course you can imagine that being
+mapped onto a large cloud cluster,
+the same thing with the information
+pages in the database,
+they can be mapped onto
+different cloud cluster nodes.
+You're going to canonicalize these and
+then you're going to join them by URL.
+And then you're going to
+group them by user and
+that'll mean shuffling this
+data backwards and forwards.
+And then you're going to compute
+the average pagerank, filter, and
+get the answer.
+So there's got many
+MapReduce steps in there but
+you don't actually have to say them.
+What you described is data flow and you're
+allowing the system to build everything.
+This is what would be required with
+MapReduce code, and let's not go there,
+very detailed, lots of operations,
+lots of interactions.
+This is what we've actually
+typed into our patent
+Pig Latin Script and it's short enough
+you could type that in interactively.
+And as you go down here, you see
+there's the visits, there's the load.
+Then we're doing the foreach,
+then we're doing the Pages load.
+Here's the join, here's the grouping
+by user, here's the pageranking.
+Here's calculating the average and
+here's producing the good
+users by filtering
+the pageranks by the average
+greater than 0.5.
+And then we're going to store that,
+in this case, into a file and
+look at it or
+we could let it dump onto the screen.
+So that's the overall, and as you can see,
+this is very, very easy to manipulate.
+It's a great tool for
+someone sitting at their machine.
+So, we've seen Hadoop will actually
+produce a lot of Java code.
+Pig Latin's very concise.
+Just what does that look
+like in terms of numbers?
+Well, here's a graph showing that, and
+what you're really achieving with some
+of these Pig Latin scripts, is about
+a reduction of 1 in 20 lines of code that
+you actually have to produce and check.
+And it's concise enough, and
+it conforms well enough to sort of
+database operations that now you
+can make sure you actually get
+all of the code quickly correct so
+that it will run properly.
+And, how much time does it take?
+Well just because you
+don't have to look at so
+much detail, because it's implementing
+all those MapReducers for
+you, this actually reduces your amount of
+time required to come up with a solution.
+And in a typical sort of cases 1/16,
+that's a huge dramatic savings,
+so Pig wins if you're going to
+do a one off, a two off and
+even multiple computations and
+is a real time saver.
+Here's another example just to show,
+and the reason that I
+included this one is because we
+have concentrated on word count,
+we love word count in our
+videos because it's simple, but
+this is what you would write
+in Pig to do word count.
+As you can see it's nice and
+simple, a few lines.
+You do have to know each of these
+operations to be able to do it.
+You load you're words to be
+counted as a character array.
+And then you're going to go
+through each of those lines and
+you're going to flatten them.
+You're going to tokenize what
+you extract out of the line and
+you're going to end up with some words,
+separate words
+from this file that you've got arrays in.
+Then you want to group
+those words by individual
+words so you're going to take
+all of the words and for
+each word sort of come up with
+a particular identifier and
+aggregate all the other words
+that are similar with them.
+And then you count each of these and
+produce a result.
+And you order those words by
+counts in descending order.
+So you've got a whole now long
+list of what the words are and
+how often they occur in that database.
+You want to look at the top five.
+So you limit the results and
+then you can just store it or dump it and
+you can just see what has happened.
+So, in summary,
+Pig takes care of creating schema.
+Doing type checking.
+Translating into efficient
+physical data flows.
+Exploiting data reduction opportunities.
+Executing the system level data flow.
+Tracking progress and errors.
+And so it's a one of these tools
+building on top of what you know already
+to make the developer much more efficient
+in extracting big data from huge datasets.
+[MUSIC]
+

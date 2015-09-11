@@ -1,0 +1,215 @@
+[MUSIC]
+Now that we have taken the job of resource
+management away from job tracker,
+the question arises as okay,
+how does MapReduce run on YARN?
+So, in this video, we will look at that.
+Just for a refresher,
+in MapReduce you had a set of input data,
+you would divide then
+across different machines,
+run map tasks on individual
+input data sets.
+The maps what creates key value pairs that
+would be then handled by the framework.
+Go through a shuffle and sort phase,
+and then they would be grouped
+by key and passed the reduce
+function invitations, and
+finally the output would go into files,
+typically on HDFS.
+Now, here on YARN,
+what happens is that the Map,
+the ApplicationMaster,
+we have different ApplicationMasters for
+different applications.
+Now, MapReduce could be one
+application on top of Yarn.
+So the ApplicationMaster first of
+all determines how many map and
+reduce tasks are required for
+a certain job.
+What it does is it splits
+the metainfo file,
+metadata info file, that indicates the
+number of map tasks based on the number of
+file space that you have for
+your input data set.
+For example,
+if your input data set has 5 files and
+each of those files are large
+enough to require multiple splits,
+64 megabyte or 128 megabyte splits.
+Let's say you end up in a total
+of 50 different splits.
+That's how many map tasks are required and
+ApplicationMaster determines that.
+It also looks at the job configuration
+passed in by the user and
+determines the number of
+reducers that are required.
+Once the ApplicationMaster realizes how
+many maps and reduced tasks it needs.
+It schedules and
+decides when to request containers for
+each of these tasks,
+from the resource manager, from YARN.
+The split metainfo file, it has
+information about the locality of
+data stored for each map tasks.
+And very obviously, reducers don't have
+any locality, because the input data for
+reducers are created by the map task.
+So, before we start a job we don't
+know the locality for reducers,
+they don't have locality.
+But map tasks,
+we already know the locality.
+ApplicationMaster then
+tries to schedule tasks.
+It tries to avoid
+livelocks when the reducers
+are using all of the available resources,
+but when more map tasks are needed.
+So it tries to be smart in
+its scheduling decisions and
+first schedule as many tasks as required.
+If there's enough space schedule
+some reduce tasks as well.
+And try to make sure that
+the livelock problem doesn't happen.
+Once it schedules the tasks,
+the tasks always connect back
+to the ApplicationMaster.
+The tasks never talk to
+the resource manager.
+And that's how the resource
+manager doesn't need to
+worry about too much traffic because
+it never talks to any of the tasks.
+So when the tasks start upon their
+startup time, they connect back to
+the ApplicationMaster, we have certain
+interface, the TaskUmbilicalProtocol.
+And through this interface,
+they report their
+progress after their individual tasks,
+the liveliness of the tasks.
+And if one of these tasks does not
+report progress in a timely manner,
+the ApplicationMaster might
+decide to kill that task.
+It can assume that for whatever reason,
+hardware issue or software issues,
+that task has stopped progress and it
+can kill it and start it somewhere else.
+Once map tasks are done,
+the framework needs to
+take care of shuffling and
+sorting the intermediate key value pairs.
+ApplicationMaster is the entity that keeps
+track of where which physical
+machines map tasks were running on.
+And when they are done,
+it starts a reduce task.
+And tells the reduce task that
+your intermediate key value pair
+data set that you require to do your
+processing is stored in such and
+such machine that originally
+ran the map task.
+If there is a shuffle
+fetch failure the reducer
+tasks inform the ApplicationMaster
+of this failure.
+And then ApplicationMaster might
+decide to re-launch map tasks,
+to recreate that intermediate
+key value data set if necessary.
+How does shuffle provide in YARN?
+Shuffle is a component that requires
+talking between multiple machines.
+And it's obvious why.
+Some map tasks and
+some machines create some information,
+intermediate key value pairs, and they
+need to be consumed in other machines.
+Right.
+So, the shuffle task requires networking.
+And it goes beyond
+the boundary of a single node.
+The way it's handled in YARN
+is that it's provided as
+a plug-in service to the node managers.
+The network port number
+is configurable and
+it is passed to the reducers
+by the ApplicationMaster,
+so that they know which network
+ports they need to talk to
+to get the shuffle information out.
+ApplicationMaster's also responsible for
+job history.
+Job history events are stored in
+a certain file as the job of MapReduce,
+as the job of a certain
+task is progressing.
+And when the job is complete,
+this information
+is copied into a certain
+location in HDFS for future uses.
+This can also be used if
+the ApplicationMaster crashes and
+the resource manager just
+notices the container that was
+running the ApplicationMaster has crashed.
+And it needs to relaunch the whole
+map reduced job or application.
+It can use the information saved so
+far to try doing some recovery procedures.
+And finally, MapReduce ApplicationMaster
+provides a client interface.
+That's an interface Interface for
+the user to talk to ApplicationMaster.
+The user can get reports on the job
+status and the individual task status.
+The user can issue commands to kill
+a job or a certain task within a job.
+It provides a web interface for
+user to interact with.
+And it provides also other web
+services that the user can go and
+search throughout the logs for
+example, or figure out the status of
+the cluster based on a web interface.
+And finally clients can
+redirect to a job history,
+job history server when
+the application has completed.
+When the application has
+completed the ApplicationMaster
+isn't there any more because
+the job is completed.
+The users might need to still go and
+figure out what happened
+in their application run.
+There is this entity called history
+server that gets the information from
+ApplicationMaster once the job is done and
+uses it for servicing history.
+So all of this information that
+I told you about how map and
+reduce work on Yarn might
+sound a little dry.
+In the next video,
+I will show you on a diagram
+how this whole flow of
+information works on YARN.
+So that we see how MapReduce
+can really launch on YARN,
+talking to resource manager,
+node managers, application masters,
+map and reduce task, and
+who talks to what in different locations.
+[MUSIC]
+

@@ -1,0 +1,124 @@
+[SOUND]
+There
+are multiple reasons for cloud adoption.
+Clouds allow economics.
+They allow you to provide computing and
+services to your users very inexpensively,
+and they save you the problem
+of building infrastructure.
+But they also allow you to share things,
+and
+sharing data is a really
+essential issue these days.
+And there are all sorts
+of reasons coming for
+using that big data to provide
+value to your company,
+to provide value to science,
+to provide value to medicine.
+So, it's another round in innovation and
+sole enabled
+through virtualization,
+cloud computing, big data.
+That's going to provide a tremendous
+economic boost, everyone benefits.
+What does that mean for you?
+Almost everybody will use cloud computing,
+though you search,
+video streaming, social networking,
+just to name a few things.
+IT specialists, in particular,
+need to know about clouds,
+when to outsource, how to build
+applications and what its uses are.
+There are different concerns about
+how you architect the cloud.
+How you share data.
+Privacy.
+Really crucial to all of this
+is being able to program,
+being able to program cloud apps,
+use clouds effectively.
+And efficiencies going to be the bottom
+line because everybody's competing for
+the best use and for the economy.
+Everybody wants to use the scalability and
+the parallelism of the cloud to
+make their enterprises the fastest,
+the best, whether it's in science or
+business.
+So, what about the general audience?
+Why should you be interested
+in cloud computing if
+you're just a carpenter, or a whatever.
+And the answer is,
+this is really actually a revolution.
+There is a general audience out there.
+It's going to have a huge impact
+on society, business, government.
+It's going to give everyone from
+your children up to retirees.
+It's going to give
+everyone a new capability.
+A new way of viewing things.
+A new way of looking at policies.
+A new ways to communicate,
+as shown by our social networks,
+Facebook and Twitter, and so on.
+And again, it has influence in other
+areas like privacy and security.
+What's next in our lectures.
+While we're going to have a demonstration
+that you're going to be doing this.
+You're going to learn how
+to write a web service,
+it's going to be one of these
+web servers that scales.
+So you can use one, two, or however,
+many web servers you want
+to provide web service.
+And we're going to use load
+balancing to actually provide
+a fair distribution over all
+of the machines in the cloud
+to serve those web requests you're
+getting to your enterprise.
+So at the end of that unit, you will have
+confidence to actually being able to
+approach a cloud and
+use it to build a servers.
+We're going to demonstrate that
+application in the sense that
+it's a fundamental user application on
+the web because everybody like it or
+not is going to access
+the cloud over the web.
+Then, we're going to
+move to other lectures.
+So we're going to talk about
+software defined architecture,
+how you build a cloud,
+what is it's components essentially.
+We’re going to talk about
+management controls, billing,
+software modules available.
+We’re going to talk in general
+about distributed computing, and
+reliability, and parallelism.
+Why distributed computing is so essential,
+why it enabled clouds to be built.
+And, then we're going to provide
+insight to the power of sharing data,
+what does that really mean?
+So in summary, cloud computing,
+it has four legs if you like,
+one is economics, one is big data,
+another is this move towards
+taking cloud computing and
+providing utility computing that
+everybody can access across the globe.
+And the last is improvise
+a wealth of careers,
+of new careers in a new technology
+taking us in new directions.
+

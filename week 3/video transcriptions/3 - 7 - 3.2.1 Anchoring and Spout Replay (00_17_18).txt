@@ -1,0 +1,360 @@
+[SOUND] In our last video
+we saw how one user
+can write a storm program by writing his
+programming logic inside bolts and
+possibly spouts.
+And connecting together and
+creating a topology that we can submit to
+the Storm framework, running on
+a cluster to run his application.
+Now in this video,
+we'll look at how Storm really works.
+And different styles of
+programming in Storm and
+in general in stream processing systems,
+all depend on
+what you want to do about
+guaranteeing message processing.
+Different streaming systems
+make different decisions
+on how they want to handle the message
+processing guarantees, and
+there are basically three main
+flavors that we are concerned here.
+The easiest way of handling
+message processing guarantees
+is to not give any guarantees.
+This is like for
+example the old S4 streaming system
+was working basically and its open source.
+Basically the any event or
+packet that is dropped by a failure
+of a hard drive component,
+software component, software issues,
+drop packet, network traffic,
+any event that is dropped,
+the system doesn't do anything about it.
+Okay, that's one way of doing things.
+The other way that we
+are concerned in this video,
+mostly, is at least once
+processing guarantees.
+That means that when Tuple comes into
+the system, goes out at the spout,
+the framework guarantees you that
+this Tuple will not be missed.
+It will be processed.
+At least once.
+Now, to be able to do that, the system
+might play some tricks that might end up
+running the processing logic
+on the Tuple more than once.
+And if you'll see examples in this video.
+Storm handles this style of
+message processing guarantees
+by using Tuple trees,
+anchoring, and spout Replay.
+And I will talk about this in my
+upcoming slides, in this video.
+But the third one.
+That is interesting is when you want
+to provide exactly once guarantees.
+So you want the system to process every
+event that comes into the system once,
+at least, and exactly once.
+No more than once.
+This is, for example,
+like Hadoop processes things.
+Right?
+It's batch, yes.
+But when you say, I want to process,
+do this logic on my input data,
+it guarantees that every input dataset or
+record is only processed once.
+This is the focus of our next video
+where we will talk about Trident.
+But for now, let's get into the at least
+once processing provided by Storm.
+The main mechanism that Storm uses
+to provide at least once processing
+is Tuple Trees.
+So what is a Tuple Tree?
+A tuple tree talks about a data
+structure handled by the framework.
+So the user doesn’t necessarily see the
+Tuple Tree or do any interaction with it.
+Of course, the user has to tell
+the system some things, and
+we will see in the next slide.
+But the idea of a Tuple Tree is that,
+say you have a Tuple coming out of
+a certain component of your system.
+Say, a Spout.
+Every Tuple that comes out of
+a spout becomes the main node or
+the root of a new tree.
+So for this example,
+let's think back about the word count
+streaming example,
+we were looking at in the last video.
+We had a Spout that was creating
+sentences from Twitter API for example.
+We have one bolt after that,
+that was splitting the sentences and
+we had another bolt that was counting.
+Right?
+So in this case
+the first Tuple that goes out of
+a Spout becomes the root of the tree.
+The first Bolt creates a set
+of Tuples based on its input.
+Each of these Tuples
+becomes nodes in this tree.
+And as each of these Tuples
+are again processed by other Bolts
+and create Tuples again,
+these Tuples are added to the tree.
+Now, the main idea then, is that a Spout
+Tuple is not considered fully processed
+until all of the Tuples in the three
+have been completed down the road.
+So the Tuple coming out of the spout
+becomes the root of the tree
+and it kind of keeps track of
+this Tuple by relying on this tree
+that the framework is taken care of.
+And it doesn't consider
+the lifecycle of this Tuple done
+until everything down this tree are all
+guaranteed to the entire bin process.
+We can then give it a specified timeout.
+And if within that timeout period,
+this whole tree
+is not completely processed, the system
+considers some of these tuples lost.
+And the spout Tuple is replayed.
+We will see an example on the next line.
+The way this whole mechanism
+works is relying on certain
+special tasks in the system
+called Acker tasks,
+that keep track of these tuple progresses.
+And this is what we call
+basically the Anchoring Mechanism.
+Let's look at a programming API for
+the user,
+to see how the user can tag
+into this reliability API.
+Let's assume this is an execute function.
+We saw that to write a bolt or
+spout the user
+has to overwrite the execute
+function of the parent class.
+So let's look at this execute function.
+As an input we have a Tuple.
+Basically what you need to do and
+let's say this is our splitter.
+Tuple, splitter bolt.
+So what it does,
+it gets a sentence as its input and
+creates or emits a tuple for
+each of the words in a sentence.
+Okay?
+What the user has to do to tap
+into this reliability API is to,
+first of all, ask the system to keep
+track of the, of this whole Tuple Tree.
+Anytime that the user does
+an emit of a new tuple,
+we call it an Anchoring Event Happening.
+Anytime the system sees an emit,
+it creates a new edge and
+a new node in the tuple tree.
+So if you remember from
+the previous slide.
+If this first tuple was
+the top of the tree and
+was representing the sentence
+coming in as tuple.
+When we are creating multiple words for
+each of these, when we say,
+collector.emit, it will,
+the system will create
+a new node in the tree.
+The next part of the API,
+and let me wipe this off.
+The next part of the API
+is now up to the user.
+When the user's code
+assumes that the processing
+of a certain tuple has
+finished completely and
+successfully, then the user's code can
+basically send an acknowledgement.
+So it can say, collector,
+I'm sending you an acknowledgement and
+I'm telling you that I am done
+processing the input tuple.
+So now that we have made a tuple tree
+that keeps track of the tuples emitted.
+And marks them as finished,
+when the user says act.
+What happens if there's a failure?
+If there's a failure happening somewhere
+in the cluster that Storm is running on.
+What happens is that double
+processing can occur and
+in my next slide I will show you how.
+It depends on the use case for
+some use cases this might be all you need.
+Sometimes you don't have
+very critical tasks, and just guaranteeing
+once processing is all you want.
+This is for
+example User clicking on advertisements.
+We want to make sure
+every click is counted.
+Now, let's say one click
+is double counted.
+That's fine.
+Or for example, if you're looking
+at statistical trends for some, say
+your input is coming from Twitter and you
+want to figure out statistical trends of
+what is raising and
+what is not that interesting.
+Okay, double counting some tweets
+once in a while is not going to
+make much difference.
+Now one thing I want to make sure is that
+your spout itself has to
+support this idea of replay.
+So when the infrastructure sees a time
+out for a tuple tree, what it does,
+it tells the spout, okay, I've figured out
+there's something wrong in the processing.
+Go replay.
+It's now the job of
+the spout to replay and
+recreate that tuple, so that the whole
+stream of events can take place again.
+Not all of the spouts coming with Storm
+have that and not all of
+the infrastructure supports replay.
+So if you want to have your spout
+provide this reliability measure,
+you must make sure that
+the spout itself can do replay.
+Now let's look at an example.
+How this whole scheme works in action.
+Again we are talking about
+our word count example.
+You have your Spout
+that creates sentences.
+You have a Split Bolt that gets
+a sentence, splits it into words and
+then you have a Count Bolt that
+counts the number for you.
+Now we also have a new component,
+we have an Acker Task that
+creates a tuple tree and
+keeps track of things.
+Okay, let's see how it works.
+A new spout,
+a new tuple is created by the spout.
+It tells the Acker, so
+the spout code you can imagine
+says emit this new tuple.
+The cow jumped, so on and so forth.
+And then once it says emit, the Acker
+task is notified and it will create.
+A new note for it, in the tuple tree.
+Then the tuple come
+over to the Split Bolt.
+And as a result this split
+bolt as we saw the code for
+it will say, emit word one,
+word two, word three.
+Each time it does an emit the Acker bolt,
+the Acker task is also notified and
+will create and
+add note to his tuple tree.
+Once the processing of creation of new
+tuple is done, the sentence is done,
+so the split bolt will say,
+collector.ack for this tuple
+Now we can mark that tuple as done.
+But still its children aren't finished, so
+we still have to make sure all the nodes
+are the children of that
+tuple are finished.
+So the job is still not done.
+Okay, things move off to the next bolt.
+We are using consistent hashing,
+field grouping, so as you saw,
+we have two tuples that
+have the same contents.
+So, they will then move to, the same bolt,
+the same task, of the bolt,
+to be processed.
+Again the word count bolt
+here does some processing,
+it emits something else
+by the act of emitting,
+it will create tuples in the tuple tree,
+but there in the Acker.
+What happens right after,
+is that the Count Bolt
+wanted emits the new tuples,
+it then sends an ack for the input tuple.
+And then the Acker will be notified
+that these tuples are done.
+And it will remove them
+from the tuple tree.
+Well, we still have some.
+So it keeps track of things, and
+waits until all of them are acknowledged.
+What happens if there's a failure?
+Let's say, this certain bolt,
+this certain tuple
+was not correctly processed, so
+we don't have the habit in the output.
+What happens is that when it was
+emitted the Acker was notified, but
+then it somehow doesn't make it all
+the way to the final count bolt.
+And when these things are done
+we are still waiting for
+that missing tuple to finish.
+After the timeout has finished,
+the acker will decide that you know what,
+the tree isn't finished in
+the amount of time allocated to it.
+So it will then,
+acker will call the spout again,
+and will say remember that tuple that
+you started this whole process from?
+It was not completely processed.
+Please replay that tuple again.
+The whole processing will continue again.
+It's the same series of events happening,
+and
+hopefully this time it gets processed and
+it gets, and
+the whole tuple tree gets acknowledged.
+Now, of course it has
+a certain amount of overhead.
+Different research papers have showed
+that the overhead could be large.
+So, it depends on the use
+case that you want to use,
+just know that this mechanism has
+a certain amount of overhead, and
+sometimes the overhead could
+be considerably large.
+So you have to find a good
+reason to enable this mechanism,
+otherwise Storm's performance
+might not be satisfactory.
+[MUSIC]
+

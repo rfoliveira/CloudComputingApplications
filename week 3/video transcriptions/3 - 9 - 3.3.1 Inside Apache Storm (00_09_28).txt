@@ -1,0 +1,225 @@
+[MUSIC]
+In this lesson we will talk about
+the insides of Apache Storm a little bit.
+We designed this lecture hoping that
+some of you might be interested in
+looking inside the Apache Storm.
+And figuring out, trying to figure
+out how the whole system works,
+maybe try to contribute to the open
+source project a little bit, and
+to able to do that,
+you need to see how things are connected.
+Now, Storm is written in mostly
+Enclosure and then some in Java, so
+it's a little bit Not easy to get into it.
+So that's why we designed this lecture,
+to let you start filling with
+the Apache Storm itself, and
+hopefully start contributing
+to the open source community.
+So, in the first video here,
+I will talk a little bit about
+the environment that we kind of need
+to play around with Storm and
+some of the things around it.
+Thrift Compiler, and
+then in the coming videos of
+this lesson we will talk about
+some of the individual models.
+Of course I don't want to
+cover everything in Storm.
+It's almost impossible to do
+even a whole one week video.
+We might actually need a whole course for
+that.
+But I will just try to show you how
+to start tackling things
+like the main modules.
+The main daemons you have Nimbus you
+have SuperWiser, how to look for
+some of the things and
+how the code is organized.
+So without further ado let's
+start looking at things here.
+So the first thing that I want
+to show you is the IntelliJ ID.
+This is a very good free
+to open source users ID.
+Optimized to work with
+Maven based projects.
+And a lot of these open source
+projects that we talk about.
+Apache Storm, Apache Yarn,
+a lot of other important projects.
+All of them based on Maven these days.
+I personally like IntelliJ ID.
+And to get it you just
+need to go to IntelliJ.
+You can just directly go
+to a download link, and
+you'll see that there's
+a Community Edition there for free.
+You just can get the Community Edition.
+That's what I use.
+It's great.
+Okay.
+So once you say you download and
+start the ID to import Storm, you need to
+first have Storm In your computer,
+which I will show you in a second.
+But once you have that,
+all you need to do is say,
+go to file new,
+project from existing sources.
+And then in your directory structure
+scroll to where you have stored Storm and
+just say okay and from there on just
+click next, continue, continue.
+It will figure everything out and import
+the project like it has done for me here.
+So that's the first half,
+the other part that I want to show you,
+is how to get the Storm code itself.
+You've installed an IDE,
+now let's go get the code.
+One thing I should mention here
+is that I use the IDE just for
+navigating in the code,
+personally, navigating the code.
+Looking at the code,
+making edits and everything.
+But I don't personally need
+to run things from the IDE.
+It is usually much easier to
+run things from terminal.
+If you have Linux or Mac machine.
+It's easy you have
+a terminal always built in.
+If you have Windows.
+There are software applications
+that you can install.
+So lets see how to get
+the Apache source code.
+What you need to do is go
+to github.com/Apache/Storm.
+And it brings you a page like this.
+You can first of all take a look of
+the code structure right here in your web
+browser.
+So, for example in Storm,
+a lot of the major code of
+Storm is stored under
+the Storm core directory here.
+So I can click on storm core and you
+know navigate right here through source,
+maybe jvm backtype storm and
+I can take in account some
+of my code right here.
+For example some Java code
+Declaring the constants.
+Okay, so this is pretty cool.
+You can actually do a lot of
+browsing through the code
+right here in your browser.
+One really neat shortcut in the GitHub
+page that I really like is pressing
+the T button, T as in tango.
+You can press the T button and just type
+the file name, any part of the file name.
+For example, I'm looking for
+the nimbus code, let's say,
+I'll just type nimbus and see,
+even without typing the last s,
+it goes and
+finds all the files that has nimbus in it.
+Okay, let's say I want to
+look at nimbus.closure.
+I can continue with saying hey nimbus.cl.
+Okay, it says do you want
+to look at nimbus closure.
+And now I'm looking at
+the nimbus closure code.
+Okay, so these are pretty cool.
+Now, let's see how we would download
+this code from the website,
+which by the way it's interesting to
+note that this is a cloud service.
+There are some servers at
+the GitHub foundation,
+and when you want to download code or
+browse the code
+you are really connected to their web
+services or cloud services as you wish.
+All right.
+So, let's see how you would download code.
+Of course, there are lots of tutorials,
+I don't want to go through that.
+Just to quickly mention it, you need
+to set up your private public keys.
+So, what you need to do is go to,
+first of all, you need to sign up.
+If you haven't signed up, make an account.
+Sign up and
+then go from your profile here,
+go to settings, and you see that there is
+SSH keys you need to go get the your
+public key and upload it here.
+So that when you want to download
+the code the git hub server can
+identify you as Where you are and
+who you signed up in the website.
+Okay, let's go back to
+my Apache Storm project.
+Assuming that you've already set that up,
+uploaded your public key into the machine
+and there are lots of tutorials to
+show you on the internet how to do so.
+You can get the SSH.
+There are different ways
+of downloading the code.
+You can get HTTP subversion.
+What I like personally is the SSH.
+So you need to press, click on SSH.
+And then copy this link
+that it gives you here.
+You can just press this button and
+copy it to your clipboard.
+And go to a terminal.
+Let's see.
+I'm already in the Storm directory.
+Let me, okay,
+dear say storm new Just to
+show you how it's done.
+CD storm new.
+And I can say, get clone that.
+And it goes, and you see it doesn't
+even try to authenticate me or
+ask me a password, because I have
+already uploaded my public key, so
+it knows who I am.
+One thing I should mention
+is that this is good for
+if you just want to try
+something on your machine.
+If you, at some point, decide to
+contribute to the open source project,
+what you need to do is to first fork the
+Apache open source project Apache Storm.
+And then when you have forked it,
+you will have instead
+of say apache/storm written here,
+you will have your username slash storm.
+Then you can make changes in your
+local compute,r push your changes to
+your and then submit a pull request, and
+then the project organizers will look
+at your code, will do code reviews,
+comments, and eventually will
+pull back those changes back in.
+But for now, I don't want to fork.
+I can just use this because I don't want
+to submit code back to the project at
+least for now.
+[MUSIC]
+

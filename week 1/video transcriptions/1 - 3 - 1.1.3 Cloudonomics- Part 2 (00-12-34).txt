@@ -1,0 +1,295 @@
+[SOUND]
+We
+saw how utility pricing could
+help the cloud customer.
+Now let's look at how,
+by multiplexing demand,
+the cloud providers can gain
+some economic advantage.
+That's what we call Benefits
+of Common Infrastructure.
+So, there is a value for aggregating
+demands for the cloud provider, right?
+Let's consider two different case studies.
+Case study one, you build your
+infrastructure to be able to
+accept the peak demand in
+a period of time, say a year.
+For example, if your demand in one
+day of the year goes to 200 units,
+you have to build your
+infrastructure to support that.
+So let's say you have that.
+So what happens if you multiplex demand?
+This results in higher utilization
+of your resources, right?
+So, if you paid the money to
+build those 200 computers,
+throughout the year you
+have to maintain them.
+Okay now,
+let's multiplex some other demand
+in the days that your infrastructure
+is not used to its maximum and
+that increases the utilization
+of your computing resources.
+So that results in lower
+cost per delivered resource
+compared to unconsolidated workloads.
+Now let's look at another case study,
+let's say your infrastructure
+was built to less than the peak.
+Right, so in very few days of the year
+where you had the peak demand,
+your infrastructure could not handle it,
+you had to do cloud bursting, for example.
+Move the rest of the demand
+to a outside provider.
+But okay, so you already have a certain
+amount of hardware resources available.
+If you multiplex demand, what happens?
+You reduce the unserved demand.
+So the portion of the demand
+that remains unserved goes down.
+That results in a lower loss of revenue.
+Or for example if you have a service
+level agreement to provide a certain
+level of service,
+it reduces your violation payout.
+So let's actually look into
+this a little bit more detailed
+with a mathematical model.
+Here we introduce this
+notion of smoothness.
+We have this notion of C of v,
+co-efficient of variation,
+which we define by
+dividing the value of standard
+deviation to the mean of the workloads.
+So if you have a bunch of workloads and
+you can model them as a random variable,
+the standard deviation of these
+workloads divided by the mean can result
+into C of v, right.
+Now C of v, coefficient variation,
+is really a measure of smoothness.
+If you have this value, too,
+as a small number, that means that
+the standard deviation, that means ups and
+downs compared to the mean, was small.
+Therefore, you really
+have something like that.
+That means that your
+workloads were smoother.
+And if you really want smoother workloads,
+you can either have larger mean or
+we can have smaller standard deviation or
+both.
+Both of these cases result in
+smoother aggregate demand.
+So the implications that we have for
+smoothness is that a fixed asset facility.
+So what do I mean by
+a fixed asset facility?
+That means that you've bought a certain
+number of machines resources and
+they are not changing per minute or
+something.
+You have a data center, it's there.
+So a fixed asset facility like that,
+servicing a highly variable set of jobs,
+yields low utilization, and
+this is very logical, right?
+If your job goes up and
+down during the week,
+one day you need 200 resources,
+another day you need only 10 resources.
+And you have to buy 200 machines to handle
+those days that you have 200 demand.
+On other days your infrastructure
+is utilized to a lower amount.
+Now if you were somehow successful in
+creating a smooth set of jobs, right?
+So, day 1, you have 198,
+day 2, you have 185,
+they're all kind of around 200, 190.
+The utilization of your
+infrastructure goes higher.
+That's what you want, right?
+Muliplexing jobs with
+different distributions
+may reduce the coefficient of variation.
+So it depends on the type of jobs that
+you put together to run on a certain
+infrastructure, to reduce the variation
+to make the set of jobs smoother.
+Let's look at a couple of
+case studies here too.
+Let's say you have n different jobs
+modeled as n different random variables.
+Let's say the standard variation is delta,
+mean is mu, and
+all of these random variables,
+let's say in this case,
+have the same standard valuation and mean.
+Now if you put these jobs all together,
+what happens to the mean of the aggregate
+and the variance of the aggregate?
+So the mean of the aggregate, because they
+all have the same standard deviation and
+mean, becomes a sum of means, that's n.mu.
+Variance becomes the sum of variances,
+again,
+because they all have same variance.
+So you have n.sigma2.
+So the aggregate coefficient of variation,
+as we know coefficient of variation is
+defined by standard deviation over mean.
+So standard deviation is
+a square root of variance,
+so you have square root
+of n multiplied by sigma,
+over n.mu, and
+you can simplify this to this expression.
+One over square root
+of n of the original C
+of v, right?
+So what does that mean?
+That means that adding n independent
+random variables, n independent jobs.
+They're independent, they just happens
+to have the same mean and distribution.
+Adding n of these jobs together
+reduces the coefficient of variance
+by 1 over square root of n.
+So, for
+example aggregating 100 workloads of these
+types brings the penalty down to 10%.
+So this is good.
+Penalty of insufficient or
+excess resources grows smaller.
+Not as much as you would like.
+If you add 100 of them,
+you would reduce the penalty to 10%,
+not 100 times, ten times.
+Still, it's good.
+Now let's look at two
+other case studies here.
+Let's look at the best case.
+How can you best put different jobs,
+computing jobs,
+together to run a certain infrastructure?
+The best case happens when we
+call it negative correlation.
+What does negative correlation mean?
+I can model negative correlation by
+two random variables, X and 1-X.
+If you have these two random variables,
+when X is high,
+1-X is low, and
+when 1-X is high, X is low.
+So, in any case, the sum of these two,
+again hypothetical,
+random variables is always 1.
+And if you have a random variable which
+is 1, it's standard deviation is 0,
+therefore, the coefficient of
+variance becomes 0, right?
+This would be, again a hypothetical,
+it doesn't happen in real world but
+optimally smooth best CPU utilization.
+Right, so
+you manage to put jobs from customer a,
+that happens to always be low when
+jobs from customer b is high.
+Doesn't happen in the real world,
+it would be great if it would happen.
+You would get the best
+smoothness possible.
+What about the worst case?
+Worst case is what we call
+positive correlation.
+What do I mean?
+Mean that if job a peaks,
+job b also peaks, and job c also peaks.
+When none of job a doesn't have too much
+demand, job b also doesn't have too much
+demand, job c also doesn't
+have too much demand, right.
+In this case, the mean becomes n
+multiplied by the original mu,
+standard deviation, and
+multiplied by sigma.
+And the aggregate, if you do
+the computation, remains exactly the same.
+So if you put these jobs that
+are exactly similar, what do you get?
+Nothing changes,
+the smoothness exactly remains the same.
+Which makes sense.
+So what do I get from theory?
+For the case of negative correlated jobs,
+right, so
+that's when you have
+the best case possibility.
+If that could be possible, and
+this is a result from theory.
+If that could be possible, whether you
+have a private, midsize, or large sized
+provider, all of them could experience
+the same, similar statistics of scale.
+If you had independent jobs,
+midsize providers could achieve
+similar statistics of economics.
+Why?
+Because you have a square root of n.
+So it doesn't matter if you can put 10,000
+jobs together or 100 jobs together.
+The square root kind of
+makes them look similar.
+But what about real world?
+Of course I talked about theory
+of using our simple modeling.
+But what happens in real world?
+The amount of data that we have on
+economy of scale is kind of mixed.
+Of course we want to use
+the same COTS computers and
+components whether we are a large provider
+or a small provider or mid-sized provider.
+So that doesn't differentiate much
+between the different providers.
+Everybody can try to locate their
+resources and put their data centers near
+cheap power supplies, so again doesn't
+matter if you are small or large.
+You can argue that early entrants in
+the cloud computing game have an advantage
+of having better automation tools.
+But then the third-party tools,
+particularly the open-source tools,
+which we talk about them
+in this course in detail,
+a lot of them, they kind of negate that.
+But the take-away lesson I want to
+say here is that you really, if
+you're a cloud provider, you really don't
+need to be a really large company and
+a really large cloud provider
+to be able to compete with them.
+Because if you are careful in
+putting together multiple demands,
+according to the value of,
+common infrastructure,
+this video, you have a measure
+of economy that helps you.
+If you can actually at least try to put
+jobs that are as
+complementary as possible.
+Of course you won't be able to do
+complete negative correlation, but
+as much as you can do, and
+hopefully you can get a little bit
+better utilization from your resources.
+[MUSIC]
+

@@ -1,0 +1,100 @@
+[SOUND]
+Salesforce is one of the main providers of
+platform as a service.
+Or should I say, software as a service.
+It runs a complete sort of solution for
+clients.
+It also allows them to
+build their own solution.
+So there's a little bit of discussion,
+platform as a service,
+software as a service.
+But nevertheless, what they have has
+made this cloud computing their own,
+from the point of view of
+providing CRM Services,
+that's customer relationship
+management services to customers.
+And in the past they actually
+managed to displace major CRM
+businesses with this style of approach
+of providing a cloud that does that.
+So they are now sort of moving into other
+areas of cloud computing,
+from that sort of basis.
+So although it's not as well known and
+sort of dominant as Amazon or Google,
+nevertheless, this particular Salesforce
+company is an example of how you can make
+clouds really sort of a platform for
+a whole new generation of innovation and
+services.
+So what they offer, sales,
+service, marketing,
+analytics, communities, and
+lightning deployments of systems.
+They offer this sort of very,
+very flexible, very fast system for
+basically companies providing facilities
+that Microsoft didn't actually fulfill.
+Microsoft's, much more in
+the Office style support.
+These guys are much more in the,
+if you like, how
+do you put a business network together
+to make the business successful?
+Whereas Office and Microsoft are working
+on the back-end inside the office.
+How does that all work together for
+the accounting and so on?
+So, you could think of this as
+social software for the workplace.
+They're competitor to Microsoft,
+IBVM, Jive,
+Salesforce obviously is
+prime contender in that.
+So, the idea is each business wants
+to find out about each other,
+and to build networking,
+build professional connections.
+They want to mine their networks for
+contacts, acquaintances.
+Get advice, references, referrals.
+They're forming teams, business teams.
+Different businesses
+together in a team as well.
+Communities in formal groups and
+collaborate on particular work projects.
+So CRM Services allow you to discuss and
+comment on work, and
+organize work from an individual
+group perspective.
+Identify relevant information.
+Discover other people with common
+interests, alert users to information,
+learn from other users' expertise.
+Salesforce uses Wave to build all this,
+and they have
+a Salesforce Analytics Cloud.
+So from when Salesforce started,
+what they provided was this platform
+where you could piece together
+various pieces of this service to provide
+you with customer relationship management.
+And they did it at a rate that was
+very reasonable for companies.
+And you could scale it.
+As your company grew, you could build
+a bigger customer relationship management
+service, which allowed lots
+of small businesses to start
+up actually using CRM and
+taking advantage of that networking
+to start finding their
+own way in business.
+And it was so successful that
+Salesforce became, if you like,
+one of the leading flagships for
+promoting cloud computing.
+[MUSIC]
+

@@ -1,0 +1,352 @@
+[SOUND]
+So
+in this lesson of MapReduce we will,
+of course, talk about motivation for
+why you would need a MapReduce model or
+something like MapReduce model.
+Then we will introduce the programming
+model specifically in MapReduce,
+what is map, what is reduce?
+How to think in terms of MapReduce.
+And we do that by providing
+a whole bunch of examples.
+Start with word count,
+then show you how pi estimation
+calculation could work out in MapReduce.
+Image smoothing is something that could
+be used for image processing, and
+that's one of our examples.
+And finally, we spend a little bit
+of time on introducing PageRank.
+PageRank is one of the well-known
+algorithms in the web area,
+and a lot of the web search technology
+is really built on top of PageRank.
+So we will take our time and
+talk about PageRank and
+how it can be implemented
+in terms in MapReduce.
+And then,
+you know in upcoming lessons of course
+we will talk about MapReduce execution.
+So, speaking of the motivation for
+MapReduce, let's actually first look
+at what was there before MapReduce.
+That helps us to draw a picture of
+why we need to move towards something
+better than what we had before.
+So originally when you had
+a large cluster of machines,
+and this was more common in
+the context of super computers.
+But super computer after the very
+first years of computing,
+they turned out to be just a massive
+number of computers as well,
+now of course super computers have
+specialized network, specialized IO,
+but anyway they are a large
+number of individual machines,
+very much like our today's clusters,
+right?
+So the very common
+programming framework for
+d istributed systems in
+general used to be, and
+it still is in some circles, MPI.
+Message Passing Interface.
+Right?
+What does MPI give you?
+MPI basically, at its most basic level,
+gives you two basic blocks,
+MPI_Send and MPI_Receive, right?
+So, one program running
+on one machine can say,
+hey send this bit of information
+to machine number something,
+and the other machine can say, receive
+that information from the first machine.
+And that's all it gives you.
+There are other functions built around
+it but that's the most basic idea.
+Now, the problem is that this
+abstraction is too simple.
+Deadlocks are very possible.
+Whenever you have a blocking
+communication, it can cause deadlock.
+So, let's look at an example.
+Let's say your program says that,
+hey, MPI_receive from Process 2,
+message A, and this happens in Process 1.
+Now, once you are done receiving
+that information from Process 2,
+then send message B to Process 2.
+This is a simple program.
+And Process 2 does the same thing.
+It says hey, wait for
+message B from Process 1 and
+then once you receive it send back
+some other message, A, to Process 1.
+So you would think everything works.
+Process 2 wants to send the information
+to Process 1, 2 wants to send
+information B, and
+1 wants to send information A, and
+you know it's just a simple
+information exchange.
+Well unfortunately this can very
+easily end up in a deadlock situation.
+Process 1 can just wait for
+information from B, while Process 2 is
+also waiting for information from A.
+So in this case you have a deadlock.
+And of course this is a simple situation.
+In more complicated algorithms it
+becomes very hard to figure out, and
+all the burden is on the programmer to
+figure out what situation happens when.
+There are some solutions of course,
+I'm not saying that MPI
+doesn't have solutions.
+There's like, for example, MPI_SendRecv
+that tries to do something, but
+you get the gist of it.
+It becomes hard and it becomes
+the responsibility of the programmer
+to figure out all of these details.
+So this would result in large overhead
+from communication mismanagement.
+You would waste your program time,
+your CPU cycles,
+basically waiting for something,
+so that it doesn't block.
+You can try to overlap computation
+with non-blocking communication,
+that's one solution.
+Again, more complexity.
+Load imbalance becomes very possible.
+What happens to dead machines?
+As we said,
+when you have hundred thousand machines.
+It's guaranteed, every minute,
+one of them is going to go down.
+What are you going to do with it?
+Well, you gotta do something.
+The programmer has to decide, and
+has to program that in the program.
+So it's not impossible, but
+things start to look hard to code and
+that's why you want something better.
+Now something else happened as well
+in the last couple of years or
+maybe say last decade really, web data
+sets started to become very large.
+So you started to have web graph of data,
+web servers all around the Internet.
+And information really
+starting to expand in size.
+You have tens to hundreds of
+terabytes of information, and
+you really cannot data mine this sort
+of information on a single server.
+Right?
+So what people started to do was to put
+regular, and the term is COTS,
+commercial off the shelf
+machines, together as a cluster
+of commodity Linux nodes.
+Put Linux as a free
+operating system on top, and
+just connect them with gigabit
+ethernet interconnection networks.
+So putting these machines
+together wasn't that hard.
+At first, about 10, 15 years ago,
+people would call them Beowulf clusters,
+and then they just started
+to calling them clusters.
+So putting them together is not that hard.
+How do you utilize this infrastructure?
+That's the issue.
+Especially when you have regular
+commercial off the shelf machines that
+are not built to the high standards that
+used to be there in say super computers.
+Now you have your regular hard drive
+that you put in these machines.
+You have way more hardware failures,
+you really need to figure out
+a good way to handle that.
+Now the solution is to come
+up with a better abstract
+way of storing data on these machines,
+and then pushing the computation to them.
+So what you do here is you use
+a distributed storage model to begin with.
+You have a cluster of, say each
+machine has six to 24 disks attached,
+we call each server sometimes a plate, and
+a whole bunch of plates of course
+are in a rack, what you do is, when you
+want to store information, you divide up
+information and we'll talk about that.
+And store a piece of each
+information In different machines.
+Now you have stored the information
+across all of the nodes in your cluster
+how do you do the computation?
+What you don't want to do is to say
+hey I'm on machine A, go to machine B,
+grab the information, bring it back to
+machine A so that I can process it.
+That's never going to work because you
+are making your network a bottle neck.
+What you have to do instead
+in this sort of standardized
+cluster architectures is to
+push the computation to data.
+So, what you do is you ask
+the machine that has the data,
+has the data piece, to say hey, you're
+storing the data and you have a CPU.
+Why don't you kindly do my process for
+me on the very same
+machine that has the data?
+The data on the disks is usually,
+in these programming models,
+read sequentially from beginning to
+end and there's a very good reason.
+Typically when you have hard drives,
+hard drives are spinning right?
+There's a notion of
+sequential access after this.
+If this is your hard drive head, the hard
+drive is spinning in one direction so you
+can read some data stored on a sector of
+the hard drive from beginning to the end.
+That basically,
+that physical reality you will see is
+implemented under programming framework,
+so that now our frameworks adhere
+to the standards dictated to
+them by physical resources.
+Now, one thing that you want to make sure,
+is that, in these clusters, that we're
+talking about, clusters of off the shelf
+machines, how would you handle failure?
+So, in a cluster, as I mentioned,
+you have a whole bunch of plate servers.
+Each plate server has CPU,
+memory, and a bunch of disks.
+You have a number of these in one rack.
+They are usually connected to each
+other by a type of rack switch.
+Sometimes the network between these is
+connected through gigabit ethernet,
+very commercial off-the-shelf,
+cheap hardware.
+And then you have many times
+more than one rack and
+they are connected through a two
+level interconnection network.
+Now what can happen is that
+sometimes a machine can go bad,
+so your programming frame board
+has to be able to handle cases where
+one whole machine is out of commission.
+Sometimes, a switch can go
+bad as you can see here.
+And when a switch goes bad, what happens?
+A whole rack of machines get disconnected
+from the rest of the network.
+Your programming framework has to be
+able to handle this situation as well.
+So back to the question of storage.
+You really need a stable storage in
+the face of this unreliable hardware.
+Still, storage becomes
+a first order problem.
+If nodes can fail,
+how can you store data persistently and
+make sure your data isn't corrupted?
+The answer is in distributed file systems.
+Which is really the foundation of
+a lot of these big data technologies.
+What you can expect from a distributed
+file system is a global file namespace.
+What do I mean by that?
+I mean that the storage is distributed.
+A single machine only contains a little
+bit of the file system, right?
+But, the file system abstraction provides
+you a global file namespace, right?
+So we can say hey, I want File A, and the
+distributed file system knows how to grab
+the file from across all of these machines
+that store little bits of information.
+Sometimes even File A could be
+chunked up among multiple machines.
+But the distributed file system
+abstract takes care of that.
+An example of this is the Google GFS
+file system design and
+Hadoop HDFS file system, which is
+really based on the Google GFS design.
+And the HDFS file system is very common.
+It's what Hadoop is really built on top.
+The typical usage pattern that
+you have here are huge files,
+again remember we
+are talking about big data.
+So a single file could be
+hundreds of gigabytes.
+You know, in your usual day
+to day work on your laptop.
+You know, your whole hard drive
+could be like one terrabyte.
+Here we are talking about a single
+file being one terrabyte.
+One communication pattern is that
+data is rarely updated in place.
+Right, so you have a file in a regular
+program, say you write your program in C,
+you can say hey, open my file,
+seek to this certain location of file,
+do something, update the data, write that
+in that very same location of the file.
+Here in big data storage we don't do that.
+Your data is rarely updated in place, and
+this assumption Is really used in
+the design of the distributed file system.
+You can assume that reads and
+appends are common.
+So you want to read your data,
+do something.
+Maybe appends, the result at the end of
+the file, you don't touch the file itself,
+but you can append some
+information to the end of it.
+So all of this assumptions that I talk
+about, especially about the storage,
+they all impact how MapReduce
+frame work is going to shape.
+And in the next video I will
+start looking into the MapReduce
+programming model itself.
+And you will see how a lot of these
+assumptions about the storage,
+stable storage, the failure models, impact
+the design of this programming frame work.
+So first we will talk about
+the programming model, right?
+So how to program this, and
+then once we have that, and
+we know now about this information,
+we will move on into the next lesson,
+which happens after this,
+to see, okay, how would you
+build a framework that provides
+this programming model under
+these certain conditions.
+[MUSIC]
+

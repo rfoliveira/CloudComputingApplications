@@ -1,0 +1,486 @@
+[SOUND]
+So
+Amazon Web Services are probably
+the largest IAS provider.
+They will provide a whole gamut
+of infrastructure as a service,
+from storage, S3 Elastic Block Storage,
+computation, Elastic Cloud Computing.
+They have databases, RDS, Dynamo,
+ElastiCache coordination.
+And they provide a simple workflow
+framework for doing jobs, building jobs.
+All of their services
+are paid depending on use.
+There is an offshoot
+of their marketing and
+sales operations, and
+it's grown to be one of the more dominant,
+well, the dominant characteristic
+of Amazon, that it provides this
+IaaS solution and there's a lot
+of different companies that use
+the bill on top of IaaS to build
+their own services, cloud services.
+So if you look at the Amazon Web Services,
+there's perhaps four
+main places that they
+really sort of excel.
+One is the Amazon EC2 environment, which
+allows you to create virtual machines and
+populate the virtual machines, create
+networks between the virtual machines,
+and then use those virtual machines
+as a distributive system for
+whatever purpose you care to choose.
+Amazon DynamoDB is
+a database that's flexible.
+It's a NoSQL database.
+So it's very fast and has,
+as we will find out,
+it sort of uses eventual consistency.
+We will discuss that later but
+this allows it to have lots of
+customers very fast response time and
+still cope with a huge
+amount of information.
+There is a service that runs code in
+response to events through the Lambda.
+And what will would do is, automatically
+manage how your systems respond
+to different activities,
+different requests,
+different responses when you have
+computer resource failures and so on.
+And then Amazon S3 is their very
+large storage, long term storage.
+It's very scalable and provides a great
+deal of reliability and tolerance.
+It stores things in terms of objects,
+and you can retrieve those objects and
+use them.
+So, for example,
+when you're using Amazon EC2,
+you may want some data out of storage.
+You would go your Amazon S3 to retrieve
+that storage, and then you would use it in
+EC2 to provide whatever computing
+you actually want to do.
+Amazon's split up into local regions,
+these are just a list of them.
+There are three main facilities
+in the United States.
+East, West and West again.
+One up in Oregon one down in California.
+Of course Amazon's located up in Oregon,
+so that makes it easy.
+There are however Amazon regions
+in the rest of the world, so
+there's one in Frankfurt,
+one in Ireland, one in Singapore,
+one in Tokyo, one in Sydney,
+one in Sao Paulo.
+So they have a set of distributed
+facilities that they can direct you to,
+and whenever you sign up for
+Amazon services,
+what you will be directed to,
+is one of those regional areas.
+And they will be providing your compute
+for you, so that you benefit from a low
+latency and
+high availability In your particular area.
+Different Types of Instances
+can be created inside
+the infrastructures as a service.
+So we mentioned the EC2, if you dig
+down into the EC2, what you can do is,
+to create micro instances of virtual
+machines, which are sort of small
+very lightweight virtual machines,
+they're still virtual machines.
+It's a free tier, meaning that students
+can actually get access to those and
+use those for their own personal projects.
+And there are multiple Micro Instances
+running at the same time.
+They do not put an awful lot of effort for
+multi-tenancy, to make sure that
+the clients don't interfere with
+each other, but they are free.
+So, in general terms,
+you can actually get a lot of compute out
+of those micro instances,
+small virtual machines that fit
+together into their big agile
+hardware infrastructures.
+General Purpose machines,
+those are larger instances they use for
+production for large companies
+wanting to provide services.
+They have memory optimization, storage
+optimization, compute optimization.
+And if you want to,
+you can actually get GPU instances
+in those general purpose machines.
+So if you' want to run some floating
+point, there's ways to accelerate that and
+really take advantage of
+GPUs in the computations.
+Amazon has typically $4 billion
+to $5 billion range revenue.
+That was 2014.
+And it's sort of been doubling
+over a two year period,
+despite continuous decrease in prices.
+So this is quite an achievement,
+and Amazon is the target to beat,
+it's the company to beat if you're
+trying to provide IaaS facilities,
+it provides the main source of
+competition for everybody else.
+It's capacity is about ten
+times as large as it's
+nearest 145 competitors,
+that's a Gartner figure.
+But, that again, is very impressive if you
+think about the scale of some of these
+machines and scale of operations.
+Even Google doesn't threaten
+Amazon's IaaS services.
+They really sort of dominate.
+What do they provide?
+Well, they runing on Xen Hypervisors.
+They're a proprietary form version of Xen,
+so
+it's been modified internally
+at Amazon to be more efficient.
+Micro instances are often oversubscribed.
+The other systems as I said earlier,
+weren't, so if you want to sort of
+get free computation, as long as you
+don't mind sort of a little bit of
+performance hit occasionally,
+those micro instances are very cool.
+Storage and local area networks
+are shared, they're multi-tenant, so
+you are sort of losing
+out if there's lots of
+customers wanting to use
+a particular Amazon service.
+You will notice a performance degradation,
+but
+on the other hand, they're trying to
+provide really effective designs where
+that impact of sharing
+is not felt too badly.
+You get billed by the hour.
+And there's provisions for
+Amazon's machine instances licenses.
+You don't have to worry about them.
+So, let's suppose that you
+want to use Microsoft Word,
+they will provide you the images for
+Microsoft Word, and you can use them.
+You do not have to go and
+get separate licenses or
+if you want to use some other
+proprietary operating system.
+Typically, Amazon will provide
+you those machine images and
+have it all licensed ready to go for you.
+The operating system is
+typically on outwards is
+the customer problem but
+Amazon provides you a lot of choices.
+They have an image store, for example, for
+their virtual machines and you choose that
+image store which operating system that
+they provide that you would like to use.
+Now if you want use your own operating
+system you can actually do so,
+you are just required to upload
+that into the Amazon system.
+And then their imaging software would
+allow you to boot that particular image.
+It would be booted on top
+of the Xen Hypervisor.
+We have consoles here on the Amazon stuff.
+The consoles are there to provide
+management for what you're doing, whether
+it be virtual machines or whether it be
+and some sort of platform as a service.
+They have different types of consoles.
+The main one controlling the virtual
+machines is provided by VMWARE.
+They do also provide one by Microsoft.
+The storage.
+Well, it's transient, instance-specific
+storage, so when you start up
+your virtual machines in EC2 you get
+access to storage as part of that.
+But it's transient because when your
+virtual machine is not running,
+that storage then disappears.
+It's taken down, and
+moved to the bigger store, the S3 store.
+There's persistent instance-independent
+elastic block storage,
+and you also have SSD and
+encryption options.
+The block store can be use
+to build other types of
+database systems as we
+will find out later on.
+The SSDs use because it
+really does accelerate your
+computations make them faster.
+Encryption allows you to actually say
+provide heifer environment on top of
+Amazon or
+a storage at rest encrypted solution.
+And so, it provides you safety and
+security.
+You just need to build it on
+top of the infrastructure.
+The object-based Simple Storage Service,
+S3, is therefore all your
+long term storage needs.
+It stores objects, you can put images into
+it, data into it, all sorts of things.
+The major cost you'll get is uploading and
+downloading to that S3 from,
+let's suppose you want to
+upload it from your business,
+then that will be the big costs
+in trying to get data there.
+The data itself is located per region,
+and so when you create data,
+you have to say which region, well usually
+it's assumed which region you're going to
+be in, because that will be the closest
+one, and the data stays there.
+So if you build a data
+that you want to keep
+in the United States, it's not going
+to actually to be transferred abroad.
+It will be restricted to
+the reasons you put it in and so
+that's safety mechanism.
+If want to actually back it up across
+regions, you can actually do so
+and the provide another
+service to do that.
+On the networking side,
+they provide a virtual private net cloud
+Private routing between
+the virtual private clouds.
+They provide you VPN tunnels that can
+connect your enterprise into Amazon.
+So you build your virtual cloud and
+you connect your VPN tunnel into it.
+And there are sort of
+direct connects that allow
+customers to use carrier based WANS,
+private WAN services.
+So if you for example, negotiate with
+AT&T to have a high bandwidth connection,
+you can use that as your carrier, and
+get into Amazon services, and
+use that to connect to your cloud as well.
+And that's a big advantage if you're
+negotiating with these large companies for
+the carrier access.
+When you log in to Amazon,
+what you'll see is this splash screen.
+It's pretty self explanatory,
+there's lots of documentation.
+As I say, as a student,
+you can do this for free.
+They don't need a credit card from you.
+But then for free,
+you can have $300 worth of compute,
+and these are all the sort of ways
+that you can use that compute.
+You can go in there at any
+one of these points and
+start operating and
+building up your service.
+The next main splash screen is this one.
+What it shows you is all the different
+services that Amazon can actually provide.
+And I've only touched on
+a small number of them.
+There are actually a huge,
+huge number of them and
+they'll range enterprise, mobile services,
+application services, analytics.
+Just depending upon what you run.
+And Amazon will let you
+build the various systems.
+Some of these will be platforms and
+service.
+Some of them will be
+infrastructure as service.
+But you're starting off as infrastructure
+service layering things up and
+then providing that for your customers.
+And Amazon's going to provide all the load
+balancing to get at your systems.
+So it's all sort of very straightforward
+and very well thought out.
+And Amazon is one of the lead companies in
+actually doing this type of interface and
+providing this type of service stretcher,
+which is why they're so successful.
+So, this diagram just shows you some
+of the other screens you can get to.
+This one is showing you the resources.
+It's showing you how many
+running instances, the volumes.
+That's up here.
+How many key pairs or security
+keys that you're using with
+what sort of groups you've got.
+Whether you're losing elastic IP, meaning
+you can have a range of IP addresses and
+increase them or decrease them.
+What sort of, let's see this one.
+Low balance, so you're using what
+the options are in the low balancer.
+So, when you see this,
+what you can do is to see the different
+health of the different systems.
+And you notice under here,
+it lists some of the different zones.
+The ones you're probably interested in.
+US West, USE East and gives some, well
+actually in this case just US West but
+it gives you some details about their
+accessibility and availability.
+Here's another [INAUDIBLE]
+this is if you're going
+in to build a system, then you can
+choose your own machine image.
+Amazon provides AMIs and
+you can choose what from those
+AMIs which particular type of operating
+system you would like say as a Linux.
+And down here is a server, and
+down here is a Windows Server.
+You can just opt to select one of these.
+You can say whether you want a 64-bit or
+a 32-bit and
+that all is provided for
+you in building your services.
+And so here is yet
+another screen set to building your Cloud.
+What you would like to do is to say
+whether you want big virtual machines or
+small virtual machines.
+Well here's a list of all
+the virtual machines they provide.
+And you can see that they
+have micro instances,
+they have large instances,
+they have extra large,
+general purpose sort of
+IaaS infrastructure.
+There's dots for
+selecting which one you want.
+Here's a number of virtual CPUs,
+do you want, per instance,
+so you can choose a micro with one, or
+you can choose an extra large with four or
+up eight, if you want.
+You can choose how much memory.
+Now, you notice these
+are all in categories.
+They're basically whether you want to do a
+lot of computing or whether you want to do
+a small amount of computing, whether you
+want to pay a lot of money or you don't.
+So there's various options for the memory
+and they fit to the number of CPUs.
+There's optimized availability for
+some of the optimization packages.
+And then you can also specify how
+much network traffic you want.
+If you want to go to higher networking,
+because you're using a lot of
+network transfers, then you have
+to go to a larger machine and
+you have to pick one of
+these options lower down.
+You see,
+you can even pick a 10 Gigabit dedicated,
+this one 10 Gigabit dedicated
+infrastructure, if you so desire.
+So, that's yet another screen.
+If you're building a system,
+you go through various steps,
+that would have been step three.
+So you go on to step four, five, six.
+Here's step seven,
+cutting a lot of corners short, but
+what we're going to do is to launch
+the virtual machines we've built,
+what we've done is to build a network
+around them, and then we're going to sort
+of just say, well, create these things.
+So in step seven, we're reviewing
+what we're going to launch.
+It's going to be a micro.
+And you have a networking preference.
+And we have the security group.
+The security group would also indicate how
+you connect to it, typically using SSH,
+and you're running over the protocol,
+TCPs.
+So, you get a nice, good, constant,
+fixed connection into your machine,
+and it's encrypted, so nobody can
+actually interfere with what's going on.
+And then, after you press Launch,
+you will get a launch status,
+and it will tell you after
+a little bit of time that your
+systems are all running, and
+you can go to another monitor,
+which you can actually sort of look at the
+health of those systems you've launched.
+See the overhead, the CPU being used.
+The amount of disc being used.
+And so, lots and lots of different things.
+Here, you see a button to actually
+go off and see the instances.
+That's more of a summary.
+But you can drill down and
+see lots of details about them.
+If you do pick that summary,
+this is what you're getting.
+As you can see, the status is running.
+And you can see a little bit
+of detail about where we are.
+It's still initializing.
+Well, the machine's up,
+it's got a public DNS, it's
+got a public IP address, so
+you can reach it from outside.
+So you have there a sort of
+step-by-step set of slides,
+set of displays, that will allow you to
+go and launch your own personal cloud.
+This quick overview of what we've
+seen inside Amazon Web Services, and
+it provides a very comprehensive
+set of tours, the building,
+everything from IaaS up.
+And you can launch your own PAS,
+if you want, and some people do that.
+Amazon is one of the, well, it is the top
+rated largest cloud provider for IaaS.
+And now we'll go and
+have a look at some others.
+[MUSIC]
+

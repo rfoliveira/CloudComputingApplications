@@ -1,0 +1,268 @@
+[MUSIC]
+Okay so, so
+far I've talked about the demons, right?
+I've talked about the nimbus, supervisors,
+workers, executors and tasks.
+Now let's take one last look at
+another part of the Storm project.
+This time I want to take a quick
+look at the scheduler part of it.
+There are two main files
+that I want to show you.
+One is an interface, designed to make
+the scheduling framework for Storm.
+Kind of pluggable so that new developers,
+you for instance, can come and create
+new schedulers without requiring to go and
+touch everything in the Storm source code.
+So whenever you want to, for
+example, create a new scheduler,
+all you need to do is
+instantiate a new object.
+Write a new class.
+Overwrite whatever
+IScheduler requires to be
+overridden and
+just create a new scheduler.
+In this video, I'll also quickly
+recap the Multitenant Scheduler,
+which is the current
+default scheduler in Storm.
+It's a pretty simple scheduler,
+and we can see how it works.
+Okay.
+So to do that,
+let's take a quick look at this.
+You have two parts in the Storm
+directory for scheduler.
+One is under storm core source closure.
+Backtype, storm, scheduler.
+And then there's a counterpart to this,
+let me close closure, and go to jvm.
+jvm, backtype, storm, scheduler.
+You'll see that in this
+case there's more code for
+the scheduler in the Java side of things,
+compared to the closure side of things.
+Lot of this code is used here, for
+figuring out how to do
+scheduling in general.
+Then there is the multitenant directory,
+that is one of the schedulers in storm.
+There's a couple others, and
+there's a couple other open source
+projects on the way that are about
+to be committed to storm.
+So, by the time you see this video,
+or maybe a month or
+two after this video, there will be
+even more schedulers in this directory.
+So, I want to show a couple of things.
+One is the IScheduler interface.
+This is basically the primary
+way that storm allows
+new contributors, like yourself hopefully,
+write a new scheduler.
+Basically what you need to do is
+implement this interface, IScheduler.
+And just what you need to do is,
+implement two functions.
+The prepare function, and
+the schedule function.
+Schedule function,
+what it does is it gets two things.
+An object of type of class topologies,
+and another object of type cluster.
+Let's quickly look at topologies and
+cluster, and
+then look at one instance of scheduler.
+So what topologies does,
+is basically a wrapper
+around a lot of topology details objects.
+Right?
+So storm at each instance is running a
+number of topologies, for different users.
+This topologies object,
+kind of keeps track of information
+about all of these topologies.
+Information about a specific topology,
+is in TopologyDetails,
+which is a class right here.
+Same directory.
+In TopologyDetails,
+basically what you have is,
+typology ID the configuration for
+that typology.
+It's a map that stores a whole bunch
+of key that store the configurations.
+You have a map showing the executor
+to component, mapping.
+So remember that an executor
+runs different tasks, so
+you kind of need to know the set
+of executors across the cluster,
+that are running different tasks for
+this specific topology.
+You keep that information here
+in executor to components.
+So you see that most of
+these functions here
+are just simple accessor functions.
+There is also one function here.
+Select executor to component,
+which, given a set of executors,
+will go and
+find out which one of these executors
+are really running tasks for
+this specific topology.
+All right, so all of these information
+are then gathered in the topologies class.
+So it has a map of topology details.
+So topologies knows all of
+the topologies running in the system.
+And then in the scheduler,
+when we pass this topologies objects with,
+we kind of give it a snapshot of all
+of the topologies running on cluster.
+Now, the other object here is,
+of course, cluster.
+Taking a look at the cluster
+objects right here.
+We see that cluster java is,
+kind of a snapshot of what is happening
+in the cluster at this, at each moment.
+The cluster mechanism is
+how storm keeps it's state.
+Nimbus itself, doesn't keep states, right?
+So it doesn't, it can crash and
+it can restart without
+going through any catastrophic failure,
+because itself doesn't store its state.
+What it does,
+is that it stores its states in zookeeper.
+Now, it does that through a class called,
+cluster closure.
+This is how we talk to the zookeeper.
+You can see that the first thing that
+we do in the cluster at closure,
+is making connections to the zookeeper.
+We have making a client a zookeeper, and
+then talk to zookeeper to set or
+get state, into zookeeper.
+So cluster closure is our main method
+of accessing the state of the system.
+Now every time that Nimbus decides
+to run and make assignment phase.
+Every ten seconds, or
+every 30 seconds that decides okay,
+a new round of scheduling should happen.
+It creates a new object of cluster,
+the java type.
+Populates it basically
+from cluster that closure,
+and then passes it to
+your schedule function.
+So that now, not only you know
+what topologies you're running,
+you also know what the state of
+the cluster is, at this moment.
+Okay, so
+now that we've talked about these,
+let's look at one implementation
+of the IScheduler interface.
+There's of course in this
+the same java directory,
+there is a multitenant implementation
+that if you look at it,
+you will see that it is implementing
+the IScheduler interface.
+But I want to show you something else.
+If I back out of the jvm directory,
+and again into the closure directory.
+Closure, backtype, storm, scheduler.
+You will see that there are some
+schedule implementations here.
+Let's take a look at the,
+let's say the DefaultScheduler.
+DefaultScheduler is,
+you see it's like just two,
+three functions returning closure.
+As you remember I said
+closure is very concise, so
+you can write a lot of
+functionality in a few lines.
+And you see it's completely has
+interoperability with java.
+Why?
+Because you can see that my closure
+class right here, says that,
+hey I want to implement
+backtype.storm.scheduler.IScheduler.
+That was a java interface.
+And now I'm in my closure code,
+I'm implementing that java interface.
+What the DefaultScheduler does,
+is that when the default schedule function
+is called, it goes and
+prepares some of the required variables,
+it reads the topology ID,
+gets the number of available slots.
+Gets the available,
+all of the executors and then from there
+it finds the alive executors,
+the ones that are assigned to it.
+And eventually what it does,
+it goes and calls the proper
+function in the EvenScheduler.
+So, the DefaultScheduler
+uses the EvenScheduler.
+Let's take a quick look
+at the EvenScheduler.
+No.
+I mean, let me quickly go back.
+The functions that I need to
+implement here are two functions.
+Schedule and prepare.
+Everything else is low call functions.
+And you see that to implement.
+And this is basically to
+implement the interface.
+When calling the schedule,
+it calls the DefaultSchedule function, and
+DefaultSchedule function goes on and calls
+the EvenScheduler, scheduled topology.
+So taking a look at the EvenScheduler.
+You'll see that the schedule
+topology function,
+basically does some similar things.
+Gets the executors available slots.
+Then eventually does a very simple
+idea of basically round robin.
+Finds new assignments by
+putting into an empty map,
+a map of vectors, and
+just does round robin here.
+Okay, so This basically
+wraps up our discussion into
+looking inside the storm.
+And seeing how basically the interplay
+between closure and java.
+Closure at first might look
+a little bit intimidating.
+But once you get to play with it,
+it's actually a very nice language.
+Fast, concise, quickly very expressive,
+and quick to write scripts.
+And if you get to play with the repo,
+you'll see it has a lot of power to help
+you implement a lot of these things.
+So, for example, when debugging these,
+we can basically bring up repo,
+and create a new instance of
+the whole apache storm project,
+running in your repo, and you can
+interact with it while it's running.
+So it's a very powerful
+tool to do debugging.
+[MUSIC]
+

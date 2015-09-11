@@ -1,0 +1,218 @@
+[SOUND]
+The description
+that I gave you in the previous video,
+about math function and
+reduced function was
+a little bit abstract.
+Now, in this one and the next couple we
+will try to figure out really how this
+works by looking at a bunch of examples.
+So let's start by thinking
+about the word count problem.
+So what is a word count problem?
+Let's say you have a large file of words.
+Well, sometimes you have many files of
+each one, you know, really big size,
+they're all text so
+they have words in them.
+And each line of text
+has many single words.
+What we want to do here is
+write a MapReduce program
+that counts the number of times each
+distinct word appears in the whole file.
+Right?
+So let's say, if this slide was your file,
+you have, let's see,
+one occurrence of the word have,
+one occurrence of the word large,
+you have two occurrences of words,
+so on and so forth.
+So you want to actually create
+an output that shows like large,
+1, words, 2, so on and so forth.
+So why don't you pause the video here for
+a second, think about this.
+And when we return, we will work
+on figuring out how this works.
+All right, so
+hopefully you've thought about it.
+And your solution probably
+looks something like this.
+But let's go on and
+see how we can solve this problem.
+So, the map function
+that you can write here,
+you can have your input
+coming into your map.
+You can say my individual data item that
+I want to process on in my map
+function is a line of text.
+So key, for example, could be line number.
+In this very particular
+example we don't use it.
+That's fine.
+So this is a good example.
+Sometimes you can just ignore
+one of your input arguments.
+You don't really need to use both key and
+value.
+Sometimes you can get a key value and
+just throw away the key.
+Or the value.
+Or vice versa.
+It's up to you.
+You're writing the program.
+Now in this case,
+value is the contents of the line.
+So what I can do is I can
+say this is a line of text.
+And I'm writing pseudo
+code here of course.
+So I can say for each word w in values,
+in the line, you can emit
+an intermediate key value pair.
+The key I use here is the word.
+And the value is one.
+So, here's another interesting thing.
+In mapping this programming,
+your key can be anything you want.
+Well basically any object
+that is serializable.
+And a lot of them are there
+in the framework, so
+you have serializable numbers,
+integers, doubles, whatnot.
+You have serializable strings,
+you have serializable regular objects.
+So, basically anything can be
+your key value, your data type.
+So okay, here,
+what I do is I use the word as my key.
+Now, what happens once I do that?
+The framework after it takes the input
+data, say this is the input data,
+all of it, it chops it up,
+passes each one to a map function,
+a separate map function, map function one,
+map function two, map function three.
+It calls map function for
+each of these, it will just listen and
+wait for map function to finish.
+When map function says emit, it will
+say oh, good I'll take over the value.
+So it gets ahold of the intermediate
+value pair and keeps it.
+Once all the map functions are done,
+all of them.
+All of these are done.
+It says okay, now it's my turn.
+Before it's start running your
+reduced program, reduced function,
+It says now it's my turn.
+It does some sort of processing,
+distributed processing,
+figures out in this space of intermediate
+key values pairs that were created by map,
+which ones have the same set of keys, so
+it actually does a grouping operation.
+And it says, okay, there were five
+different keys created by my map
+functions, for example,
+five, six, whatever.
+So there I have key one, key two,
+key three, key four, key five.
+There were 18 values associated
+with key 1 across all of the maps,
+so map 1 could say have key 1 and value 8.
+And map 5 could say hey,
+key 1 and value 9.
+Right?
+So the function says hey,
+key 1 had a value coming from map one,
+and a value coming from map five.
+That's still fine.
+It groups all of these and
+creates those lists.
+So now your key one will have
+value eight coming from map one,
+value nine coming from map five,
+so on and so forth.
+Once the framework is done doing that
+it says okay, now it's your turn again.
+It starts calling reduced functions,
+you remember that I use plural tell,
+so it instantiates a number
+of reduced function implications
+across the cluster of machines.
+How many invocations would it use?
+In our examples we had five
+different keys created by the user.
+So it will say I will instantiate five
+different invocations of function reduce.
+For function one I will pass key one,
+and this list of values.
+And reduce function two, key two and
+its own associated list of values,
+and so on and so forth.
+Okay so now what I do in my reduce
+function for my word count problem,
+I get one key and a list of values.
+Right?
+So let's see.
+In map what did I use for keys?
+I used a word.
+So here my key would be a word.
+One word.
+Values, what did I use in my map?
+Any time I would see a word I
+would use value one, right?
+So here I would have a list of one,
+one, one, one, for each
+time the word was appearing in the line
+I would see one, one, one, number one.
+In this list.
+Alright, so now it's easy.
+Right?
+I would just say hey go over this list of
+values and add them all together.
+The result is the number of
+times that specific word,
+this word, passed to me by key,
+was repeated in the input data.
+And now we can say emit, again,
+pass it back to the framework.
+Of course emit here is pseudo code.
+In real Hadoop it's a different thing,
+I'll tell you.
+Use key as the word as the key and
+the result value that I
+calculated as a result.
+Let's see how this really works in action.
+So let's say your file was this guy.
+It had three lines of code.
+When your map function would
+go through these lines,
+it would start to see,
+to separate the words and
+create intermediate key value
+pairs of word and number one.
+So it would see hey, I see word see,
+let's create an intermediate
+key value pair, (see, 1),
+(bob, 1), (run, 1), right,
+so on and so forth.
+And then the framework would put
+them together and would say hey,
+let's call reduce with one value run,
+and see gets two of these.
+Okay, so this was a simple example.
+It's almost a classic example.
+In the next video, we will look
+at two more detailed examples.
+One would be how to estimate
+the value of number pi.
+And the second exercise would be
+an image processing allegorithm.
+[MUSIC]
+

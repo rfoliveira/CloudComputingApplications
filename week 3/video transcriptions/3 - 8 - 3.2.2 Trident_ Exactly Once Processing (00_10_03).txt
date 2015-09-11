@@ -1,0 +1,227 @@
+[MUSIC]
+In our previous videos,
+we looked at storm.
+How we can write
+an application using storm,
+how storm runs in a cluster with
+Nimbus and Supervisors and whatnot.
+And how you would write your
+program using bolts and spouts.
+And we also looked at how Storm
+can utilize a tuple tree
+mechanism using anchoring and
+spout replay to provide at least
+once processing guarantees.
+So the tuple comes into the network,
+the tupology.
+The framework guarantees that this
+tuple is going to be at least
+once processed, maybe more.
+But what if you really want
+exactly once processing and
+that is what trident tries to do,
+that's what we talked about in this video.
+That question has another
+side of the coin,
+if you want to guarantee exactly
+once processing of your tuples,
+that's also similar to asking, how can
+I store state in my streaming system?
+And the reason there is that,
+if you want to guarantee exactly once,
+you want to provide for cases when
+one machine processes the data and
+then after it processes
+a certain tuple it dies.
+Well, it has processed it once so
+you don't want to process it again.
+But the system has died, so
+when it boots back up and
+restarts, its memory's refreshed.
+And it doesn't have any notion
+of what it has done before.
+So here is a case where you
+have to store the state
+of your topology somewhere in
+a pre-existent storage, like a hard drive.
+Now remember that Storm itself does
+not provide that functionality.
+Storm is designed as a streaming system.
+Tuples come into the system from one
+machine, hop into another machine
+being processed hopping to another
+machine and then they're done.
+Right?
+So that's the simple model Storm provides.
+And if you want to add storage on
+top of that, Storm doesn't do that.
+This is why we have a problem,
+and this could be a problem.
+If your bolt goes down,
+after three weeks of aggregating data and
+processing on them.
+And if you haven't stored it anywhere,
+well too bad, right?
+Your three weeks of computer
+computational work has gone down and
+you don't have anything to show for it.
+This is what Trident tries to do.
+Trident tries to provide exactly
+one semantics and guarantees.
+So what happens is that
+in trident state itself
+is treated as a first class citizen.
+It's added definitely on top of Storm and
+it's everywhere.
+Now, the exact implementation
+of how you want to
+Store the state,
+is up to the user, up to you.
+There are many pre-built connectors to,
+in fact various NoSQL stores.
+We will have a video actually in our
+next module talking about some of these
+NoSQL Stores, such as HBase,
+or other databases.
+And you can use those to store
+the state of a running topology.
+What trident does is allows you
+as a programmer a high level API
+that you can use for storing your state.
+So let's look at an example.
+Again, let's continue with our
+running example of word count.
+And here I'm just showing
+say this split bolt other.
+So the first like here is the easy part,
+then the next slide,
+I'll show you how the magic happens.
+So here you're creating a new class
+against splits, like we did before.
+But this time,
+I'm extending a different parent class.
+This comes as part of Trident.
+But if you look at it, it's pretty
+similar to what we had in Storm.
+So, you override the execute function
+instead of getting a Storm Tuple,
+now you get a Trident Tuple.
+And instead of having the collector
+to collect your things,
+you just have a Trident Collector.
+And basically,
+you do the very exact same code here.
+Okay so, this part doesn't do the magic.
+The framework handles things,
+but your code doesn't need to
+change in the polls itself.
+So what you do is you get the sentence
+from the tuple extracted, and then for
+each word in the sentence string,
+you split using the space character,
+for example, and
+then say collector emits new values.
+Remember that unlike Storm's accurate
+functionality with tuple trees and
+anchoring and spout replay,
+you do not need to do acking here.
+So you don't need to say once this
+processing is done for the sentence.
+You don't know to say Ack sentence.
+This you do not need to do that in Storm,
+in Trident anyway.
+The system takes care of that.
+How?
+Now the magic happens.
+Here we creat a Topology.
+But now we sub class from TridentTopology
+instead of just a regular StirmTropology.
+From here on the structure
+that you will see here
+is using a certain
+programming pattern called.
+The builder pattern,
+which is quite prevalent in industry, so
+you will see in many systems.
+And the idea here is that
+each method call returns
+the very same object, just remembers what
+you've done in the previous method call.
+So, it ends up in writing like a neat.
+Syntax that looks unfamiliar
+from Java because
+you keep calling dot, dot,
+dot, dot on one object and
+it's strange but it builds a pattern and
+actually you can do that.
+And I'll refer you to looking to
+build a pattern out of this class.
+But anyway, so
+back here what you do is that now
+we create a new TridentState and
+then we can use the Split's
+class that we just wrote,
+that uses the Trident pattern class.
+And just write out functionality here.
+So we can say hey I have a newStream and
+the new tuple stream that's
+connected to some spout.
+So then what happens here is that
+now we just create a TridentState
+after can be tell it how the state
+is created so that you can store it.
+We just call it wordCounts
+lets say we start from.
+The topology object that we created,
+we use it here.
+We just say, okay,
+let's create a new stream.
+The stream starts from the spout and then
+for each tuple coming out of the spout.
+Use the split class to split
+the sentence into words,
+group the words by the word and
+eventually,
+this is where it becomes interesting,
+to a persistent aggregate.
+That means aggregate the word counts.
+And here's how I'm telling it
+to use the Count class, so
+it's aggregating what it's
+aggregating toward Counts.
+But it's also doing
+a persistent aggregate.
+So it's storing it inside
+whatever mechanism you decide.
+How do you do decide which classes or
+which data storage used,
+it's using this structure
+here that you're saying,
+you're telling it hey,
+out of the memory map state.
+So in this case let's say I want
+to store them in the memory but
+you could have other classes.
+This class tells you that I
+want to use memory map state,
+use the factor class to get an object of
+that class, use it to store the state.
+Finally, you can give
+it parallelism hint so
+that it knows how many tasks you
+want to have for a certain tryout.
+So as you can see, it can be quite
+concise using the builder pattern.
+The designers have tried and
+have managed to make a very concise and
+readable syntax.
+And by using certain persistent
+storage classes that
+some of them come with Trident and
+some of them you can overwrite or
+write your own,
+store the state of your topology running
+TridentTopology and
+persistent storage state.
+[MUSIC]
+

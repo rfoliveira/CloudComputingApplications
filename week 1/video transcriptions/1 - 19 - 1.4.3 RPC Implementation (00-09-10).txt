@@ -1,0 +1,207 @@
+[SOUND]
+Okay.
+Now we're going to look at how remote
+procedure calls actually are implemented.
+We'll step through it.
+It's the same for RMI,
+it's the same for SOAP.
+This will give you an idea of
+what mechanisms are required, and
+then we'll talk about particular
+ways that they're done in the web.
+So looking at the communication,
+remember we have a client that's
+trying to talk to a process.
+We're trying to implement a procedure
+effectively with the remote method
+implication.
+And we have to actually convert
+it into a bunch of messages, and
+an implementation on the server side.
+So split up the computation
+into two pieces,
+that which occurs on the client, and
+that which occurs on the server.
+And there's going to be reply
+request between the two.
+The client is generally known as a proxy.
+It's going to make the requests.
+There is a skeleton and a dispatcher
+on the server side that responds to
+the requests, executes the method,
+procedure, whatever.
+And returns the values back
+having done the computation.
+And this can change the state of
+the server as well as providing
+different types of return values.
+So in this diagram,
+you will see that there's different
+objects that can be around in the client.
+And they can talk to different
+objects in the server.
+We're just going to look at one of those.
+So, if we make a request,
+then what's going to occur?
+And in the first we'll pick a object pay.
+It's going to make a request
+through its proxy.
+And that proxy will bundle up
+the parameters into a message,
+send that across
+the request to the server.
+At the server there's a skeleton and
+dispatcher that receives the request.
+What it will do is to
+unbundle parameters and
+then it will find the method
+that needs to be executed.
+It'll have to look at perhaps the object
+to determine which method it is,
+and then it's going to make that request,
+execute the remote object
+get the return parameters.
+All of the operations together
+need to work in order for
+the procedure to act correctly.
+And as we mentioned in the previous
+set of slides, if something
+goes wrong we can have a different
+semantics than a normal procedure call.
+And that's why we have those exactly once
+or at least once types of semantics.
+The proxy it's responsible for
+making RMI transparent to the clients.
+It's the interface, it's like an API.
+It really separates out
+what the computation is on
+the client side from all
+the mechanism that's needed.
+The proxy is going to
+forward that request.
+That request will be formatted,
+it'll have a particular way of
+putting it into a message so
+that it can be easily decoded.
+That process of putting it into
+a message is called marshaling,
+and we'll cover that in a second.
+When it gets to the other side,
+it'll have to be unmarshalled and
+the actual method invoked.
+Marshalling is done mainly through
+compiling a special marshalling compiler.
+It can be done by hand if necessary.
+It takes the parameter and transforms it
+into an external data representation,
+which is generally agreed
+everywhere as a sort of standard.
+And then it will package that and transmit
+it using TCP/IP across the network.
+The marshalling, as I said, was
+the action of taking those data values,
+converting them into the external
+data representation.
+Usually that external data representation
+contains all the information
+you need in order to be able to
+decode what are the parameters.
+So you'll not only give,
+say, an integer, but
+it'll say it's of type integer
+in the actual message.
+The unmarshalling again is done by a very,
+very simple script that takes
+the contents of the message.
+And using the information in the message,
+it is allowed to actually rebuild
+the parameter space again and
+the method invocation
+that's needed to go ahead.
+The remote reference module,
+when you're talking about remote methods,
+typically they'll be an object.
+And that object will be the end of
+the URI that's like a fancy URL.
+And that method will be in a table
+associated with the object.
+And what happens in the message is to say,
+well we want method five performed
+on that particular object.
+So, it finds the object through the URL,
+and then it will index down to five.
+Find that particular method,
+unmarshal, and make the invocation.
+And when it's finished then
+pretty much the reverse happens.
+You take the results of
+executing the method and
+you bundle about into a message
+using the same sort of protocol and
+the same way of incurring the data and
+you transmit it back.
+What happens when requests occur?
+Well, you have to make sure that
+all of the communication occurs,
+that you wait for your reply.
+That the reply, if it doesn't occur,
+causes some sort of semantics
+in the client to actually take account
+of the fact that something broke.
+On the other side, on the server side,
+you're going to receive a message,
+and you're going to decode it.
+But you also have to take care of the fact
+that when you send the message back to
+the client, it may not actually
+get back to the client.
+And so there might be exceptions and
+other things.
+All of that is usually done by
+middleware because it's the same for
+every single object call,
+every single method call.
+And so
+we get a great deal of simplicity because
+everything is operating the same way.
+So in summary, remote method core.
+What we're doing is provide
+the procedure call between
+machines between pieces of
+code on different machines.
+We have a stylized approach to do that.
+We have a client process.
+We have objects in that client process
+that want to talk to other remote objects,
+object B here.
+And what's going to happen
+is that it would talk
+to a proxy object instead
+on the local client.
+That bundles everything up,
+thus goes through a communication module,
+communicates to a remote service.
+And the communication module on
+the remote service unbundles it, and
+then calls a dispatcher.
+The parameters are taken
+care of by a skeleton.
+And there's indications on the object.
+Now you're going to see different
+instances of this as we talk.
+And you're going to see
+this happen in Java.
+You're also going to see this happen
+in just plain HTTP using soap.
+But it's the same style of approach.
+Some of it's automated.
+Some of it's done by hand, but
+it's doing exactly this type of operation.
+And in each case when you get errors
+you have to handle the errors and
+it's exactly the sort of approach
+to handling those errors.
+But it may be coded as a SOAP,
+or it may be coded as a Java.
+[MUSIC]
+
