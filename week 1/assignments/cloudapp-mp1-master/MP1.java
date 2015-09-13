@@ -60,18 +60,7 @@ public class MP1 {
     public String[] process() throws Exception {
         String[] ret = new String[20];
        
-        // TODO
-        /*
-         * 1. Divide each sentence into a list of words using delimiters provided in the “delimiters” variable.
-         * 2. Make all the tokens lowercase and remove any tailing and leading spaces.
-         * 3. Ignore all common words provided in the “stopWordsArray” variable.
-         * 4. Keep track of word frequencies.
-         * 5. Sort the list by frequency in a descending order. If two words have the same number count, use the lexigraphy. 
-         * For example, the following is a sorted list: {(Orange, 3), (Apple, 2), (Banana, 2)}
-         * 6. Return the top 20 items from the sorted list as a String Array.
-         */
-		 
-		BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
+    	BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
         String pattern = "[" + Pattern.quote(delimiters) + "]";
         String line = null;
         String[] words = null;
@@ -85,24 +74,13 @@ public class MP1 {
         
         try {
             while ((line = reader.readLine()) != null) {
-                /*
-                 * 1. Divide each sentence into a list of words using delimiters provided in the “delimiters” variable.
-                 * --------------------------------------------------------------------------------------------------------------------------------------
-                 * 
-                 * "StringTokenizer is a legacy class that is retained for compatibility reasons although its use is discouraged in new code. 
-                 * "It is recommended that anyone seeking this functionality use the split method of String or the java.util.regex package instead."
-                 * 
-                 * ref: http://docs.oracle.com/javase/7/docs/api/java/util/StringTokenizer.html 
-                */
                 words = line.split(pattern);
                 
                 if (words.length > 0) {
                 	for (String word : words) {
-                        // 2. Make all the tokens lowercase and remove any tailing and leading spaces.
                         word = word.toLowerCase().trim();
                         hasStopWord = false;
 
-                        // 3. Ignore all common words provided in the “stopWordsArray” variable.
                         if (word.length() > 0) {
                             for (String stopWord : stopWordsArray) {
                                 if (word.equals(stopWord)) {
@@ -120,7 +98,6 @@ public class MP1 {
             
             reader.close();
             
-            // removing all indexes of wordList that isn't in indexes variable...
             for (Integer idx : getIndexes()) {
                 String word = wordList.get(idx);
                 
@@ -128,7 +105,6 @@ public class MP1 {
                     wordListCleaned.add(word);
             }
             
-            // 4. Keep track of word frequencies.
             for (String word: wordListCleaned) {
                 wordCount = 1;
 
@@ -153,7 +129,6 @@ public class MP1 {
 				list.add(wc);				
 			}
             
-            // 5. Sort the list by frequency in a descending order. If two words have the same number count, use the lexigraphy.
             Collections.sort(list, WordComparator.descendingOnlyValue(WordComparator.getComparator(WordComparator.VALUE_SORT_DESCENDING, WordComparator.WORD_SORT)));
             
             for (int i = 0; i < ret.length; i++) {
@@ -203,9 +178,6 @@ final class WordCounter {
 		this.counter = counter;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -215,9 +187,6 @@ final class WordCounter {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
