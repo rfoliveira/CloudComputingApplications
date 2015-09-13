@@ -1,8 +1,15 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class MP1 {
@@ -64,7 +71,7 @@ public class MP1 {
          * 6. Return the top 20 items from the sorted list as a String Array.
          */
 		 
-        BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
+		BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
         String pattern = "[" + Pattern.quote(delimiters) + "]";
         String line = null;
         String[] words = null;
@@ -99,8 +106,8 @@ public class MP1 {
                         if (word.length() > 0) {
                             for (String stopWord : stopWordsArray) {
                                 if (word.equals(stopWord)) {
-                                        hasStopWord = true;
-                                        break;
+                                    hasStopWord = true;
+                                    break;
                                 }
                             }
 
@@ -113,20 +120,20 @@ public class MP1 {
             
             reader.close();
             
-            // removing all indexes of  wordList that wasn't in indexes variable...
+            // removing all indexes of wordList that isn't in indexes variable...
             for (Integer idx : getIndexes()) {
                 String word = wordList.get(idx);
                 
                 if (word != null)
                     wordListCleaned.add(word);
             }
-
+            
             // 4. Keep track of word frequencies.
             for (String word: wordListCleaned) {
-                wordCount = 0;
+                wordCount = 1;
 
                 if (wordFrequencies.containsKey(word)) {
-                    wordCount = wordFrequencies.get(word);
+                    wordCount = wordFrequencies.get(word).intValue();
 
                     if (wordCount > 0)
                         wordCount++;
@@ -134,31 +141,24 @@ public class MP1 {
 
                 wordFrequencies.put(word, wordCount);
             }
-
-            // 5. Sort the list by frequency in a descending order. If two words have the same number count, use the lexigraphy.
-            List<String, Integer> list = new ArrayList<Entry<String, Integer>>(wordFrequenciese);
-            Collections.sort(list,
-        		// by value
-        		new Comparator<Entry<String, Integer>>() {
-        			
-        			@Override
-        			public int compare(Entry<String,Integer> o1, Entry<String,Integer> o2) {
-        				return (o1.getValue()).compareTo(o2.getValue());
-        			}
-        			
-				}.reversed(),
-				
-				// by key (word)
-				new Comparator<Entry<String, Integer>>() {
-					
-					@Override
-					public int compare(Entry<String,Integer> o1, Entry<String,Integer> o2) {
-						return (o1.getKey()).compareTo(o2.getKey());
-					}
-				}
-			);
             
-            ret = wordFrequencies.keySet().toArray(String[]);
+            List<WordCounter> list = new ArrayList<WordCounter>();
+            
+            for (Map.Entry<String, Integer> wordMap : wordFrequencies.entrySet()) {
+				WordCounter wc = new WordCounter();
+				
+				wc.setWord(wordMap.getKey());
+				wc.setCounter(wordMap.getValue());
+				
+				list.add(wc);				
+			}
+            
+            // 5. Sort the list by frequency in a descending order. If two words have the same number count, use the lexigraphy.
+            Collections.sort(list, WordComparator.descendingOnlyValue(WordComparator.getComparator(WordComparator.VALUE_SORT_DESCENDING, WordComparator.WORD_SORT)));
+            
+            for (int i = 0; i < ret.length; i++) {
+				ret[i] = list.get(i).getWord();
+			}
         }
         catch (IOException ioex) {
             System.err.format("IOException: %s%n", ioex);
@@ -166,7 +166,7 @@ public class MP1 {
 
         return ret;
     }
-
+    
     public static void main(String[] args) throws Exception {
         if (args.length < 1){
             System.out.println("MP1 <User ID>");
@@ -181,4 +181,108 @@ public class MP1 {
             }
         }
     }
+}
+
+final class WordCounter {
+	private String word;
+	private int counter;
+
+	public String getWord() {
+		return word;
+	}
+
+	public void setWord(String word) {
+		this.word = word;
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + counter;
+		result = prime * result + ((word == null) ? 0 : word.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WordCounter other = (WordCounter) obj;
+		if (counter != other.counter)
+			return false;
+		if (word == null) {
+			if (other.word != null)
+				return false;
+		} else if (!word.equals(other.word))
+			return false;
+		return true;
+	}
+}
+
+enum WordComparator implements Comparator<WordCounter> {
+	WORD_SORT {
+		@Override
+		public int compare(WordCounter o1, WordCounter o2) {
+			return o1.getWord().compareTo(o2.getWord());			
+		}
+	},
+	VALUE_SORT_DESCENDING {
+		@Override
+		public int compare(WordCounter o1, WordCounter o2) {
+			if (o1.getCounter() > o2.getCounter()) {
+				return -1;
+			}
+			else if (o1.getCounter() < o2.getCounter()) {
+				return 1;
+			}
+			
+			return 0;
+		}
+	};
+	
+	public static Comparator<WordCounter> descendingOnlyValue(final Comparator<WordCounter> wordCounter) {
+		return new Comparator<WordCounter>() {
+			
+			@Override
+			public int compare(WordCounter o1, WordCounter o2) {
+				return wordCounter.compare(o1, o2);				
+			}
+		};
+	}
+	
+	public static Comparator<WordCounter> getComparator(final WordComparator... comparators) {
+		return new Comparator<WordCounter>() {
+			
+			@Override
+			public int compare(WordCounter o1, WordCounter o2) {
+				for (WordComparator comparator : comparators) {
+					int result = comparator.compare(o1, o2);
+					
+					if (result != 0)
+						return result; 
+				}
+				
+				return 0;				
+			}
+		};
+	}
 }
